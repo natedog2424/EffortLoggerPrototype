@@ -5,14 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
- 
+
 public class App extends Application {
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
         launch(args);
     }
     
     public void start(Stage primaryStage) {
-        String name = "Nathan Anderson";
+        String name = "Carter Was Here";
     	System.out.format("%s Hello World! \n", name);
     	System.out.println("It started!");
         primaryStage.setTitle("Hello World");
