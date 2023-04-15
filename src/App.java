@@ -17,7 +17,7 @@ public class App extends Application {
     }
     
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Layouts/ProjectPane.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 520, 340);
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);

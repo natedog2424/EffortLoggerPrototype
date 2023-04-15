@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <content>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <VBox layoutX="102.0" layoutY="22.0" maxHeight="1.7976931348623157E308" prefWidth="498.0" spacing="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+               <children>
+                  <HBox spacing="10.0">
+                     <children>
+                        <TextField promptText="New Project" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" text="Import" />
+                     </children>
+                  </HBox>
+                  <TextArea prefHeight="80.0" promptText="Brief project description...">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TextArea>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Label text="Product Backlog" />
+                           </items>
+                        </ToolBar>
+                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Add" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Send to sprint" />
+                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Edit" />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="122.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Label text="Sprint Backlog" />
+                           </items>
+                        </ToolBar>
+                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Complete" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Send to product backlog" />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="187.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Label text="Completed Backlog" />
+                           </items>
+                        </ToolBar>
+                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Send to product backlog" />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>
