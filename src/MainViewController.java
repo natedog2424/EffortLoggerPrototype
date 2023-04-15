@@ -11,7 +11,7 @@ import javafx.scene.layout.StackPane;
 public class MainViewController
 {
 
-	private Pane[] Tabs;
+	public Pane[] Tabs;
 
 	private Label ClockState;
 
@@ -32,6 +32,11 @@ public class MainViewController
 	private MenuButton ProjectSelector;
 
 	private StackPane ViewsStackPane;
+
+	public MainViewController(){
+		
+	}
+
 
 	private void openEffortConsoleTab() {
 

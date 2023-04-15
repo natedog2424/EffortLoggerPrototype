@@ -17,7 +17,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id "defectDisplay" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                            <items>
@@ -27,14 +27,14 @@
                         <ListView prefHeight="200.0" prefWidth="200.0" />
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
-                              <Button mnemonicParsing="false" text="Add" />
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Edit" />
-                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Resolve" />
+                              <Button mnemonicParsing="false" text="Add" onAction="#AddUnresolvedDefectEvent"/>
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Edit" onAction="#EditUnresolvedDefectEvent"/>
+                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Resolve" onAction="#ResolveEvent"/>
                            </items>
                         </ToolBar>
                      </children>
                   </VBox>
-                  <VBox layoutX="10.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id "resolvedDefectConsole" layoutX="10.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                            <items>
@@ -44,7 +44,7 @@
                         <ListView prefHeight="200.0" prefWidth="200.0" />
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
-                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Unresolve" />
+                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="UnresolveEvent" />
                            </items>
                         </ToolBar>
                      </children>
