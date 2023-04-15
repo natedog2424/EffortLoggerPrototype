@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <VBox layoutX="102.0" layoutY="22.0" maxHeight="1.7976931348623157E308" prefWidth="498.0" spacing="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" text="Effort Console">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </Label>
+                  <Label maxWidth="1.7976931348623157E308" text="Label" />
+                  <ComboBox maxWidth="1.7976931348623157E308" />
+                  <Label layoutX="10.0" layoutY="49.0" maxWidth="1.7976931348623157E308" text="Label" />
+                  <ComboBox maxWidth="1.7976931348623157E308" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Start Clock">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Italic" size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>
