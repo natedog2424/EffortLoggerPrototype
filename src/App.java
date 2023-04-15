@@ -13,7 +13,7 @@ public class App extends Application {
     
     public void start(Stage primaryStage) {
         String name = "Carter Was Here";
-    	System.out.format("%s Hello  World! \n", name);
+    	System.out.format("%s Hello World! \n", name);
     	System.out.println("It started!");
         primaryStage.setTitle("Hello World");
         Button btn = new Button();
