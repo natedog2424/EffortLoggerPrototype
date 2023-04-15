@@ -8,11 +8,13 @@ public class Project {
 
 	public String Description;
 
+	public String DatabaseName;
+
 	public ArrayList<BacklogItem> ProjectBacklog;
 
 	public ArrayList<BacklogItem> SprintBacklog;
 
-	public ArrayList<BacklogItem> CompletedtBacklog;
+	public ArrayList<BacklogItem> CompletedBacklog;
 
 	public void serialize() {
 
