@@ -1,6 +1,6 @@
 public class BacklogItem {
 
-	private String BacklogItemName;
+	public String BacklogItemName;
 
 	public int EffortValueEstimation;
 

@@ -1,15 +1,15 @@
 public class Log {
 
-	private LocalDate Date;
+	public LocalDate Date;
 
-	private Instant TimeStarted;
+	public Instant TimeStarted;
 
-	private String Logs;
+	public String Logs;
 
-	private Duration DurationBetween;
+	public Duration DurationBetween;
 
-	private Instant TimeEnded;
+	public Instant TimeEnded;
 
-	private BacklogItem LifeCycleStepLog;
+	public BacklogItem LifeCycleStepLog;
 
 }
