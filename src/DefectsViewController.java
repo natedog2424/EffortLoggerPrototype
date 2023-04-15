@@ -75,9 +75,12 @@ public class DefectsViewController {
 			}
 
 		}
+		Button CancelAdd = new Button("Cancel");
+		CancelAdd.setOnAction(e -> Edit.close());
 		);
 
 	}
+
 	@FXML
 	protected void EditUnresolvedDefectEvent() {
 		try{
@@ -116,6 +119,7 @@ public class DefectsViewController {
 						for(int i = 0; i < UnresolvedDefectList.size(); i++){
 							defectDisplay.add(UnresolvedDefectList.get(i));
 						}
+					
 					}
 					catch{
 						Stage error = new Stage();
