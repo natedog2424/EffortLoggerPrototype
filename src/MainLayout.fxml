@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <items>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+              <items>
+                  <MenuButton mnemonicParsing="false" text="Project">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+              </items>
+            </ToolBar>
+            <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Effort Console" />
+            <RadioButton layoutX="10.0" layoutY="50.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Defect Console" />
+            <RadioButton layoutX="10.0" layoutY="68.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Logs" />
+            <RadioButton layoutX="10.0" layoutY="86.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Project" />
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox>
+               <children>
+                  <ToolBar prefHeight="40.0">
+                    <items>
+                        <Label text="John Smith" />
+                      <Button mnemonicParsing="false" text="No Role" />
+                    </items>
+                  </ToolBar>
+                  <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <items>
+                        <Button mnemonicParsing="false" text="Clock Stopped" />
+                        <Label text="Day date time" />
+                     </items>
+                  </ToolBar>
+               </children>
+            </HBox>
+            <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+              <items>
+                <Button mnemonicParsing="false" text="Settings" />
+                  <Label nodeOrientation="LEFT_TO_RIGHT" text="Effort Logger 2.0 (2023)">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </items>
+</SplitPane>

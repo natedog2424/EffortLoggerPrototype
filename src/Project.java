@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+
+//Assigned to: Evan
+
 public class Project {
 
 	public String Name;

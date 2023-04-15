@@ -1,6 +1,8 @@
+//Assigned to Evan
+
 public class Defect {
 
-	public Label DefectType;
+	public String DefectType;
 
 	public String DefectDescription;
 

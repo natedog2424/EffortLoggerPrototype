@@ -1,3 +1,7 @@
+// Assigned to: Nathan Anderson
+
+import java.sql.ResultSet;
+
 public class DatabaseManager {
 
 	public void connect() {

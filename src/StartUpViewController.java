@@ -1,3 +1,8 @@
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
+//Not to be implimented yet
 public class StartUpViewController {
 
 	private TextField CreateUsername;

@@ -1,6 +1,11 @@
+// 
+
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -11,22 +16,11 @@ public class App extends Application {
         launch(args);
     }
     
-    public void start(Stage primaryStage) {
-        String name = "Carter Was Here";
-    	System.out.format("%s Hello  World! \n", name);
-    	System.out.println("It started!");
-        primaryStage.setTitle("Hello World");
-        Button btn = new Button();
-        btn.setText(String.format("Display: '%s says: Hello World!'",name));
-        btn.setOnAction(new EventHandler<>() {
-            public void handle(ActionEvent event) {
-                System.out.format("%s: Hello World!\n", name);
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 520, 340);
+        stage.setTitle("Effort Logger 2.0");
+        stage.setScene(scene);
+        stage.show();
     }
 }

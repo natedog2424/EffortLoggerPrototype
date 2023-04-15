@@ -1,3 +1,12 @@
+//Assigned to: Evan
+
+import java.util.ArrayList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+
 public class DefectsViewController {
 
 	private Label DefectConsoleLabel;;
@@ -28,7 +37,7 @@ public class DefectsViewController {
 
 	}
 
-	public void RemoveUnresolvedDefectEvent(UnresolvedDefectsList<Defect> UnresolvedDefectsList) {
+	public void RemoveUnresolvedDefectEvent(ArrayList<Defect> UnresolvedDefectsList) {
 
 	}
 
@@ -40,7 +49,7 @@ public class DefectsViewController {
 
 	}
 
-	public void RemoveResolvedDefectEvent(ResolvedDefectsList<Defect> ResolvedDefectsList) {
+	public void RemoveResolvedDefectEvent(ArrayList<Defect> ResolvedDefectsList) {
 
 	}
 

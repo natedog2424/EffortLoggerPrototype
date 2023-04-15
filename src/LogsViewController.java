@@ -1,6 +1,12 @@
+//Assigned to: Noah
+
+import java.util.ArrayList;
+
+import javax.swing.text.TabableView;
+
 public class LogsViewController {
 
-	private Tableview EffortLogs;
+	private TabableView EffortLogs;
 
 	private ArrayList<Log> LogsList;
 
