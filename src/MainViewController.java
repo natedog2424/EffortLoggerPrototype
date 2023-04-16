@@ -31,10 +31,17 @@ public class MainViewController
 
 	private MenuButton ProjectSelector;
 
-	private StackPane ViewsStackPane;
+	@FXML
+	private StackPane TabHolder;
 
-	public MainViewController(){
-		
+	private DefectsViewController DefectsTab;
+
+	public MainViewController(Stage stage){
+		FXMLLoader fxmlLoader = new FXMLLoader(MainViewController.class.getResource("MainLayout.fxml"));
+		Scene scene = new Scene(fxmlLoader.load(), 520, 340);
+		//Just incase
+		stage.setTitle("Effort Logger 2.0");
+		stage.setScene(scene);
 	}
 
 
