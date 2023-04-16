@@ -17,8 +17,8 @@ public class App extends Application {
     static User user;
     static Project project;
     static DatabaseManager dbManager;
-    //Update this DBUrl to whatever we want the path to be
-    static String DBUrl = "jdbc:sqlite:./src/effort.db";
+    //Update this DBPath to whatever we want the path to be
+    static String DBPath = "jdbc:sqlite:./src/";
 
 
     public static void main(String[] args) { 
