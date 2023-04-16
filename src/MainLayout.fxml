@@ -44,7 +44,7 @@
                   </ToolBar>
                </children>
             </HBox>
-            <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <StackPane fx:id "TabHolder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
               <items>
                 <Button mnemonicParsing="false" text="Settings" />
