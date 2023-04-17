@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1" prefWidth="-1" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ProjectViewController"  VBox.vgrow="ALWAYS" >
    <content>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -29,12 +29,12 @@
                               <Label text="Product Backlog" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView prefHeight="200.0" prefWidth="200.0" fx:id="ProductBacklogView"/>
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
-                              <Button mnemonicParsing="false" text="Add" />
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Send to sprint" />
-                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Edit" />
+                              <Button mnemonicParsing="false" text="Add" onAction="#AddProduct"/>
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Send to sprint" onAction="#ProductToSprint"/>
+                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Edit" onAction="#EditProductItem"/>
                            </items>
                         </ToolBar>
                      </children>
@@ -46,11 +46,11 @@
                               <Label text="Sprint Backlog" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView prefHeight="200.0" prefWidth="200.0" fx:id="SprintBacklogView"/>
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
-                              <Button mnemonicParsing="false" text="Complete" />
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Send to product backlog" />
+                              <Button mnemonicParsing="false" text="Complete" onAction="#SprintToComplete"/>
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Send to product backlog" onAction="#SprintToProduct"/>
                            </items>
                         </ToolBar>
                      </children>
@@ -62,10 +62,10 @@
                               <Label text="Completed Backlog" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView prefHeight="200.0" prefWidth="200.0" fx:id="CompletedBacklogView"/>
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
-                              <Button mnemonicParsing="false" text="Send to product backlog" />
+                              <Button mnemonicParsing="false" text="Send to product backlog" onAction="#CompletedToProduct"/>
                            </items>
                         </ToolBar>
                      </children>

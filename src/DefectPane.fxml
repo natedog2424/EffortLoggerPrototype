@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1" prefWidth="-1" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="DefectsViewController">
    <content>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -17,14 +17,14 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <VBox fx:id "defectDisplay" prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Label text="Unresolved Defects" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id = "defectDisplay" prefHeight="200.0" prefWidth="200.0" />
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Button mnemonicParsing="false" text="Add" onAction="#AddUnresolvedDefectEvent"/>
@@ -34,17 +34,17 @@
                         </ToolBar>
                      </children>
                   </VBox>
-                  <VBox fx:id "resolvedDefectConsole" layoutX="10.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox layoutX="10.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Label text="Resolved Defects" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id = "resolvedDefectDisplay" prefHeight="200.0" prefWidth="200.0" />
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
-                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="UnresolveEvent" />
+                              <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Unresolve" onAction="#UnresolveEvent" />
                            </items>
                         </ToolBar>
                      </children>

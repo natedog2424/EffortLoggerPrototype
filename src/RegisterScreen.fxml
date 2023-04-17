@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegisterViewController">
    <children>
       <VBox alignment="TOP_RIGHT" layoutX="173.0" layoutY="100.0" prefHeight="200.0" prefWidth="255.0">
          <children>
@@ -20,17 +20,17 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <TextField promptText="Full Name">
+            <TextField fx:id="FullNameField" promptText="Full Name">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </TextField>
-            <TextField layoutX="10.0" layoutY="61.0" promptText="Password">
+            <TextField fx:id="PasswordField" layoutX="10.0" layoutY="61.0" promptText="Password">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Create">
+            <Button onAction="#onCreateButtonPressed" mnemonicParsing="false" text="Create">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

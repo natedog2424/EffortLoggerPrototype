@@ -17,7 +17,7 @@ import javax.crypto.spec.PBEParameterSpec;
 
 public class EncryptionManager {
 
-	private static String transform(String text, int encryptMode, String password) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, InvalidAlgorithmParameterException {
+	private static byte[] transform(byte[] data, int encryptMode, String password) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, InvalidAlgorithmParameterException {
 
         PBEKeySpec pbeKeySpec;
         PBEParameterSpec pbeParamSpec;
@@ -49,14 +49,13 @@ public class EncryptionManager {
         // Initialize PBE Cipher with key and parameters
         pbeCipher.init(encryptMode, pbeKey, pbeParamSpec);
 
-        byte[] cipherText = pbeCipher.doFinal(text.getBytes(StandardCharsets.UTF_8));
+        return pbeCipher.doFinal(data);
 
-        return new String(cipherText, StandardCharsets.UTF_8);
-    }
+}
 
-	public static String encrypt(String text) throws InvalidKeyException {
+	public static byte[] encrypt(byte[] data) throws InvalidKeyException {
 		try {
-			return transform(text, Cipher.ENCRYPT_MODE, App.user.password);
+			return transform(data, Cipher.ENCRYPT_MODE, App.user.password);
 		} catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
 				| InvalidKeySpecException | InvalidAlgorithmParameterException e) {
 			// TODO Auto-generated catch block
@@ -65,9 +64,9 @@ public class EncryptionManager {
 		}
 	}
 
-	public static String decrypt(String text) throws InvalidKeyException{
+	public static byte[] decrypt(byte[] data) throws InvalidKeyException{
 		try {
-			return transform(text, Cipher.DECRYPT_MODE, App.user.password);
+			return transform(data, Cipher.DECRYPT_MODE, App.user.password);
 		} catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException
 				| InvalidKeySpecException | InvalidAlgorithmParameterException e) {
 			// TODO Auto-generated catch block

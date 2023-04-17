@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginViewController">
    <children>
       <VBox alignment="TOP_RIGHT" layoutX="173.0" layoutY="100.0" prefHeight="200.0" prefWidth="255.0">
          <children>
@@ -15,17 +15,17 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" text="Welcome, User" textAlignment="CENTER">
+            <Label fx:id="welcomeLabel" maxWidth="1.7976931348623157E308" text="Welcome, User" textAlignment="CENTER">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <TextField layoutX="10.0" layoutY="61.0" promptText="Password">
+            <TextField fx:id="LoginPasswordField" layoutX="10.0" layoutY="61.0" promptText="Password">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Enter">
+            <Button onAction="#onEnterButtonPressed" mnemonicParsing="false" text="Enter">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

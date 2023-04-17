@@ -1,20 +1,6 @@
 // Assigned to: Nathan Anderson
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.PBEParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 public class DatabaseManager {
 
@@ -75,10 +61,9 @@ public class DatabaseManager {
 	 * @param params The parameters to use in the query.
 	 * @return A ResultSet containing the result of the query.
 	 * @throws SQLException
-	 * @throws InvalidKeyException
 	 * 		if the key is invalid
 	 */
-	public ResultSet executeQuery(String query, Object... params) throws SQLException, InvalidKeyException {
+	public ResultSet executeQuery(String query, Object... params) throws SQLException {
 		PreparedStatement statement = conn.prepareStatement(query);
 		for (int i = 0; i < params.length; i++) {
 			Object param = params[i];
@@ -100,10 +85,8 @@ public class DatabaseManager {
 	 * @param params The parameters to use for the query
 	 * @return The number of rows affected
 	 * @throws SQLException If there is an error executing the query
-	 * @throws InvalidKeyException
-	 * 		if the key is invalid
 	 */
-	public int executeUpdate(String query, Object... params) throws SQLException, InvalidKeyException {
+	public int executeUpdate(String query, Object... params) throws SQLException {
 		// Prepare the statement
 		PreparedStatement statement = conn.prepareStatement(query);
 		// Iterate through the parameters

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1" prefWidth="-1" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" VBox.vgrow="ALWAYS" fx:controller="EffortConsoleViewController">
    <content>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -21,10 +21,10 @@
                      </padding>
                   </Label>
                   <Label maxWidth="1.7976931348623157E308" text="Label" />
-                  <ComboBox maxWidth="1.7976931348623157E308" />
+                  <ComboBox fx:id="LifeCycleStep" maxWidth="1.7976931348623157E308" />
                   <Label layoutX="10.0" layoutY="49.0" maxWidth="1.7976931348623157E308" text="Label" />
-                  <ComboBox maxWidth="1.7976931348623157E308" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Start Clock">
+                  <ComboBox fx:id="EffortCategory" maxWidth="1.7976931348623157E308" />
+                  <Button fx:id="StartStopButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Start Clock" onAction="#clockStateEvent">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>

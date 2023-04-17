@@ -16,12 +16,18 @@ public class Project {
 
 	public ArrayList<BacklogItem> CompletedBacklog;
 
+	
+
 	public void serialize() {
 
 	}
 
 	public void deserialize() {
 
+	}
+
+	public String stringProject(){
+		return "";
 	}
 
 }

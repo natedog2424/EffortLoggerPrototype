@@ -1,91 +1,116 @@
 //Assigned to: Evan
-
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.ArrayList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.control.ListView;
 
-public class DefectsViewController {
+public class DefectsViewController implements Initializable{
 	@FXML
-	private Vbox defectDisplay;
+	private ListView<String> defectDisplay;
 	@FXML
-	private Vbox resolvedDefectDisplay;
-
-	private Label DefectConsoleLabel;;
-
-	private Pane DefectFXMLPane;
-
-	private Button EditUnresolvedDefectsButton;
-
-	private Button ResolveDefectButton;
-
-	private Button UnresolveDefectButton;
+	private ListView<String> resolvedDefectDisplay;
 
 	private ArrayList<Defect> UnresolvedDefectsList;
 
 	private ArrayList<Defect> ResolvedDefectsList;
 
-	public Button Selected;
+	public Button Combined;
 
-	private Button AddUnresolvedDefect;
 
-	private Label UnresolvedDefectLabel;
 
-	private Label ResolvedDefectLabel;
-
-	private FXMLLoader fxmlLoader;
-
-	public DefectsViewController(){
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		this.UnresolvedDefectsList = new ArrayList<Defect>();
 		this.ResolvedDefectsList = new ArrayList<Defect>();
-		this.DefectFXMLPane = new FXMLLoader(DefectsViewController.getResource("DefectPane.fxml"));
 	}
 	
 	@FXML
 	protected void AddUnresolvedDefectEvent() {
-		Stage add = new Stage();
+		try{Stage Add = new Stage();
 		Label Type = new Label("Type");
-		TextField TypeField = new TextField(WantToEditDefect.DefectType);
+		GridPane AddPane = new GridPane();
+		TextField TypeField = new TextField();
 		Label Description = new Label("Description");
-		TextField DescriptionField = new TextField(WantToEditDefect.DefectDescription);
+		TextField DescriptionField = new TextField();
 		Button DoneAdding = new Button("Done");
-		DoneEditing.setOnAction(e->{
-				String NewType = TypeField.getText();
-				String NewDescription = DescriptionField.getText();
+		DoneAdding.setOnAction(e->{
+				try {
+				String NewType = TypeField.getText().trim();
+				String NewDescription = DescriptionField.getText().trim();
 				if(NewType.isEmpty() || NewDescription.isEmpty()){
 					throw new Exception("At least one field is empty");
 				}
+				for(int i = 0; i < UnresolvedDefectsList.size(); i++){
+					if(UnresolvedDefectsList.get(i).DefectDescription.equals(NewDescription)){
+						throw new Exception("Description can not match another defect!");
+					}
+				}
 				Defect NewDefect = new Defect(NewType ,NewDescription);
 				UnresolvedDefectsList.add(NewDefect);
-				defectDisplay.add(NewDefect.selected);
+				defectDisplay.getItems().add(NewDefect.Combined);
+				Add.close();
+				}
+				catch(Exception exception){
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(x -> error.close());
+					Label errorMessage = new Label(exception.getMessage());
+					VBox errorHolder = new VBox(10,errorMessage,closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 400,100));
+					error.show();
+				}
+		});
+				Button CancelAdd = new Button("Cancel");
+				CancelAdd.setOnAction(e -> Add.close());
+				HBox Buttons = new HBox(10, DoneAdding, CancelAdd);
+				AddPane.setHgap(10);
+				AddPane.setVgap(10);
+				AddPane.setPadding(new Insets(20));
+				AddPane.add(Type, 0 ,0);
+				AddPane.add(TypeField, 1 ,0);
+				AddPane.add(Description,  0,1);
+				AddPane.add(DescriptionField, 1 ,1);
+				VBox AddDisplayCombined = new VBox(10,AddPane,Buttons);
+				Add.setScene(new Scene(AddDisplayCombined, 400, 300));
+				Add.setTitle("Add Defect");
+        		Add.show();
 		}
-		Button CancelAdd = new Button("Cancel");
-		CancelAdd.setOnAction(e -> Edit.close());
-		);
+		catch(Exception exception){
+			Stage error = new Stage();
+			Button closeButton = new Button("Close");
+			closeButton.setOnAction(e -> error.close());
+			Label errorMessage = new Label(exception.getMessage());
+			VBox errorHolder = new VBox(10,errorMessage,closeButton);
+			errorHolder.setAlignment(Pos.CENTER);
+			error.setTitle("Error Message");
+			error.setScene(new Scene(errorHolder, 400,100));
+			error.show();
+		}
+		
 
 	}
 
 	@FXML
 	protected void EditUnresolvedDefectEvent() {
 		try{
-			Defect WantToEditDefect = new Defect();
-			int DefectIndex = -1;
-			for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-				if(UnresolvedDefectsList.get(i).SelectedDefect && DefectIndex == -1){
-					WantToEditDefect = UnresolvedDefectsList.get(i);
-					DefectIndex = i;
-				}
-				else if(UnresolvedDefectsList.get(i).SelectedDefect && DefectIndex != -1){
-					throw new Exception("You can only edit one defect at a time!");
-					break;
-				}
-			}
-			if(DefectIndex == -1){
-				throw new Exception("Must select at least one defect to edit!")
-			}
-			else{
+				int index = defectDisplay.getSelectionModel().getSelectedIndex();
+				Defect WantToEditDefect = UnresolvedDefectsList.get(index);
 				Stage Edit = new Stage();
 				GridPane EditPane = new GridPane();
 				Label Type = new Label("Type");
@@ -94,23 +119,42 @@ public class DefectsViewController {
 				TextField DescriptionField = new TextField(WantToEditDefect.DefectDescription);
 				Button DoneEditing = new Button("Done");
 				DoneEditing.setOnAction(e->{
-						String NewType = TypeField.getText().trim();
+						try{String NewType = TypeField.getText().trim();
 						String NewDescription = DescriptionField.getText().trim();
 						if(NewType.isEmpty() || NewDescription.isEmpty()){
 							throw new Exception("At least one field is empty");
 						}
+						for(int i = 0; i < UnresolvedDefectsList.size(); i++){
+							if(UnresolvedDefectsList.get(i).DefectDescription.equals(NewDescription)){
+							throw new Exception("Description can not match another defect!");
+							}
+						}
 						Defect NewDefect = new Defect(NewType , NewDescription);
-						UnresolvedDefectsList.set(DefectIndex, NewDefect);
-						defectDisplay.clear();
-						for(int i = 0; i < UnresolvedDefectList.size(); i++){
-							defectDisplay.add(UnresolvedDefectList.get(i).selected);
+						UnresolvedDefectsList.set(index, NewDefect);
+						defectDisplay.getItems().clear();
+						for(int i = 0; i < UnresolvedDefectsList.size(); i++){
+							defectDisplay.getItems().add(UnresolvedDefectsList.get(i).Combined);
+						}
+						
+						Edit.close();
+						}
+						catch(Exception exception){
+							Stage error = new Stage();
+							Button closeButton = new Button("Close");
+							closeButton.setOnAction(errorMes -> error.close());
+							Label errorMessage = new Label(exception.getMessage());
+							VBox errorHolder = new VBox(10,errorMessage,closeButton);
+							errorHolder.setAlignment(Pos.CENTER);
+							error.setTitle("Error Message");
+							error.setScene(new Scene(errorHolder, 400,100));
+							error.show();
 						}
 
 				}
 				);
 				Button CancelEditing = new Button("Cancel");
 				CancelEditing.setOnAction(e -> Edit.close());
-				Hbox Buttons = new Hbox(10, DoneEditing, CancelEditing);
+				HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
 				EditPane.setHgap(10);
 				EditPane.setVgap(10);
 				EditPane.setPadding(new Insets(20));
@@ -118,12 +162,12 @@ public class DefectsViewController {
 				EditPane.add(TypeField, 1 ,0);
 				EditPane.add(Description,  0,1);
 				EditPane.add(DescriptionField, 1 ,1);
-				Vbox EditDisplayCombined = new Vbox(10,EditPane,Buttons);
+				VBox EditDisplayCombined = new VBox(10,EditPane,Buttons);
 				Edit.setScene(new Scene(EditDisplayCombined, 400, 300));
 				Edit.setTitle("Edit Defect");
         		Edit.show();
 
-			}
+			
 		}
 		catch(Exception exception){
 			Stage error = new Stage();
@@ -139,20 +183,31 @@ public class DefectsViewController {
 
 	}
 
-	public void RemoveUnresolvedDefectEvent(ArrayList<Defect> UnresolvedDefectsList) {
-
-	}
-	@FXML
-	protected void UnresolveEvent() {
-
-	}
 	@FXML
 	protected void ResolveEvent() {
-
+		int index = defectDisplay.getSelectionModel().getSelectedIndex();
+		ResolvedDefectsList.add(UnresolvedDefectsList.get(index));
+		resolvedDefectDisplay.getItems().add(UnresolvedDefectsList.get(index).Combined);
+		UnresolvedDefectsList.remove(index);
+		defectDisplay.getItems().clear();
+		for(int i = 0; i < UnresolvedDefectsList.size(); i++){
+			defectDisplay.getItems().add(UnresolvedDefectsList.get(i).Combined);
+		}
+	}
+		
+	@FXML
+	protected void UnresolveEvent() {
+		int index = resolvedDefectDisplay.getSelectionModel().getSelectedIndex();
+		UnresolvedDefectsList.add(ResolvedDefectsList.get(index));
+		defectDisplay.getItems().add(ResolvedDefectsList.get(index).Combined);
+		ResolvedDefectsList.remove(index);
+		resolvedDefectDisplay.getItems().clear();
+		for(int i = 0; i < ResolvedDefectsList.size(); i++){
+			resolvedDefectDisplay.getItems().add(ResolvedDefectsList.get(i).Combined);
+		}
 	}
 
-	public void RemoveResolvedDefectEvent(ArrayList<Defect> ResolvedDefectsList) {
-
-	}
+	
+	
 
 }

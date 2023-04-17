@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainViewController">
    <items>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -20,10 +20,13 @@
                   </MenuButton>
               </items>
             </ToolBar>
-            <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Effort Console" />
-            <RadioButton layoutX="10.0" layoutY="50.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Defect Console" />
-            <RadioButton layoutX="10.0" layoutY="68.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Logs" />
-            <RadioButton layoutX="10.0" layoutY="86.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Project" />
+            <fx:define>
+               <ToggleGroup fx:id="group" />
+            </fx:define>
+            <RadioButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Effort Console" toggleGroup="$group" />
+            <RadioButton layoutX="10.0" layoutY="50.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Defect Console"  toggleGroup="$group" />
+            <RadioButton layoutX="10.0" layoutY="68.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Logs" toggleGroup="$group" />
+            <RadioButton layoutX="10.0" layoutY="86.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="hideDot" text="Project" toggleGroup="$group" />
          </children>
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0">
@@ -44,7 +47,7 @@
                   </ToolBar>
                </children>
             </HBox>
-            <StackPane fx:id "TabHolder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <VBox fx:id="TabHolder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
               <items>
                 <Button mnemonicParsing="false" text="Settings" />
