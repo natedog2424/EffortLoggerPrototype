@@ -1,7 +1,10 @@
 //Assigned to: Noah
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -20,26 +23,27 @@ public class EffortConsoleViewController implements Initializable {
 	@FXML
 	private ComboBox<String> BacklogItemName;
 
-	private Instant startTime;
+	private static LocalDateTime startTime;
+	private static LocalDateTime endTime;
+
 
 	private boolean Started = false;
 
 	@FXML
-	private void clockStateEvent() {
+	private void clockStateEvent() throws SQLException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		if (!Started) {
 			StartStopButton.setText("Stop Clock");
-			startTime = Instant.now();
+			startTime = startTime.now();
 			Started = true;
 		} else {
 			StartStopButton.setText("Start Clock");
-			//CreateLogObject(startTime); unimplemented
+			endTime = endTime.now();
+			String formattedduration = TimeFormatter.formatDuration(startTime, endTime);
+			String query = "INSERT INTO logs (lifecyclestep, startdate, enddate, duration) VALUES (?, ?, ?, ?)";
+			App.dbManager.executeUpdate(query, "test", startTime.format(formatter), endTime.format(formatter), formattedduration);
 			Started = false;
 		}
-	}
-
-	private void CreateLogObject(Instant time) {
-		Log log = new Log(time);
-		System.out.print(log.toString());
 	}
 
 	@Override

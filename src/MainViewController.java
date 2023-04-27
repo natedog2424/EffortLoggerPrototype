@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -74,6 +76,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	private ToggleGroup group;
 
+	private BooleanProperty logsPaneSelected;
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
@@ -82,6 +86,11 @@ public class MainViewController implements Initializable {
 			FXMLLoader TabLoader = new FXMLLoader(getClass().getResource(TabFXMLFiles[i]));
 			try {
 				TabPanes[i] = TabLoader.load();
+				// update log table when logspane is selected
+				if (i == 2) {
+					LogsViewController controller = TabLoader.getController();
+					logsPaneSelected = controller.tabSelectedProperty();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -124,6 +133,13 @@ public class MainViewController implements Initializable {
 			//clear ab holder
 			TabHolder.getChildren().clear();
 			TabHolder.getChildren().add(TabPanes[index]);
+
+			//update table when logs pane is selected
+			if (index == 2) {
+				logsPaneSelected.set(true);
+			} else {
+				logsPaneSelected.set(false);
+			}
 	}
 
 }

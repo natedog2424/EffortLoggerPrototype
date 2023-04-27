@@ -4,70 +4,42 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class Log {
 
-	public LocalDate Date;
+	private final SimpleIntegerProperty id;
+	private final SimpleStringProperty lifecycleStep;
+	private final SimpleStringProperty startDate;
+	private final SimpleStringProperty endDate;
+	private final SimpleStringProperty duration;
 
-	public Instant TimeStarted;
-
-	public String Logs;
-
-	public Duration DurationBetween;
-
-	public Instant TimeEnded;
-
-	public BacklogItem BlItem;
-
-	public Log(Instant TimeStarted) {
-		// this.LifeCycleStepLog = LifeCycleStepLog;
-		// this.Logs = Logs;
-		this.TimeStarted = TimeStarted;
-		TimeEnded = Instant.now();
-		Date = LocalDate.now();
-		DurationBetween = Duration.between(TimeStarted, TimeEnded);
+	public Log(int id, String lifecycleStep, String startDate, String endDate, String duration) {
+		this.id = new SimpleIntegerProperty(id);
+		this.lifecycleStep = new SimpleStringProperty(lifecycleStep);
+		this.startDate = new SimpleStringProperty(startDate);
+		this.endDate = new SimpleStringProperty(endDate);
+		this.duration = new SimpleStringProperty(duration);
 	}
 
-	public Log(Instant TimeStarted, Instant TimeEnded) {
-		this.TimeStarted = TimeStarted;
-		this.TimeEnded = TimeEnded;
-		Date = LocalDate.now();
-		DurationBetween = Duration.between(TimeStarted, TimeEnded);
+	public int getId() {
+		return id.get();
 	}
 
-	public static void initializeDatabaseTable() {
-		App.dbManager.executeUpdate("CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCRIMENT, lifecyclestep STRING, date String, duration STRING)", null)
+	public String getLifecycleStep() {
+		return lifecycleStep.get();
 	}
 
-	private String formatDuration() {
-		long days = DurationBetween.toDays();
-		long hours = DurationBetween.toHours() % 24;
-		long minutes = DurationBetween.toMinutes() % 60;
-		return days + ":" + hours + ":" + minutes;
+	public String getStartDate() {
+		return startDate.get();
 	}
 
-	public String getBacklogItemName() {
-		return BlItem.BacklogItemName;
-	}
-
-	public int getEffortValueEstimation() {
-		return BlItem.EffortValueEstimation;
-	}
-
-	public String getLogs() {
-		return Logs;
-	}
-
-	public String getDate() {
-		return Date.toString();
+	public String getEndDate() {
+		return endDate.get();
 	}
 
 	public String getDuration() {
-		return formatDuration();
+		return duration.get();
 	}
-
-	public String toString() {
-		return "Name:  " + getBacklogItemName() + "Effort Value Estimation: " + getEffortValueEstimation() + "\nDate: "
-				+ Date.toString() + "Duration: " + formatDuration();
-	}
-
 }

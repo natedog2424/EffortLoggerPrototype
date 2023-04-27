@@ -102,5 +102,9 @@ public class DatabaseManager {
 		if(conn == null) return null;
 		return connectedProject;
 	}
+
+	public Connection getConnection () {
+		return conn;
+	}
 }
 
