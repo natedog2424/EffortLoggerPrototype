@@ -1,4 +1,4 @@
-//Assigned to: Noah
+//Noah McClelland
 
 import java.io.File;
 import java.io.FileOutputStream;
