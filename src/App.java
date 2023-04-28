@@ -43,12 +43,14 @@ public class App extends Application {
 
         dbManager.connect(project);
 
-        URI audioFileURI = new File("resources/EffortLogger_ost.mp3").toURI();
+        URI audioFileURI = new File("resources/EffortLogger_ost2.mp3").toURI();
         Media audioMedia = new Media(audioFileURI.toString());
 
         // Initialize the mediaPlayer instance variable and set it to autoplay
         mediaPlayer = new MediaPlayer(audioMedia);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the cycleCount to INDEFINITE
+
         
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);

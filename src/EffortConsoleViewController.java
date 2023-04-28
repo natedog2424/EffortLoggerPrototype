@@ -1,6 +1,7 @@
 //Assigned to: Noah
 
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -41,7 +42,7 @@ public class EffortConsoleViewController implements Initializable {
 			endTime = endTime.now();
 			String formattedduration = TimeFormatter.formatDuration(startTime, endTime);
 			try {
-				String query = "INSERT INTO logs (lifecyclestep, startdate, enddate, duration) VALUES (?, ?, ?, ?)";
+				String query = "INSERT INTO logs (sprintBacklog, startdate, enddate, duration) VALUES (?, ?, ?, ?)";
 				App.dbManager.executeUpdate(query, "test", startTime.format(formatter), endTime.format(formatter), formattedduration);
 				Started = false;
 			} catch(SQLException e) {
@@ -52,7 +53,17 @@ public class EffortConsoleViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+		/*try {
+			//Create table
+			String query = "CREATE TABLE IF NOT EXISTS backlogItems (id INTEGER PRIMARY KEY AUTOINCREMENT, sprintBacklog STRING, productBacklog STRING, completed STRING)";
+			PreparedStatement statement = App.dbManager.getConnection().prepareStatement(query);
+			statement.execute();
+			
+			//Add pre-defined items
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 }
