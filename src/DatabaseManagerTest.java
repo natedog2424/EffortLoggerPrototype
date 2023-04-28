@@ -74,9 +74,6 @@ public class DatabaseManagerTest {
             mgr.executeUpdate("CREATE TABLE IF NOT EXISTS TestTable (id INT, name VARCHAR(255))");
         } catch (SQLException e) {
             fail("Failed to create table");
-        } catch (InvalidKeyException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         //add a row
@@ -84,9 +81,6 @@ public class DatabaseManagerTest {
             mgr.executeUpdate("INSERT INTO TestTable (id, name) VALUES (?, ?)", 1,"Test Name");
         } catch (SQLException e) {
             fail("Failed to insert row");
-        } catch (InvalidKeyException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         //check if row exists
