@@ -40,7 +40,7 @@ public class App extends Application {
         dbManager.connect(project);
         
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 520, 340);
+        Scene scene = new Scene(fxmlLoader.load(), 960, 540);
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();
