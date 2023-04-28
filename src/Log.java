@@ -16,7 +16,7 @@ public class Log {
 	private final SimpleStringProperty endDate;
 	private final SimpleStringProperty duration;
 
-	public Log(int id, String lifecycleStep, String startDate, String endDate, String duration, String backlogItem) {
+	public Log(int id, String lifecycleStep, String backlogItem, String startDate, String endDate, String duration) {
 		this.id = new SimpleIntegerProperty(id);
 		this.lifecycleStep = new SimpleStringProperty(lifecycleStep);
 		this.backlogItem = new SimpleStringProperty(backlogItem);

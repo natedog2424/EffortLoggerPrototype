@@ -186,8 +186,8 @@ public class LogsViewController implements Initializable {
 					LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
 							LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 					String duration = TimeFormatter.formatDuration(startTime, endTime);
-					String query = "INSERT INTO logs (lifecyclestep, startdate, enddate, duration) VALUES (?,?,?,?)";
-					App.dbManager.executeUpdate(query, LifeCycleStep.getText(), startDate, endDate, duration);
+					String query = "INSERT INTO logs (lifecyclestep, backlogItem, startdate, enddate, duration) VALUES (?,?,?,?,?)";
+					App.dbManager.executeUpdate(query, LifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration);
 					updateTable();
 				} catch (SQLException ex) {
 					ex.printStackTrace();

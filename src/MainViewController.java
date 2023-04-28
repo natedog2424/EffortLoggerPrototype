@@ -99,7 +99,6 @@ public class MainViewController implements Initializable {
 				if (i == 2) {
 					LogsViewController controller = TabLoader.getController();
 					logsPaneSelected = controller.tabSelectedProperty();
-					mediaPlayer.play();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
