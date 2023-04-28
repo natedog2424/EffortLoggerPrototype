@@ -80,6 +80,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	private ToggleGroup group;
 
+	@FXML
+	private Button roleButton;
+
 	private BooleanProperty logsPaneSelected;
 
 	private MediaPlayer mediaPlayer;
@@ -120,6 +123,11 @@ public class MainViewController implements Initializable {
 	@FXML
 	protected void smexy(){
 		System.out.println("smexy");
+	}
+
+	@FXML
+	protected void roleButtonPressed(){
+		
 	}
 
 	private void openEffortConsoleTab() {

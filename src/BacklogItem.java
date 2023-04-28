@@ -6,15 +6,15 @@ public class BacklogItem {
 
 	public int EffortValueEstimation;
 
-	public int EstimatedTime;
+	public float EstimatedTime;
 	public BacklogItem(String Name, String Effort, String Time){
 		this.BacklogItemName = Name;
 		this.EffortValueEstimation = Integer.parseInt(Effort);
-		this.EstimatedTime = Integer.parseInt(Time);
+		this.EstimatedTime = Float.parseFloat(Time);
 	}
 
 	public String backlogToString(){
-		return BacklogItemName + "\t\t" + EffortValueEstimation + "\t\t" + EstimatedTime;
+		return BacklogItemName + "\t\t\t\t\t\tEstimated Effort Value: " + EffortValueEstimation + "\t\t\t\t\t\tEstimated Time: " + EstimatedTime + " hours";
 	}
 
 }
