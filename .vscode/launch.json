@@ -15,7 +15,7 @@
             "name": "App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "EffortLoggerPrototype_2a6022ec",
+            "projectName": "EffortLoggerPrototype",
             "vmArgs": "--module-path '${workspaceFolder}/lib/javafx-sdk-20/lib' --add-modules javafx.controls,javafx.fxml"
         }
     ]

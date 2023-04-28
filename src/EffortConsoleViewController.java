@@ -40,9 +40,13 @@ public class EffortConsoleViewController implements Initializable {
 			StartStopButton.setText("Start Clock");
 			endTime = endTime.now();
 			String formattedduration = TimeFormatter.formatDuration(startTime, endTime);
-			String query = "INSERT INTO logs (lifecyclestep, startdate, enddate, duration) VALUES (?, ?, ?, ?)";
-			App.dbManager.executeUpdate(query, "test", startTime.format(formatter), endTime.format(formatter), formattedduration);
-			Started = false;
+			try {
+				String query = "INSERT INTO logs (lifecyclestep, startdate, enddate, duration) VALUES (?, ?, ?, ?)";
+				App.dbManager.executeUpdate(query, "test", startTime.format(formatter), endTime.format(formatter), formattedduration);
+				Started = false;
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
