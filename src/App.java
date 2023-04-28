@@ -1,6 +1,8 @@
 // 
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 
 import javafx.application.Application;
@@ -11,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 
@@ -22,7 +26,7 @@ public class App extends Application {
     //Update this DBPath to whatever we want the path to be
     static String DBPath = "jdbc:sqlite:./src/";
 
-
+    private MediaPlayer mediaPlayer;
     public static void main(String[] args) { 
         launch(args);
     }
@@ -38,6 +42,13 @@ public class App extends Application {
         project.DatabaseName = "test";
 
         dbManager.connect(project);
+
+        URI audioFileURI = new File("resources/EffortLogger_ost.mp3").toURI();
+        Media audioMedia = new Media(audioFileURI.toString());
+
+        // Initialize the mediaPlayer instance variable and set it to autoplay
+        mediaPlayer = new MediaPlayer(audioMedia);
+        mediaPlayer.setAutoPlay(true);
         
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 520, 340);
