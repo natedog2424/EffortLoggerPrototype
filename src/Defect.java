@@ -5,15 +5,17 @@ public class Defect {
 
 	public String DefectDescription;
 
-	public boolean SelectedDefect;
+
+
+	public int EffortLevel;
 
 	public String Combined;
 
-	public Defect(String Type, String Description){
+	public Defect(String Type, String Description, String EffortLevel){
 		this.DefectDescription = Description;
 		this.DefectType = Type;
-		this.SelectedDefect = false;
-		this.Combined = DefectType + "\t\t\t\t" + DefectDescription;
+		this.EffortLevel = Integer.parseInt(EffortLevel);
+		this.Combined = DefectType + "\t\t\t\t" + DefectDescription + "\t\t\t\tEstimate Effort Level: "+ EffortLevel;
 	
 
 	}

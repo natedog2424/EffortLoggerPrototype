@@ -19,10 +19,10 @@ public class EffortConsoleViewController implements Initializable {
 	private Button StartStopButton;
 
 	@FXML
-	private ComboBox<String> SprintNumber;
+	private ComboBox<String> LifeCycleStepBox;
 
 	@FXML
-	private ComboBox<String> BacklogItemName;
+	private ComboBox<String> BacklogItemBox;
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
@@ -53,6 +53,9 @@ public class EffortConsoleViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		String[] LifeCycleSteps = {"Problem understanding","Conceptual Design Plan","Requirements", "Conceptual Design", "Conceptual Design View", "Detailed Design Plan","Detailed Design/Prototype","Detailed Design Review", "Implementation Plan", "Test Case Generation", "Solution Specification","Solution Review","Solution Implementation", "Unit/System Test", "Reflection", "Repository Update", "Reflection", "Repository Update", "Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+		LifeCycleStepBox.getItems().addAll(LifeCycleSteps);
+
 		/*try {
 			//Create table
 			String query = "CREATE TABLE IF NOT EXISTS backlogItems (id INTEGER PRIMARY KEY AUTOINCREMENT, sprintBacklog STRING, productBacklog STRING, completed STRING)";
@@ -65,5 +68,7 @@ public class EffortConsoleViewController implements Initializable {
 			e.printStackTrace();
 		}*/
 	}
+
+	public void FillBacklogComboBox(){}
 
 }

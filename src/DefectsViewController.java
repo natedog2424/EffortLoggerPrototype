@@ -46,23 +46,32 @@ public class DefectsViewController implements Initializable{
 		TextField TypeField = new TextField();
 		Label Description = new Label("Description");
 		TextField DescriptionField = new TextField();
+		TextField EffortField = new TextField();
+		Label EffortLabel = new Label("Effort Level");
 		Button DoneAdding = new Button("Done");
 		DoneAdding.setOnAction(e->{
 				try {
 				String NewType = TypeField.getText().trim();
 				String NewDescription = DescriptionField.getText().trim();
-				if(NewType.isEmpty() || NewDescription.isEmpty()){
+				String NewEffort = EffortField.getText().trim();
+				if(NewType.isEmpty() || NewDescription.isEmpty() || NewEffort.isEmpty()){
 					throw new Exception("At least one field is empty");
 				}
-				for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-					if(UnresolvedDefectsList.get(i).DefectDescription.equals(NewDescription)){
-						throw new Exception("Description can not match another defect!");
-					}
-				}
-				Defect NewDefect = new Defect(NewType ,NewDescription);
+				Defect NewDefect = new Defect(NewType ,NewDescription, NewEffort);
 				UnresolvedDefectsList.add(NewDefect);
 				defectDisplay.getItems().add(NewDefect.Combined);
 				Add.close();
+				}
+				catch(NumberFormatException exception){
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(errorMes -> error.close());
+					Label errorMessage = new Label("Please enter an integer for effort estimation");
+					VBox errorHolder = new VBox(10,errorMessage,closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 450,100));
+					error.show();
 				}
 				catch(Exception exception){
 					Stage error = new Stage();
@@ -88,6 +97,8 @@ public class DefectsViewController implements Initializable{
 				AddPane.add(TypeField, 1 ,0);
 				AddPane.add(Description,  0,1);
 				AddPane.add(DescriptionField, 1 ,1);
+				AddPane.add(EffortLabel, 0,2);
+				AddPane.add(EffortField, 1,2);
 				VBox AddDisplayCombined = new VBox(10,AddPane,Buttons);
 				Add.setScene(new Scene(AddDisplayCombined, 400, 300));
 				Add.setTitle("Add Defect");
@@ -118,20 +129,19 @@ public class DefectsViewController implements Initializable{
 				Label Type = new Label("Type");
 				TextField TypeField = new TextField(WantToEditDefect.DefectType);
 				Label Description = new Label("Description");
+				TextField EffortField = new TextField("" + WantToEditDefect.EffortLevel);
+				Label EffortLabel = new Label("Effort Level");
 				TextField DescriptionField = new TextField(WantToEditDefect.DefectDescription);
 				Button DoneEditing = new Button("Done");
 				DoneEditing.setOnAction(e->{
 						try{String NewType = TypeField.getText().trim();
 						String NewDescription = DescriptionField.getText().trim();
-						if(NewType.isEmpty() || NewDescription.isEmpty()){
+						String NewEffort = EffortField.getText().trim();
+						if(NewType.isEmpty() || NewDescription.isEmpty() || NewEffort.isEmpty()){
 							throw new Exception("At least one field is empty");
 						}
-						for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-							if(UnresolvedDefectsList.get(i).DefectDescription.equals(NewDescription)){
-							throw new Exception("Description can not match another defect!");
-							}
-						}
-						Defect NewDefect = new Defect(NewType , NewDescription);
+						
+						Defect NewDefect = new Defect(NewType , NewDescription, NewEffort);
 						UnresolvedDefectsList.set(index, NewDefect);
 						defectDisplay.getItems().clear();
 						for(int i = 0; i < UnresolvedDefectsList.size(); i++){
@@ -139,6 +149,17 @@ public class DefectsViewController implements Initializable{
 						}
 						
 						Edit.close();
+						}
+						catch(NumberFormatException exception){
+							Stage error = new Stage();
+							Button closeButton = new Button("Close");
+							closeButton.setOnAction(errorMes -> error.close());
+							Label errorMessage = new Label("Please enter an integer for effort estimation");
+							VBox errorHolder = new VBox(10,errorMessage,closeButton);
+							errorHolder.setAlignment(Pos.CENTER);
+							error.setTitle("Error Message");
+							error.setScene(new Scene(errorHolder, 450,100));
+							error.show();
 						}
 						catch(Exception exception){
 							Stage error = new Stage();
@@ -160,12 +181,15 @@ public class DefectsViewController implements Initializable{
 				Buttons.setAlignment(Pos.CENTER);
 				EditPane.setHgap(20);
 				EditPane.setVgap(10);
-				EditPane.setAlignment(Pos.CENTER);
+				EditPane.setAlignment(Pos.CENTER)
+				;
 				EditPane.setPadding(new Insets(20));
 				EditPane.add(Type, 0 ,0);
 				EditPane.add(TypeField, 1 ,0);
 				EditPane.add(Description,  0,1);
 				EditPane.add(DescriptionField, 1 ,1);
+				EditPane.add(EffortLabel, 0,2);
+				EditPane.add(EffortField, 1,2);
 				VBox EditDisplayCombined = new VBox(10,EditPane,Buttons);
 				Edit.setScene(new Scene(EditDisplayCombined, 400, 300));
 				Edit.setTitle("Edit Defect");
