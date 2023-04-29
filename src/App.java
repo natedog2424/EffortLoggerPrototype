@@ -54,7 +54,7 @@ public class App extends Application {
         
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);
-        scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();
