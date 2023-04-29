@@ -23,281 +23,320 @@ import javafx.scene.control.TableView;
 
 public class ProjectViewController implements Initializable{
 
-	
-	
+	Project proj = App.project;
 
-	public ArrayList<BacklogItem> SprintBacklog;
-
-	public ArrayList<BacklogItem> CompletedBacklog;
-
-	public ArrayList<BacklogItem> ProductBacklog;
 	@FXML
 	private ListView<String> ProductBacklogView;
 	@FXML
 	private ListView<String> SprintBacklogView;
 	@FXML
 	private ListView<String> CompletedBacklogView;
+
+	//initialize function
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		this.SprintBacklog= new ArrayList<BacklogItem>();
-		this.CompletedBacklog = new ArrayList<BacklogItem>();
-		this.ProductBacklog = new ArrayList<BacklogItem>();
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		//fill in the list views
+		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
+			ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
+		}
+		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
+			SprintBacklogView.getItems().add(proj.SprintBacklog.get(i).backlogToString());
+		}
+		for (int i = 0; i < proj.CompletedBacklog.size(); i++) {
+			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
+		}
 	}
+
+	private void showErrorWindow(String msg){
+		Stage errorWindow = new Stage();
+		errorWindow.setTitle("Error");
+		Label errorLabel = new Label(msg);
+		Button errorButton = new Button("OK");
+		errorButton.setOnAction(e -> errorWindow.close());
+		VBox errorLayout = new VBox(10);
+		errorLayout.getChildren().addAll(errorLabel, errorButton);
+		errorLayout.setAlignment(Pos.CENTER);
+		Scene errorScene = new Scene(errorLayout, 300, 100);
+		errorWindow.setScene(errorScene);
+		errorWindow.showAndWait();
+	}
+
 	@FXML
 	protected void ProductToSprint() {
 		int index = ProductBacklogView.getSelectionModel().getSelectedIndex();
-		SprintBacklog.add(ProductBacklog.get(index));
-		SprintBacklogView.getItems().add(ProductBacklog.get(index).backlogToString());
-		ProductBacklog.remove(index);
+		//if index = -1 show error message
+		if(index == -1){
+			showErrorWindow("Please select a backlog item to move.");
+			return;
+		}
+
+		proj.add(proj.ProductBacklog.get(index), proj.SprintBacklog);
+		SprintBacklogView.getItems().add(proj.ProductBacklog.get(index).backlogToString());
+		proj.remove(proj.ProductBacklog.get(index), proj.ProductBacklog);
 		ProductBacklogView.getItems().clear();
-		for(int i = 0; i < ProductBacklog.size(); i++){
-			ProductBacklogView.getItems().add(ProductBacklog.get(i).backlogToString());
+		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
+			ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
 		}
 	}
+
 	@FXML
 	protected void SprintToComplete() {
 		int index = SprintBacklogView.getSelectionModel().getSelectedIndex();
-		CompletedBacklog.add(SprintBacklog.get(index));
-		CompletedBacklogView.getItems().add(SprintBacklog.get(index).backlogToString());
-		SprintBacklog.remove(index);
+		//if index = -1 show error message
+		if(index == -1){
+			showErrorWindow("Please select a backlog item to move.");
+			return;
+		}
+		proj.add(proj.SprintBacklog.get(index), proj.CompletedBacklog);
+		CompletedBacklogView.getItems().add(proj.SprintBacklog.get(index).backlogToString());
+		proj.remove(proj.SprintBacklog.get(index), proj.SprintBacklog);
 		SprintBacklogView.getItems().clear();
-		for(int i = 0; i < SprintBacklog.size(); i++){
-			SprintBacklogView.getItems().add(SprintBacklog.get(i).backlogToString());
+		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
+			SprintBacklogView.getItems().add(proj.SprintBacklog.get(i).backlogToString());
 		}
 	}
+
 	@FXML
 	protected void SprintToProduct() {
 		int index = SprintBacklogView.getSelectionModel().getSelectedIndex();
-		ProductBacklog.add(SprintBacklog.get(index));
-		ProductBacklogView.getItems().add(SprintBacklog.get(index).backlogToString());
-		SprintBacklog.remove(index);
+		//if index = -1 show error message
+		if(index == -1){
+			showErrorWindow("Please select a backlog item to move.");
+			return;
+		}
+		proj.add(proj.SprintBacklog.get(index), proj.ProductBacklog);
+		ProductBacklogView.getItems().add(proj.SprintBacklog.get(index).backlogToString());
+		proj.remove(proj.SprintBacklog.get(index), proj.SprintBacklog);
 		SprintBacklogView.getItems().clear();
-		for(int i = 0; i < SprintBacklog.size(); i++){
-			SprintBacklogView.getItems().add(SprintBacklog.get(i).backlogToString());
+		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
+			SprintBacklogView.getItems().add(proj.SprintBacklog.get(i).backlogToString());
 		}
 	}
+
 	@FXML
 	protected void CompletedToProduct() {
 		int index = CompletedBacklogView.getSelectionModel().getSelectedIndex();
-		ProductBacklog.add(CompletedBacklog.get(index));
-		ProductBacklogView.getItems().add(CompletedBacklog.get(index).backlogToString());
-		CompletedBacklog.remove(index);
+		//if index = -1 show error message
+		if(index == -1){
+			showErrorWindow("Please select a backlog item to move.");
+			return;
+		}
+		proj.add(proj.CompletedBacklog.get(index), proj.ProductBacklog);
+		ProductBacklogView.getItems().add(proj.CompletedBacklog.get(index).backlogToString());
+		proj.remove(proj.CompletedBacklog.get(index), proj.CompletedBacklog);
 		CompletedBacklogView.getItems().clear();
-		for(int i = 0; i < SprintBacklog.size(); i++){
-			CompletedBacklogView.getItems().add(CompletedBacklog.get(i).backlogToString());
+		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
+			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
 		}
 	}
+
 	@FXML
 	protected void EditProductItem() {
-		try{
-				int index = ProductBacklogView.getSelectionModel().getSelectedIndex();
-				BacklogItem WantToEditItem= ProductBacklog.get(index);
-				Stage Edit = new Stage();
-				GridPane EditPane = new GridPane();
-				
-				Label Name = new Label("Name");
-				TextField NameField = new TextField(WantToEditItem.BacklogItemName);
-
-				Label EffortValue = new Label("Effort Value Estimation");
-				TextField EffortField = new TextField(""+ WantToEditItem.EffortValueEstimation);
-
-				Label Time = new Label("Estimated Time");
-				TextField TimeField = new TextField(""+ WantToEditItem.EstimatedTime);
-
-				Button DoneEditing = new Button("Done");
-				DoneEditing.setOnAction(e->{
-						try{
-			
-						String NewName = NameField.getText().trim();
-						String NewEffort = EffortField.getText().trim();
-						String NewTime = TimeField.getText().trim();
-						if(NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()){
-							throw new Exception("At least one field is empty");
-						}
-						for(int i = 0; i < ProductBacklog.size(); i++){
-							if(index == i){
-								continue;
-							}
-							else if(ProductBacklog.get(i).BacklogItemName.equals(NewName)){
-							throw new Exception("Name can not match another backlog item name!");
-							}
-						}
-						BacklogItem NewItem = new BacklogItem(NewName,NewEffort,NewTime);
-						ProductBacklog.set(index, NewItem);
-						ProductBacklogView.getItems().clear();
-						for(int i = 0; i < ProductBacklog.size(); i++){
-							ProductBacklogView.getItems().add(ProductBacklog.get(i).backlogToString());
-						}
-						
-						Edit.close();
-						}
-						catch(NumberFormatException exception){
-							Stage error = new Stage();
-							Button closeButton = new Button("Close");
-							closeButton.setOnAction(errorMes -> error.close());
-							Label errorMessage = new Label("Please enter an integer for effort estimation and any number for esimated time");
-							VBox errorHolder = new VBox(10,errorMessage,closeButton);
-							errorHolder.setAlignment(Pos.CENTER);
-							error.setTitle("Error Message");
-							error.setScene(new Scene(errorHolder, 450,100));
-							error.show();
-						}
-						catch(IndexOutOfBoundsException ex){
-							Stage error = new Stage();
-							Button closeButton = new Button("Close");
-							closeButton.setOnAction(errorMes -> error.close());
-							Label errorMessage = new Label("Please select an item to edit");
-							VBox errorHolder = new VBox(10,errorMessage,closeButton);
-							errorHolder.setAlignment(Pos.CENTER);
-							error.setTitle("Error Message");
-							error.setScene(new Scene(errorHolder, 400,100));
-							error.show();
-						}
-						catch(Exception exception){
-							Stage error = new Stage();
-							Button closeButton = new Button("Close");
-							closeButton.setOnAction(errorMes -> error.close());
-							Label errorMessage = new Label(exception.getMessage());
-							VBox errorHolder = new VBox(10,errorMessage,closeButton);
-							errorHolder.setAlignment(Pos.CENTER);
-							error.setTitle("Error Message");
-							error.setScene(new Scene(errorHolder, 400,100));
-							error.show();
-						}
-
-
-				}
-				);
-				Button CancelEditing = new Button("Cancel");
-				CancelEditing.setOnAction(e -> Edit.close());
-				HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
-				Buttons.setAlignment(Pos.CENTER);
-				EditPane.setHgap(10);
-				EditPane.setVgap(10);
-				EditPane.setPadding(new Insets(20));
-				EditPane.add(Name, 0 ,0);
-				EditPane.add(NameField, 1 ,0);
-				EditPane.add(EffortValue,  0,1);
-				EditPane.add(EffortField, 1 ,1);
-				EditPane.add(Time,  0,2);
-				EditPane.add(TimeField, 1 ,2);
-				VBox EditDisplayCombined = new VBox(10,EditPane,Buttons);
-				Edit.setScene(new Scene(EditDisplayCombined, 400, 200));
-				Edit.setTitle("Edit Backlog Item");
-				
-        		Edit.show();
-
-			
+		try {
+			int index = ProductBacklogView.getSelectionModel().getSelectedIndex();
+			//if index = -1 show error message
+		if(index == -1){
+			showErrorWindow("Please select a backlog item to edit.");
+			return;
 		}
-		
-		catch(Exception exception){
+			BacklogItem WantToEditItem = proj.ProductBacklog.get(index);
+			Stage Edit = new Stage();
+			GridPane EditPane = new GridPane();
+
+			Label Name = new Label("Name");
+			TextField NameField = new TextField(WantToEditItem.BacklogItemName);
+
+			Label EffortValue = new Label("Effort Value Estimation");
+			TextField EffortField = new TextField("" + WantToEditItem.EffortValueEstimation);
+
+			Label Time = new Label("Estimated Time");
+			TextField TimeField = new TextField("" + WantToEditItem.EstimatedTime);
+
+			Button DoneEditing = new Button("Done");
+			DoneEditing.setOnAction(e -> {
+				try {
+
+					String NewName = NameField.getText().trim();
+					String NewEffort = EffortField.getText().trim();
+					String NewTime = TimeField.getText().trim();
+					if (NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()) {
+						throw new Exception("At least one field is empty");
+					}
+					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
+						if (index == i) {
+							continue;
+						} else if (proj.ProductBacklog.get(i).BacklogItemName.equals(NewName)) {
+							throw new Exception("Name can not match another backlog item name!");
+						}
+					}
+					BacklogItem NewItem = new BacklogItem(NewName, NewEffort, NewTime);
+					proj.ProductBacklog.set(index, NewItem);
+					ProductBacklogView.getItems().clear();
+					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
+						ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
+					}
+
+					Edit.close();
+				} catch (NumberFormatException exception) {
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(errorMes -> error.close());
+					Label errorMessage = new Label(
+							"Please enter an integer for effort estimation and any number for esimated time");
+					VBox errorHolder = new VBox(10, errorMessage, closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 450, 100));
+					error.show();
+				} catch (IndexOutOfBoundsException ex) {
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(errorMes -> error.close());
+					Label errorMessage = new Label("Please select an item to edit");
+					VBox errorHolder = new VBox(10, errorMessage, closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 400, 100));
+					error.show();
+				} catch (Exception exception) {
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(errorMes -> error.close());
+					Label errorMessage = new Label(exception.getMessage());
+					VBox errorHolder = new VBox(10, errorMessage, closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 400, 100));
+					error.show();
+				}
+
+			});
+			Button CancelEditing = new Button("Cancel");
+			CancelEditing.setOnAction(e -> Edit.close());
+			HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
+			Buttons.setAlignment(Pos.CENTER);
+			EditPane.setHgap(10);
+			EditPane.setVgap(10);
+			EditPane.setPadding(new Insets(20));
+			EditPane.add(Name, 0, 0);
+			EditPane.add(NameField, 1, 0);
+			EditPane.add(EffortValue, 0, 1);
+			EditPane.add(EffortField, 1, 1);
+			EditPane.add(Time, 0, 2);
+			EditPane.add(TimeField, 1, 2);
+			VBox EditDisplayCombined = new VBox(10, EditPane, Buttons);
+			Edit.setScene(new Scene(EditDisplayCombined, 400, 200));
+			Edit.setTitle("Edit Backlog Item");
+
+			Edit.show();
+
+		}
+
+		catch (Exception exception) {
 			Stage error = new Stage();
 			Button closeButton = new Button("Close");
 			closeButton.setOnAction(e -> error.close());
 			Label errorMessage = new Label(exception.getMessage());
-			VBox errorHolder = new VBox(10,errorMessage,closeButton);
+			VBox errorHolder = new VBox(10, errorMessage, closeButton);
 			errorHolder.setAlignment(Pos.CENTER);
 			error.setTitle("Error Message");
-			error.setScene(new Scene(errorHolder, 400,100));
+			error.setScene(new Scene(errorHolder, 400, 100));
 			error.show();
 		}
 
 	}
+
 	@FXML
 	protected void AddProduct() {
-		try{
-				Stage Add = new Stage();
-				GridPane EditPane = new GridPane();
-				
-				Label Name = new Label("Name");
-				TextField NameField = new TextField();
+		try {
+			Stage Add = new Stage();
+			GridPane EditPane = new GridPane();
 
-				Label EffortValue = new Label("Effort Value Estimation");
-				TextField EffortField = new TextField();
+			Label Name = new Label("Name");
+			TextField NameField = new TextField();
 
-				Label Time = new Label("Estimated Time");
-				TextField TimeField = new TextField();
+			Label EffortValue = new Label("Effort Value Estimation");
+			TextField EffortField = new TextField();
 
-				Button DoneEditing = new Button("Done");
-				DoneEditing.setOnAction(e->{
-						try{
-						String NewName = NameField.getText().trim();
-						String NewEffort = EffortField.getText().trim();
-						String NewTime = TimeField.getText().trim();
-						if(NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()){
-							throw new Exception("At least one field is empty");
-						}
-						for(int i = 0; i < ProductBacklog.size(); i++){
-							if(ProductBacklog.get(i).BacklogItemName.equals(NewName)){
+			Label Time = new Label("Estimated Time");
+			TextField TimeField = new TextField();
+
+			Button DoneEditing = new Button("Done");
+			DoneEditing.setOnAction(e -> {
+				try {
+					String NewName = NameField.getText().trim();
+					String NewEffort = EffortField.getText().trim();
+					String NewTime = TimeField.getText().trim();
+					if (NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()) {
+						throw new Exception("At least one field is empty");
+					}
+					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
+						if (proj.ProductBacklog.get(i).BacklogItemName.equals(NewName)) {
 							throw new Exception("Name can not match another backlog item name!");
-							}
 						}
-						BacklogItem NewItem = new BacklogItem(NewName,NewEffort,NewTime);
-						ProductBacklog.add(NewItem);
-						ProductBacklogView.getItems().clear();
-						for(int i = 0; i < ProductBacklog.size(); i++){
-							ProductBacklogView.getItems().add(ProductBacklog.get(i).backlogToString());
-						}
-						
-						Add.close();
-						}
-						catch(NumberFormatException exception){
-							Stage error = new Stage();
-							Button closeButton = new Button("Close");
-							closeButton.setOnAction(errorMes -> error.close());
-							Label errorMessage = new Label("Please enter an integer for effort estimation and any number for esimated time");
-							VBox errorHolder = new VBox(10,errorMessage,closeButton);
-							errorHolder.setAlignment(Pos.CENTER);
-							error.setTitle("Error Message");
-							error.setScene(new Scene(errorHolder, 450,100));
-							error.show();
-						}
-						catch(Exception exception){
-							Stage error = new Stage();
-							Button closeButton = new Button("Close");
-							closeButton.setOnAction(errorMes -> error.close());
-							Label errorMessage = new Label(exception.getMessage());
-							VBox errorHolder = new VBox(10,errorMessage,closeButton);
-							errorHolder.setAlignment(Pos.CENTER);
-							error.setTitle("Error Message");
-							error.setScene(new Scene(errorHolder, 400,100));
-							error.show();
-						}
+					}
+					BacklogItem NewItem = new BacklogItem(NewName, NewEffort, NewTime);
+					proj.add(NewItem, proj.ProductBacklog);
+					ProductBacklogView.getItems().clear();
+					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
+						ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
+					}
 
+					Add.close();
+				} catch (NumberFormatException exception) {
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(errorMes -> error.close());
+					Label errorMessage = new Label(
+							"Please enter an integer for effort estimation and any number for esimated time");
+					VBox errorHolder = new VBox(10, errorMessage, closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 450, 100));
+					error.show();
+				} catch (Exception exception) {
+					Stage error = new Stage();
+					Button closeButton = new Button("Close");
+					closeButton.setOnAction(errorMes -> error.close());
+					Label errorMessage = new Label(exception.getMessage());
+					VBox errorHolder = new VBox(10, errorMessage, closeButton);
+					errorHolder.setAlignment(Pos.CENTER);
+					error.setTitle("Error Message");
+					error.setScene(new Scene(errorHolder, 400, 100));
+					error.show();
 				}
-				);
-				Button CancelEditing = new Button("Cancel");
-				CancelEditing.setOnAction(e -> Add.close());
-				HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
-				EditPane.setHgap(10);
-				EditPane.setVgap(10);
-				EditPane.setPadding(new Insets(20));
-				EditPane.add(Name, 0 ,0);
-				EditPane.add(NameField, 1 ,0);
-				EditPane.add(EffortValue,  0,1);
-				EditPane.add(EffortField, 1 ,1);
-				EditPane.add(Time,  0,2);
-				EditPane.add(TimeField, 1 ,2);
-				Buttons.setAlignment(Pos.CENTER);
-				VBox EditDisplayCombined = new VBox(10,EditPane,Buttons);
-				Add.setScene(new Scene(EditDisplayCombined, 400, 200));
-				Add.setTitle("Edit Backlog Item");
-        		Add.show();
 
-			
-		}
-		catch(Exception exception){
+			});
+			Button CancelEditing = new Button("Cancel");
+			CancelEditing.setOnAction(e -> Add.close());
+			HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
+			EditPane.setHgap(10);
+			EditPane.setVgap(10);
+			EditPane.setPadding(new Insets(20));
+			EditPane.add(Name, 0, 0);
+			EditPane.add(NameField, 1, 0);
+			EditPane.add(EffortValue, 0, 1);
+			EditPane.add(EffortField, 1, 1);
+			EditPane.add(Time, 0, 2);
+			EditPane.add(TimeField, 1, 2);
+			Buttons.setAlignment(Pos.CENTER);
+			VBox EditDisplayCombined = new VBox(10, EditPane, Buttons);
+			Add.setScene(new Scene(EditDisplayCombined, 400, 200));
+			Add.setTitle("Edit Backlog Item");
+			Add.show();
+
+		} catch (Exception exception) {
 			Stage error = new Stage();
 			Button closeButton = new Button("Close");
 			closeButton.setOnAction(e -> error.close());
 			Label errorMessage = new Label(exception.getMessage());
-			VBox errorHolder = new VBox(10,errorMessage,closeButton);
+			VBox errorHolder = new VBox(10, errorMessage, closeButton);
 			errorHolder.setAlignment(Pos.CENTER);
 			error.setTitle("Error Message");
-			error.setScene(new Scene(errorHolder, 400,100));
+			error.setScene(new Scene(errorHolder, 400, 100));
 			error.show();
 		}
 	}
-
 
 }

@@ -13,6 +13,10 @@ public class BacklogItem {
 		this.EstimatedTime = Float.parseFloat(Time);
 	}
 
+	public BacklogItem(){
+		
+	}
+
 	public String backlogToString(){
 		return BacklogItemName + "\t\t\t\t\t\tEstimated Effort Value: " + EffortValueEstimation + "\t\t\t\t\t\tEstimated Time: " + EstimatedTime + " hours";
 	}

@@ -14,16 +14,12 @@ public class Defect {
 		this.DefectDescription = Description;
 		this.DefectType = Type;
 		this.EffortLevel = Integer.parseInt(EffortLevel);
-		
-	
-
 	}
+
+	public Defect(){}
 
 	public String defectToString(){
 		return DefectType + "\t\t\t\t" + DefectDescription + "\t\t\t\tEstimated Effort Level: "+ EffortLevel;
 	}
-
-
-
 
 }
