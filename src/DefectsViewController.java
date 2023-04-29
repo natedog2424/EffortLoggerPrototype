@@ -59,7 +59,7 @@ public class DefectsViewController implements Initializable{
 				}
 				Defect NewDefect = new Defect(NewType ,NewDescription, NewEffort);
 				UnresolvedDefectsList.add(NewDefect);
-				defectDisplay.getItems().add(NewDefect.Combined);
+				defectDisplay.getItems().add(NewDefect.defectToString());
 				Add.close();
 				}
 				catch(NumberFormatException exception){
@@ -145,7 +145,7 @@ public class DefectsViewController implements Initializable{
 						UnresolvedDefectsList.set(index, NewDefect);
 						defectDisplay.getItems().clear();
 						for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-							defectDisplay.getItems().add(UnresolvedDefectsList.get(i).Combined);
+							defectDisplay.getItems().add(UnresolvedDefectsList.get(i).defectToString());
 						}
 						
 						Edit.close();
@@ -215,11 +215,11 @@ public class DefectsViewController implements Initializable{
 	protected void ResolveEvent() {
 		int index = defectDisplay.getSelectionModel().getSelectedIndex();
 		ResolvedDefectsList.add(UnresolvedDefectsList.get(index));
-		resolvedDefectDisplay.getItems().add(UnresolvedDefectsList.get(index).Combined);
+		resolvedDefectDisplay.getItems().add(UnresolvedDefectsList.get(index).defectToString());
 		UnresolvedDefectsList.remove(index);
 		defectDisplay.getItems().clear();
 		for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-			defectDisplay.getItems().add(UnresolvedDefectsList.get(i).Combined);
+			defectDisplay.getItems().add(UnresolvedDefectsList.get(i).defectToString());
 		}
 	}
 		
@@ -227,11 +227,11 @@ public class DefectsViewController implements Initializable{
 	protected void UnresolveEvent() {
 		int index = resolvedDefectDisplay.getSelectionModel().getSelectedIndex();
 		UnresolvedDefectsList.add(ResolvedDefectsList.get(index));
-		defectDisplay.getItems().add(ResolvedDefectsList.get(index).Combined);
+		defectDisplay.getItems().add(ResolvedDefectsList.get(index).defectToString());
 		ResolvedDefectsList.remove(index);
 		resolvedDefectDisplay.getItems().clear();
 		for(int i = 0; i < ResolvedDefectsList.size(); i++){
-			resolvedDefectDisplay.getItems().add(ResolvedDefectsList.get(i).Combined);
+			resolvedDefectDisplay.getItems().add(ResolvedDefectsList.get(i).defectToString());
 		}
 	}
 
