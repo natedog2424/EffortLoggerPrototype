@@ -79,6 +79,7 @@ public class DefectsViewController implements Initializable{
 				Button CancelAdd = new Button("Cancel");
 				CancelAdd.setOnAction(e -> Add.close());
 				HBox Buttons = new HBox(10, DoneAdding, CancelAdd);
+				Buttons.setAlignment(Pos.CENTER);
 				AddPane.setHgap(10);
 				AddPane.setVgap(10);
 				AddPane.setPadding(new Insets(20));
@@ -155,6 +156,7 @@ public class DefectsViewController implements Initializable{
 				Button CancelEditing = new Button("Cancel");
 				CancelEditing.setOnAction(e -> Edit.close());
 				HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
+				Buttons.setAlignment(Pos.CENTER);
 				EditPane.setHgap(10);
 				EditPane.setVgap(10);
 				EditPane.setPadding(new Insets(20));
