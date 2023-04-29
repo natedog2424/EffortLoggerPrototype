@@ -13,6 +13,8 @@ public class Project {
 		ProductBacklog = new ArrayList<BacklogItem>();
 		SprintBacklog = new ArrayList<BacklogItem>();
 		CompletedBacklog = new ArrayList<BacklogItem>();
+		UnresolvedDefects = new ArrayList<Defect>();
+		ResolvedDefects = new ArrayList<Defect>();
 	}
 
 	//constructor with name
@@ -22,6 +24,8 @@ public class Project {
 		ProductBacklog = new ArrayList<BacklogItem>();
 		SprintBacklog = new ArrayList<BacklogItem>();
 		CompletedBacklog = new ArrayList<BacklogItem>();
+		UnresolvedDefects = new ArrayList<Defect>();
+		ResolvedDefects = new ArrayList<Defect>();
 
 		try {
 			//create database

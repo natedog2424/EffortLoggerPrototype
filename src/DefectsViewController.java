@@ -24,18 +24,33 @@ public class DefectsViewController implements Initializable{
 	@FXML
 	private ListView<String> resolvedDefectDisplay;
 
-	private ArrayList<Defect> UnresolvedDefectsList;
-
-	private ArrayList<Defect> ResolvedDefectsList;
+	Project proj = App.project;
 
 	public Button Combined;
 
-
+	private void showErrorWindow(String msg){
+		Stage errorWindow = new Stage();
+		errorWindow.setTitle("Error");
+		Label errorLabel = new Label(msg);
+		Button errorButton = new Button("OK");
+		errorButton.setOnAction(e -> errorWindow.close());
+		VBox errorLayout = new VBox(10);
+		errorLayout.getChildren().addAll(errorLabel, errorButton);
+		errorLayout.setAlignment(Pos.CENTER);
+		Scene errorScene = new Scene(errorLayout, 300, 100);
+		errorWindow.setScene(errorScene);
+		errorWindow.showAndWait();
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		this.UnresolvedDefectsList = new ArrayList<Defect>();
-		this.ResolvedDefectsList = new ArrayList<Defect>();
+		//fill in the listview with the defects
+		for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
+			defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
+		}
+		for(int i = 0; i < proj.ResolvedDefects.size(); i++){
+			resolvedDefectDisplay.getItems().add(proj.ResolvedDefects.get(i).defectToString());
+		}
 	}
 	
 	@FXML
@@ -58,7 +73,7 @@ public class DefectsViewController implements Initializable{
 					throw new Exception("At least one field is empty");
 				}
 				Defect NewDefect = new Defect(NewType ,NewDescription, NewEffort);
-				UnresolvedDefectsList.add(NewDefect);
+				proj.add(NewDefect,proj.UnresolvedDefects);
 				defectDisplay.getItems().add(NewDefect.defectToString());
 				Add.close();
 				}
@@ -123,7 +138,11 @@ public class DefectsViewController implements Initializable{
 	protected void EditUnresolvedDefectEvent() {
 		try{
 				int index = defectDisplay.getSelectionModel().getSelectedIndex();
-				Defect WantToEditDefect = UnresolvedDefectsList.get(index);
+				if(index == -1){
+					showErrorWindow("Please select a defect to edit");
+					return;
+				}
+				Defect WantToEditDefect = proj.UnresolvedDefects.get(index);
 				Stage Edit = new Stage();
 				GridPane EditPane = new GridPane();
 				Label Type = new Label("Type");
@@ -142,10 +161,10 @@ public class DefectsViewController implements Initializable{
 						}
 						
 						Defect NewDefect = new Defect(NewType , NewDescription, NewEffort);
-						UnresolvedDefectsList.set(index, NewDefect);
+						proj.UnresolvedDefects.set(index, NewDefect);
 						defectDisplay.getItems().clear();
-						for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-							defectDisplay.getItems().add(UnresolvedDefectsList.get(i).defectToString());
+						for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
+							defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
 						}
 						
 						Edit.close();
@@ -214,24 +233,32 @@ public class DefectsViewController implements Initializable{
 	@FXML
 	protected void ResolveEvent() {
 		int index = defectDisplay.getSelectionModel().getSelectedIndex();
-		ResolvedDefectsList.add(UnresolvedDefectsList.get(index));
-		resolvedDefectDisplay.getItems().add(UnresolvedDefectsList.get(index).defectToString());
-		UnresolvedDefectsList.remove(index);
+		if(index == -1){
+			showErrorWindow("Please select a defect to edit");
+			return;
+		}
+		proj.add(proj.UnresolvedDefects.get(index),proj.ResolvedDefects);
+		resolvedDefectDisplay.getItems().add(proj.UnresolvedDefects.get(index).defectToString());
+		proj.remove(proj.UnresolvedDefects.get(index),proj.UnresolvedDefects);
 		defectDisplay.getItems().clear();
-		for(int i = 0; i < UnresolvedDefectsList.size(); i++){
-			defectDisplay.getItems().add(UnresolvedDefectsList.get(i).defectToString());
+		for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
+			defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
 		}
 	}
 		
 	@FXML
 	protected void UnresolveEvent() {
 		int index = resolvedDefectDisplay.getSelectionModel().getSelectedIndex();
-		UnresolvedDefectsList.add(ResolvedDefectsList.get(index));
-		defectDisplay.getItems().add(ResolvedDefectsList.get(index).defectToString());
-		ResolvedDefectsList.remove(index);
+		if(index == -1){
+			showErrorWindow("Please select a defect to edit");
+			return;
+		}
+		proj.add(proj.ResolvedDefects.get(index),proj.UnresolvedDefects);
+		defectDisplay.getItems().add(proj.ResolvedDefects.get(index).defectToString());
+		proj.remove(proj.ResolvedDefects.get(index),proj.ResolvedDefects);
 		resolvedDefectDisplay.getItems().clear();
-		for(int i = 0; i < ResolvedDefectsList.size(); i++){
-			resolvedDefectDisplay.getItems().add(ResolvedDefectsList.get(i).defectToString());
+		for(int i = 0; i < proj.ResolvedDefects.size(); i++){
+			resolvedDefectDisplay.getItems().add(proj.ResolvedDefects.get(i).defectToString());
 		}
 	}
 
