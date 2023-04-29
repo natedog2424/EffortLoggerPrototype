@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1" prefWidth="-1" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="TutorialViewController"  VBox.vgrow="ALWAYS" >
+   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <children>
+         <HBox layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <children>
+               <Text layoutX="7.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The side panel is where you can switch between active projects and the various functions provided by the Effort Logger program." wrappingWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" HBox.hgrow="ALWAYS" />
+               <Pane HBox.hgrow="ALWAYS" />
+               <Text layoutX="20.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The status of the time clock is displayed here along with the time since being started. Clicking on the status will take you to the logging page." textAlignment="RIGHT" wrappingWidth="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            </children>
+         </HBox>
+         <VBox layoutX="80.0" layoutY="150.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+            <children>
+               <Text layoutX="199.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Looks like you don’t have any projects yet" AnchorPane.bottomAnchor="182.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="150.0">
+                  <font>
+                     <Font name="System Bold" size="23.0" />
+                  </font>
+               </Text>
+               <Text layoutX="90.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lets change that" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="178.0">
+                  <font>
+                     <Font size="17.0" />
+                  </font>
+               </Text>
+               <HBox spacing="5.0">
+                  <children>
+                     <Button onAction="#createProject" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Create a new project" HBox.hgrow="ALWAYS" />
+                     <Button onAction="#importProject" layoutX="10.0" layoutY="59.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Import an existing project" HBox.hgrow="ALWAYS" />
+                  </children>
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+               </HBox>
+            </children>
+         </VBox>
+      </children>
+   </AnchorPane>
+</ScrollPane>
