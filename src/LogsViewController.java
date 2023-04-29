@@ -68,7 +68,7 @@ public class LogsViewController implements Initializable {
 
 	private TextField LifeCycleStep;
 
-	private TextField EffortCategory;
+	private TextField backlogItem;
 
 	private TextField startTimeField;
 
@@ -84,7 +84,7 @@ public class LogsViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		tabSelected.addListener((observable, oldValue, newValue) -> {
 			try {
-				String query = "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, lifecyclestep STRING, startdate STRING, enddate STRING, duration STRING)";
+				String query = "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, lifecyclestep STRING, backlogItem STRING, startdate STRING, enddate STRING, duration STRING)";
 				PreparedStatement statement = App.dbManager.getConnection().prepareStatement(query);
 				statement.execute();
 			} catch (SQLException e) {
@@ -110,7 +110,7 @@ public class LogsViewController implements Initializable {
 		Button cancelBtn = new Button("Cancel");
 		Label errorMessage = new Label();
 		TextField LifeCycleStep = new TextField();
-		TextField EffortCategory = new TextField();
+		TextField backlogItem = new TextField();
 
 		errorMessage.setStyle("-fx-text-fill: red;");
 
@@ -170,7 +170,7 @@ public class LogsViewController implements Initializable {
 
 		okBtn.setOnAction(e -> {
 			// Only close and save input if none of the fields are empty
-			if (LifeCycleStep.getText().trim().isEmpty() || EffortCategory.getText().trim().isEmpty()
+			if (LifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
 					|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 				errorMessage.setText("At least one entry is empty.");
@@ -202,7 +202,7 @@ public class LogsViewController implements Initializable {
 		grid.add(new Label("Life Cycle Step:"), 0, 0);
 		grid.add(LifeCycleStep, 1, 0);
 		grid.add(new Label("Effort Category:"), 0, 1);
-		grid.add(EffortCategory, 1, 1);
+		grid.add(backlogItem, 1, 1);
 
 		HBox buttons = new HBox(10, cancelBtn, okBtn);
 		HBox startSpinnerBox = new HBox(hourLabel, startHourSpinner, minuteLabel, startMinuteSpinner);
@@ -226,7 +226,7 @@ public class LogsViewController implements Initializable {
 			Button cancelBtn = new Button("Cancel");
 			Label errorMessage = new Label();
 			TextField LifeCycleStep = new TextField();
-			TextField EffortCategory = new TextField();
+			TextField backlogItem = new TextField();
 
 			LifeCycleStep.setText(WantToEditLog.getLifecycleStep());
 
@@ -288,7 +288,7 @@ public class LogsViewController implements Initializable {
 
 			okBtn.setOnAction(e -> {
 				// Only close and save input if none of the fields are empty
-				if (LifeCycleStep.getText().trim().isEmpty() || EffortCategory.getText().trim().isEmpty()
+				if (LifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
 						|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 					errorMessage.setText("At least one entry is empty.");
@@ -304,8 +304,8 @@ public class LogsViewController implements Initializable {
 						LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
 								LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 						String duration = TimeFormatter.formatDuration(startTime, endTime);
-						String query = "UPDATE logs SET lifecyclestep = ?, startdate = ?, enddate = ?, duration = ? WHERE id=?";
-						App.dbManager.executeUpdate(query, LifeCycleStep.getText(), startDate, endDate, duration, WantToEditLog.getId());
+						String query = "UPDATE logs SET lifecyclestep = ?, backlogItem = ?, startdate = ?, enddate = ?, duration = ? WHERE id=?";
+						App.dbManager.executeUpdate(query, LifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration, WantToEditLog.getId());
 						updateTable();
 
 					} catch (SQLException ex) {
@@ -321,7 +321,7 @@ public class LogsViewController implements Initializable {
 			grid.add(new Label("Life Cycle Step:"), 0, 0);
 			grid.add(LifeCycleStep, 1, 0);
 			grid.add(new Label("Effort Category:"), 0, 1);
-			grid.add(EffortCategory, 1, 1);
+			grid.add(backlogItem, 1, 1);
 
 			HBox buttons = new HBox(10, cancelBtn, okBtn);
 			HBox startSpinnerBox = new HBox(hourLabel, startHourSpinner, minuteLabel, startMinuteSpinner);
@@ -355,10 +355,11 @@ public class LogsViewController implements Initializable {
 			while(resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String lifecycleStep = resultSet.getString("lifecyclestep");
+				String backlogItem = resultSet.getString("backlogItem");
 				String startDate = resultSet.getString("startdate");
 				String endDate = resultSet.getString("enddate");
 				String duration = resultSet.getString("duration");
-				data.add(new Log(id, lifecycleStep, startDate, endDate, duration));
+				data.add(new Log(id, lifecycleStep, backlogItem, startDate, endDate, duration));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -368,6 +369,9 @@ public class LogsViewController implements Initializable {
 		// define the columns for the table
 		TableColumn<Log, String> lifecycleStepColumn = new TableColumn<>("Lifecycle Step");
 		lifecycleStepColumn.setCellValueFactory(new PropertyValueFactory<>("lifecycleStep"));
+
+		TableColumn<Log, String> backlogItemColumn = new TableColumn<>("Backlog Item");
+		backlogItemColumn.setCellValueFactory(new PropertyValueFactory<>("backlogItem"));
 
 		TableColumn<Log, String> startDateColumn = new TableColumn<>("Date Started");
 		startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -379,7 +383,7 @@ public class LogsViewController implements Initializable {
 		durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
 		//Set columns and items
-		EffortLogs.getColumns().setAll(lifecycleStepColumn, startDateColumn, endDateColumn, durationColumn);
+		EffortLogs.getColumns().setAll(lifecycleStepColumn, backlogItemColumn, startDateColumn, endDateColumn, durationColumn);
 		EffortLogs.setItems(data);
 
 	}

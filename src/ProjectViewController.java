@@ -16,6 +16,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 //Assigned to: Evan
 
@@ -105,6 +107,7 @@ public class ProjectViewController implements Initializable{
 				Button DoneEditing = new Button("Done");
 				DoneEditing.setOnAction(e->{
 						try{
+			
 						String NewName = NameField.getText().trim();
 						String NewEffort = EffortField.getText().trim();
 						String NewTime = TimeField.getText().trim();
@@ -112,7 +115,10 @@ public class ProjectViewController implements Initializable{
 							throw new Exception("At least one field is empty");
 						}
 						for(int i = 0; i < ProductBacklog.size(); i++){
-							if(ProductBacklog.get(i).BacklogItemName.equals(NewName)){
+							if(index == i){
+								continue;
+							}
+							else if(ProductBacklog.get(i).BacklogItemName.equals(NewName)){
 							throw new Exception("Name can not match another backlog item name!");
 							}
 						}
@@ -124,6 +130,28 @@ public class ProjectViewController implements Initializable{
 						}
 						
 						Edit.close();
+						}
+						catch(NumberFormatException exception){
+							Stage error = new Stage();
+							Button closeButton = new Button("Close");
+							closeButton.setOnAction(errorMes -> error.close());
+							Label errorMessage = new Label("Please enter an integer for effort estimation and any number for esimated time");
+							VBox errorHolder = new VBox(10,errorMessage,closeButton);
+							errorHolder.setAlignment(Pos.CENTER);
+							error.setTitle("Error Message");
+							error.setScene(new Scene(errorHolder, 450,100));
+							error.show();
+						}
+						catch(IndexOutOfBoundsException ex){
+							Stage error = new Stage();
+							Button closeButton = new Button("Close");
+							closeButton.setOnAction(errorMes -> error.close());
+							Label errorMessage = new Label("Please select an item to edit");
+							VBox errorHolder = new VBox(10,errorMessage,closeButton);
+							errorHolder.setAlignment(Pos.CENTER);
+							error.setTitle("Error Message");
+							error.setScene(new Scene(errorHolder, 400,100));
+							error.show();
 						}
 						catch(Exception exception){
 							Stage error = new Stage();
@@ -137,11 +165,13 @@ public class ProjectViewController implements Initializable{
 							error.show();
 						}
 
+
 				}
 				);
 				Button CancelEditing = new Button("Cancel");
 				CancelEditing.setOnAction(e -> Edit.close());
 				HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
+				Buttons.setAlignment(Pos.CENTER);
 				EditPane.setHgap(10);
 				EditPane.setVgap(10);
 				EditPane.setPadding(new Insets(20));
@@ -152,12 +182,14 @@ public class ProjectViewController implements Initializable{
 				EditPane.add(Time,  0,2);
 				EditPane.add(TimeField, 1 ,2);
 				VBox EditDisplayCombined = new VBox(10,EditPane,Buttons);
-				Edit.setScene(new Scene(EditDisplayCombined, 400, 300));
+				Edit.setScene(new Scene(EditDisplayCombined, 400, 200));
 				Edit.setTitle("Edit Backlog Item");
+				
         		Edit.show();
 
 			
 		}
+		
 		catch(Exception exception){
 			Stage error = new Stage();
 			Button closeButton = new Button("Close");
@@ -209,6 +241,17 @@ public class ProjectViewController implements Initializable{
 						
 						Add.close();
 						}
+						catch(NumberFormatException exception){
+							Stage error = new Stage();
+							Button closeButton = new Button("Close");
+							closeButton.setOnAction(errorMes -> error.close());
+							Label errorMessage = new Label("Please enter an integer for effort estimation and any number for esimated time");
+							VBox errorHolder = new VBox(10,errorMessage,closeButton);
+							errorHolder.setAlignment(Pos.CENTER);
+							error.setTitle("Error Message");
+							error.setScene(new Scene(errorHolder, 450,100));
+							error.show();
+						}
 						catch(Exception exception){
 							Stage error = new Stage();
 							Button closeButton = new Button("Close");
@@ -235,8 +278,9 @@ public class ProjectViewController implements Initializable{
 				EditPane.add(EffortField, 1 ,1);
 				EditPane.add(Time,  0,2);
 				EditPane.add(TimeField, 1 ,2);
+				Buttons.setAlignment(Pos.CENTER);
 				VBox EditDisplayCombined = new VBox(10,EditPane,Buttons);
-				Add.setScene(new Scene(EditDisplayCombined, 400, 300));
+				Add.setScene(new Scene(EditDisplayCombined, 400, 200));
 				Add.setTitle("Edit Backlog Item");
         		Add.show();
 

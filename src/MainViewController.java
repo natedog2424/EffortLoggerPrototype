@@ -1,6 +1,8 @@
 
 //Assigned to: Evan
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
@@ -40,6 +42,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
@@ -76,11 +80,19 @@ public class MainViewController implements Initializable {
 	@FXML
 	private ToggleGroup group;
 
+	@FXML
+	private Button roleButton;
+
 	private BooleanProperty logsPaneSelected;
+
+	private MediaPlayer mediaPlayer;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		URI audioFileURI = new File("resources/EffortLogger_soundEffect.mp3").toURI();
+		Media audioMedia = new Media(audioFileURI.toString());
+		mediaPlayer = new MediaPlayer(audioMedia);
+		
 		//load all tabs
 		for (int i = 0; i < TabPanes.length; i++) {
 			FXMLLoader TabLoader = new FXMLLoader(getClass().getResource(TabFXMLFiles[i]));
@@ -90,6 +102,7 @@ public class MainViewController implements Initializable {
 				if (i == 2) {
 					LogsViewController controller = TabLoader.getController();
 					logsPaneSelected = controller.tabSelectedProperty();
+					mediaPlayer.play();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -122,6 +135,11 @@ public class MainViewController implements Initializable {
 	@FXML
 	protected void smexy(){
 		System.out.println("smexy");
+	}
+
+	@FXML
+	protected void roleButtonPressed(){
+		
 	}
 
 	private void openEffortConsoleTab() {
