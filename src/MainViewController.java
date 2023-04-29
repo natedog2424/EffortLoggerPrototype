@@ -95,6 +95,18 @@ public class MainViewController implements Initializable {
 				e.printStackTrace();
 			}
 		}
+
+		//load tutorial tab
+		FXMLLoader TabLoader = new FXMLLoader(getClass().getResource("TutorialPane.fxml"));
+
+		//load tutorial tab
+		try {
+			ScrollPane TutorialPane = TabLoader.load();
+			TabHolder.getChildren().add(TutorialPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		//initialize listener on tab group change
 		group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
 			if (group.getSelectedToggle() != null) {
