@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    static User user;
-    static Project project;
-    static DatabaseManager dbManager;
+    public static User user;
+    public static Project project;
+    public static DatabaseManager dbManager;
     //Update this DBPath to whatever we want the path to be
     static String DBPath = "jdbc:sqlite:./src/";
 
@@ -29,7 +29,7 @@ public class App extends Application {
     public static void loadMainLayout(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);
-        scene.getStylesheets().add(App.class.getResource("EffortStyleMK2.css").toExternalForm());
+        //scene.getStylesheets().add(App.class.getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();
@@ -53,7 +53,7 @@ public class App extends Application {
         }
     
         Scene scene = new Scene(loader.load(), 960, 540);
-        scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();

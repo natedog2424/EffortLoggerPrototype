@@ -32,7 +32,10 @@ public class ProjectViewController implements Initializable{
 	//initialize function
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		ProductBacklogView.getItems().clear();
+		SprintBacklogView.getItems().clear();
+		CompletedBacklogView.getItems().clear();
+		
 		//fill in the list views
 		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
 			ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());

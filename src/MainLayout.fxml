@@ -35,14 +35,14 @@
                <children>
                   <ToolBar prefHeight="40.0">
                     <items>
-                        <Label text="John Smith" />
+                        <Label fx:id="NameLabel" text="" />
                       <Button mnemonicParsing="false" text="No Role" onAction="#roleButtonPressed" fx:id = "roleButton" />
                     </items>
                   </ToolBar>
                   <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <items>
                         <Button mnemonicParsing="false" text="Clock Stopped" />
-                        <Label text="Day date time" />
+                        <Label fx:id="TimeLabel" text="Day date time" />
                      </items>
                   </ToolBar>
                </children>
