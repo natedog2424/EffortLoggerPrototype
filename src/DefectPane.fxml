@@ -12,7 +12,7 @@
          <children>
             <VBox layoutX="102.0" layoutY="22.0" maxHeight="1.7976931348623157E308" prefWidth="498.0" spacing="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <Label text="Defect Console">
+                  <Label text="Defect Console" styleClass="label-large">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>

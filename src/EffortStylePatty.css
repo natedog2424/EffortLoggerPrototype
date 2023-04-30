@@ -1,0 +1,73 @@
+@font-face {
+  src: url('./krabbypatty.ttf');
+}
+
+* {
+  -fx-base: #29272D;
+  secondaryShade: #FFFFFF0F;
+  primaryColor: #7C51C0;
+  -fx-font-family: 'Krabby Patty';
+}
+
+Text, Label {
+  -fx-fill: white;
+  -fx-font-family: 'Krabby Patty';
+  -fx-font-size: 15px;
+}
+
+.label-large {
+  -fx-font-size: 24px;
+}
+
+.label-medium {
+  -fx-font-size: 18px;
+}
+
+.tool-bar {
+  -fx-background-color: #29272D;
+}
+
+.split-pane-divider {
+  -fx-background-color: #29272D;
+}
+
+.column-header {
+  -fx-background-color: #29272D;
+}
+
+.table-view .column-header{
+  -fx-background-color: #29272D;
+}
+
+.column-drag-header {
+  -fx-background-color: #29272D;
+}
+
+.radio-button {
+  -fx-background-color: boxFill;
+  -fx-padding: 0.5em;
+}
+
+.radio-button {
+  -fx-font-size: 18px;
+}
+
+/* CSS to remove dot from radio buttons with hideDot class */
+.radio-button.hideDot>.radio {
+  -fx-background-color: transparent;
+  -fx-background-image: null;
+  -fx-color: transparent;
+  -fx-background-radius: 0px;
+  -fx-background-insets: 0;
+  -fx-background-radius: 0px;
+  -fx-padding: -0.5em;
+}
+
+.radio-button.hideDot>.radio>.dot {
+  -fx-background-color: transparent;
+  -fx-background-image: null;
+}
+
+.radio-button.hideDot:selected {
+  -fx-background-color: primaryColor;
+}

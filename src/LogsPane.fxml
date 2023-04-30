@@ -14,7 +14,7 @@
                <children>
                   <HBox>
                      <children>
-                        <Label maxWidth="1.7976931348623157E308" text="Logs" HBox.hgrow="ALWAYS">
+                        <Label maxWidth="1.7976931348623157E308" text="Logs" HBox.hgrow="ALWAYS" styleClass="label-large">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
