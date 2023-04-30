@@ -24,6 +24,7 @@ public class Project {
 	public Project(String name){
 		Name = name;
 		DatabaseName = name.trim().replaceAll("\\s", "");
+		role = "";
 		ProductBacklog = new ArrayList<BacklogItem>();
 		SprintBacklog = new ArrayList<BacklogItem>();
 		CompletedBacklog = new ArrayList<BacklogItem>();
@@ -35,9 +36,9 @@ public class Project {
 			App.dbManager.connect(this);
 
 			//create tables
-		
+			
 			App.dbManager.executeUpdate(
-				"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT)"
+				"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT, role TEXT)"
 			);
 
 			App.dbManager.executeUpdate(
@@ -76,6 +77,8 @@ public class Project {
 
 	public String Description;
 
+	public String role;
+
 	public String DatabaseName;
 
 	public ArrayList<BacklogItem> ProductBacklog;
@@ -104,6 +107,7 @@ public class Project {
 			//set name and description
 			loadedProject.Name = projectInfo.getString("name");
 			loadedProject.Description = projectInfo.getString("description");
+			loadedProject.role = projectInfo.getString("role");
 
 			//get product backlog
 			ResultSet productBacklog = App.dbManager.executeQuery(
@@ -211,6 +215,15 @@ public class Project {
 				item.EstimatedTime
 			);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void changeRole(String newRole){
+		try{App.dbManager.executeUpdate(
+			"UPDATE info SET role = " + newRole
+		);}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
