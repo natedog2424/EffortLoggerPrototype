@@ -3,7 +3,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javafx.scene.chart.PieChart.Data;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+
 
 //Assigned to: Evan
 
@@ -23,6 +26,7 @@ public class Project {
 		Name = name;
 		DatabaseName = name.trim().replaceAll("\\s", "");
 		// role = "";
+		ProjectLogs = new ArrayList<Log>();
 		ProductBacklog = new ArrayList<BacklogItem>();
 		SprintBacklog = new ArrayList<BacklogItem>();
 		CompletedBacklog = new ArrayList<BacklogItem>();
@@ -38,6 +42,9 @@ public class Project {
 			App.dbManager.executeUpdate(
 					// "CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT)"
 					"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT, role TEXT)");
+			
+			App.dbManager.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, lifecyclestep STRING, backlogItem STRING, startdate STRING, enddate STRING, duration STRING)");
 
 			App.dbManager.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS productBacklog (name TEXT, effort INTEGER, time REAL)");
@@ -72,6 +79,8 @@ public class Project {
 	public String role;
 
 	public String DatabaseName;
+	
+	public ArrayList<Log> ProjectLogs;
 
 	public ArrayList<BacklogItem> ProductBacklog;
 
@@ -99,10 +108,27 @@ public class Project {
 			loadedProject.Name = projectInfo.getString("name");
 			loadedProject.Description = projectInfo.getString("description");
 			loadedProject.role = projectInfo.getString("role");
+			
 
+			ResultSet Logs = App.dbManager.executeQuery(
+					"SELECT * FROM logs"
+			);
+
+			while(Logs.next()){
+				Log newLog = new Log();
+				newLog.id = new SimpleIntegerProperty(Logs.getInt("id"));
+				newLog.lifecycleStep = new SimpleStringProperty(Logs.getString("lifecyclestep"));
+				newLog.backlogItem =  new SimpleStringProperty(Logs.getString("backlogItem"));
+				newLog.startDate =  new SimpleStringProperty(Logs.getString("startdate"));
+				newLog.endDate =  new SimpleStringProperty(Logs.getString("enddate"));
+				newLog.duration =  new SimpleStringProperty(Logs.getString("duration"));
+
+				loadedProject.ProjectLogs.add(newLog);
+			}
 			// get product backlog
 			ResultSet productBacklog = App.dbManager.executeQuery(
 					"SELECT * FROM productBacklog");
+
 
 			// add items to product backlog
 			while (productBacklog.next()) {
@@ -211,6 +237,42 @@ public class Project {
 					"UPDATE info SET role = ?",
 					newRole);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void add(Log item, ArrayList<Log> list){
+		list.add(item);
+		try{
+			App.dbManager.executeUpdate(
+				"INSERT INTO logs (lifecyclestep,backlogItem, startdate,endate,duration) VALUES (?,?,?,?,?)",
+				item.lifecycleStep,
+				item.backlogItem,
+				item.startDate,
+				item.endDate,
+				item.duration
+			);
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void remove(Log item, ArrayList<Log> list){
+		list.remove(item);
+
+		try{
+			App.dbManager.executeUpdate(
+				"DELETE FROM logs WHERE lifecyclestep = ? AND backlogItem = ? AND startdate = ? AND endate = ? AND duration = ?",
+				item.lifecycleStep,
+				item.backlogItem,
+				item.startDate,
+				item.endDate,
+				item.duration
+			);
+		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
