@@ -1,10 +1,12 @@
-import java.util.ResourceBundle;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javafx.stage.Stage;
 
 public class RegisterViewController implements Initializable {
     
@@ -36,6 +38,13 @@ public class RegisterViewController implements Initializable {
 
         try (FileOutputStream fos = new FileOutputStream("user" + ".ser")) {
             fos.write(serializedUser);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            // Load the main layout
+            App.loadMainLayout((Stage) FullNameField.getScene().getWindow());
         } catch (IOException e) {
             e.printStackTrace();
         }

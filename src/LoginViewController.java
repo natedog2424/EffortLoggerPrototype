@@ -1,12 +1,14 @@
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
-import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginViewController implements Initializable {
 
@@ -37,11 +39,13 @@ public class LoginViewController implements Initializable {
     @FXML
     void onEnterButtonPressed() {
         String password = LoginPasswordField.getText();
-        
         if (App.user.password.equals(password)) {
-            System.out.println("Logged in");
-        } else {
-            System.out.println("ERROR");
+            try {
+                // If the password matches, load the main layout
+                App.loadMainLayout((Stage) LoginPasswordField.getScene().getWindow());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
