@@ -180,6 +180,12 @@ public class ProjectViewController implements Initializable{
 					if (NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()) {
 						throw new Exception("At least one field is empty");
 					}
+					if(Integer.parseInt(NewEffort)<= 0){
+						throw new Exception("Please enter a positive number for estimated effort");
+					}
+					if(Float.parseFloat(NewTime) <= 0){
+						throw new Exception("Please enter a positive number for estimated time");
+					}
 					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
 						if (index == i) {
 							continue;
@@ -287,6 +293,12 @@ public class ProjectViewController implements Initializable{
 					String NewTime = TimeField.getText().trim();
 					if (NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()) {
 						throw new Exception("At least one field is empty");
+					}
+					if(Integer.parseInt(NewEffort)<= 0){
+						throw new Exception("Please enter a positive number for estimated effort");
+					}
+					if(Float.parseFloat(NewTime) <= 0){
+						throw new Exception("Please enter a positive number for estimated time");
 					}
 					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
 						if (proj.ProductBacklog.get(i).BacklogItemName.equals(NewName)) {
