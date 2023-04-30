@@ -101,9 +101,9 @@ public class MainViewController implements Initializable {
 		//mediaPlayer = new MediaPlayer(audioMedia);
 		
 		//load all tabs
-		if(App.project.role.equals("")){
+		/*if(App.project.role.equals("")){
 			roleButton.setText("No Role");
-		}
+		}*/
 		for (int i = 0; i < TabPanes.length; i++) {
 			FXMLLoader TabLoader = new FXMLLoader(getClass().getResource(TabFXMLFiles[i]));
 			try {
@@ -177,7 +177,7 @@ public class MainViewController implements Initializable {
 							throw new Exception("Please enter a role");
 						}
 						roleButton.setText(NewRole);
-						App.project.changeRole(NewRole);
+						//App.project.changeRole(NewRole);
 						RoleEdit.close();
 						}
 						catch(Exception exception){
