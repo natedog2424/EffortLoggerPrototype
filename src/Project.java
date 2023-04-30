@@ -56,8 +56,8 @@ public class Project {
 
 			// update or insert project info
 			App.dbManager.executeUpdate(
-					"INSERT INTO info (name, description) VALUES (?,?)",
-					Name, "");
+					"INSERT INTO info (name, description) VALUES (?)",
+					Name);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
