@@ -237,7 +237,8 @@ public class LogsViewController implements Initializable {
 			int startParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
 			System.out.println(WantToEditLog.getStartDate().charAt(11));
 			Label startDateLabel = new Label("Start Date:");
-			startDatePicker = new DatePicker(LocalDate.now());
+			startDatePicker = new DatePicker(parseDate(WantToEditLog.getStartDate()));
+			
 
 			Label hourLabel = new Label("Hour:");
 			startHourSpinner = new Spinner<>(0, 23, 0);
@@ -247,14 +248,15 @@ public class LogsViewController implements Initializable {
 			Label minuteLabel = new Label("Minute:");
 			startMinuteSpinner = new Spinner<>(0, 59, 0);
 			startMinuteSpinner.increment(startParsedHourMinute[1]);
-			updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(), startMinuteSpinner.getValue());
+			
 
 			startTimeField = new TextField();
 			startTimeField.setDisable(true);
-
+			updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(), startMinuteSpinner.getValue());
 			Label endDateLabel = new Label("End Date:");
 			int endParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
-			endDatePicker = new DatePicker(LocalDate.now());
+			endDatePicker = new DatePicker(parseDate(WantToEditLog.getEndDate()));
+			
 
 			endHourSpinner = new Spinner<>(0, 23, 0);
 			endHourSpinner.increment(endParsedHourMinute[0]);
@@ -265,6 +267,8 @@ public class LogsViewController implements Initializable {
 
 			endTimeField = new TextField();
 			endTimeField.setDisable(true);
+			updateTimeField(endTimeField, endDatePicker.getValue(), endHourSpinner.getValue(),endMinuteSpinner.getValue());
+
 			//update the time field which displays the formatted time given the values of the date picker and spinners
 			startDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
 				updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(),
@@ -467,6 +471,13 @@ public class LogsViewController implements Initializable {
 		timeValues[0] = Integer.parseInt(timeParts[0]); // hour value
 		timeValues[1] = Integer.parseInt(timeParts[1]); // minute value
 		return timeValues;
+	}
+
+	private static LocalDate parseDate(String time) {
+		String[] dateTime = time.split(" ");
+		String dateString = dateTime[0];
+		LocalDate date = LocalDate.parse(dateString);
+		return date;
 	}
 	
 
