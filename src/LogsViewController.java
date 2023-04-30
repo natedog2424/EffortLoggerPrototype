@@ -255,7 +255,7 @@ public class LogsViewController implements Initializable {
 			startTimeField.setDisable(true);
 			updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(), startMinuteSpinner.getValue());
 			Label endDateLabel = new Label("End Date:");
-			int endParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
+			int endParsedHourMinute[] = parseHourMinute(WantToEditLog.getEndDate());
 			endDatePicker = new DatePicker();
 			endDatePicker.setValue(parseDate(WantToEditLog.getEndDate()));
 			
@@ -264,7 +264,7 @@ public class LogsViewController implements Initializable {
 			endHourSpinner.increment(endParsedHourMinute[0]);
 
 			endMinuteSpinner = new Spinner<>(0, 59, 0);
-			endHourSpinner.increment(endParsedHourMinute[1]);
+			endMinuteSpinner.increment(endParsedHourMinute[1]);
 
 			endTimeField = new TextField();
 			endTimeField.setDisable(true);
