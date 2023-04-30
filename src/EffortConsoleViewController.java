@@ -36,7 +36,7 @@ public class EffortConsoleViewController implements Initializable {
 	private static LocalDateTime endTime;
 
 	public boolean Started = false;
-	
+
 	private boolean changeLCS = false;
 	private boolean changeBLI = false;
 
@@ -73,14 +73,14 @@ public class EffortConsoleViewController implements Initializable {
 			String newBacklogItem = BacklogItemBox.getValue();
 			endTime = endTime.now();
 			String formattedduration = TimeFormatter.formatDuration(startTime, endTime);
-			if ((!backlogItem.equals(BacklogItemBox.getValue())) && !lifeCycleStep.equals(LifeCycleStepBox.getValue())){
+			if ((backlogItem != null) && (!backlogItem.equals(BacklogItemBox.getValue())) && !lifeCycleStep.equals(LifeCycleStepBox.getValue())){
 				Stage error = new Stage();
 				error.initModality(Modality.APPLICATION_MODAL); // Make the dialog modal
 				Button keepButton = new Button("Keep");
 				Button revertButton = new Button("Revert");
 				Label message1 = new Label("You have changed your lifecycle step and backlog item while the clock was running");
-				Label message2 = new Label("from: "+ lifeCycleStep + " to: " + newLifeCycleStep);
-				Label message3 = new Label("from: "+ backlogItem + " to: " + newBacklogItem);
+				Label message2 = new Label("LifeCycle From: "+ lifeCycleStep + " To: " + newLifeCycleStep);
+				Label message3 = new Label("Backlog Item From: "+ backlogItem + " To: " + newBacklogItem);
 				Label message4 = new Label("Would you like to keep or revert the changes");
 
 				revertButton.setOnAction(e -> {
