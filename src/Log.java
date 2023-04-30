@@ -9,12 +9,12 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Log {
 
-	private final SimpleIntegerProperty id;
-	private final SimpleStringProperty lifecycleStep;
-	private final SimpleStringProperty backlogItem;
-	private final SimpleStringProperty startDate;
-	private final SimpleStringProperty endDate;
-	private final SimpleStringProperty duration;
+	public SimpleIntegerProperty id;
+	public SimpleStringProperty lifecycleStep;
+	public SimpleStringProperty backlogItem;
+	public SimpleStringProperty startDate;
+	public SimpleStringProperty endDate;
+	public SimpleStringProperty duration;
 
 	public Log(int id, String lifecycleStep, String backlogItem, String startDate, String endDate, String duration) {
 		this.id = new SimpleIntegerProperty(id);
@@ -24,12 +24,15 @@ public class Log {
 		this.endDate = new SimpleStringProperty(endDate);
 		this.duration = new SimpleStringProperty(duration);
 	}
+	public Log(){
+
+	}
 
 	public int getId() {
 		return id.get();
 	}
 
-	public String getLifecycleStep() {
+	public String getLifeCycleStep() {
 		return lifecycleStep.get();
 	}
 

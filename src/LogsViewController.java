@@ -66,7 +66,7 @@ public class LogsViewController implements Initializable {
 
 	private Spinner<Integer> endMinuteSpinner;
 
-	private TextField LifeCycleStep;
+	private TextField lifeCycleStep;
 
 	private TextField backlogItem;
 
@@ -84,7 +84,7 @@ public class LogsViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		tabSelected.addListener((observable, oldValue, newValue) -> {
 			try {
-				String query = "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, lifecyclestep STRING, backlogItem STRING, startdate STRING, enddate STRING, duration STRING)";
+				String query = "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, lifeCycleStep STRING, backlogItem STRING, startdate STRING, enddate STRING, duration STRING)";
 				PreparedStatement statement = App.dbManager.getConnection().prepareStatement(query);
 				statement.execute();
 			} catch (SQLException e) {
@@ -111,7 +111,7 @@ public class LogsViewController implements Initializable {
 		Button okBtn = new Button("OK");
 		Button cancelBtn = new Button("Cancel");
 		Label errorMessage = new Label();
-		TextField LifeCycleStep = new TextField();
+		TextField lifeCycleStep = new TextField();
 		TextField backlogItem = new TextField();
 
 		errorMessage.setStyle("-fx-text-fill: red;");
@@ -172,7 +172,7 @@ public class LogsViewController implements Initializable {
 
 		okBtn.setOnAction(e -> {
 			// Only close and save input if none of the fields are empty
-			if (LifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
+			if (lifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
 					|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 				errorMessage.setText("At least one entry is empty.");
@@ -188,8 +188,8 @@ public class LogsViewController implements Initializable {
 					LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
 							LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 					String duration = TimeFormatter.formatDuration(startTime, endTime);
-					String query = "INSERT INTO logs (lifecyclestep, backlogItem, startdate, enddate, duration) VALUES (?,?,?,?,?)";
-					App.dbManager.executeUpdate(query, LifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration);
+					String query = "INSERT INTO logs (lifeCycleStep, backlogItem, startdate, enddate, duration) VALUES (?,?,?,?,?)";
+					App.dbManager.executeUpdate(query, lifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration);
 					updateTable();
 				} catch (SQLException ex) {
 					ex.printStackTrace();
@@ -202,7 +202,7 @@ public class LogsViewController implements Initializable {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20));
 		grid.add(new Label("Life Cycle Step:"), 0, 0);
-		grid.add(LifeCycleStep, 1, 0);
+		grid.add(lifeCycleStep, 1, 0);
 		grid.add(new Label("Effort Category:"), 0, 1);
 		grid.add(backlogItem, 1, 1);
 
@@ -227,32 +227,48 @@ public class LogsViewController implements Initializable {
 			Button okBtn = new Button("OK");
 			Button cancelBtn = new Button("Cancel");
 			Label errorMessage = new Label();
-			TextField LifeCycleStep = new TextField();
+			TextField lifeCycleStep = new TextField();
 			TextField backlogItem = new TextField();
 
-			LifeCycleStep.setText(WantToEditLog.getLifecycleStep());
+			lifeCycleStep.setText(WantToEditLog.getLifeCycleStep());
 
 			errorMessage.setStyle("-fx-text-fill: red;");
 
+			int startParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
+			System.out.println(WantToEditLog.getStartDate().charAt(11));
 			Label startDateLabel = new Label("Start Date:");
-			startDatePicker = new DatePicker(LocalDate.now());
+			startDatePicker = new DatePicker(parseDate(WantToEditLog.getStartDate()));
+			
 
 			Label hourLabel = new Label("Hour:");
 			startHourSpinner = new Spinner<>(0, 23, 0);
+			startHourSpinner.increment(startParsedHourMinute[0]);
+			
 
 			Label minuteLabel = new Label("Minute:");
 			startMinuteSpinner = new Spinner<>(0, 59, 0);
+			startMinuteSpinner.increment(startParsedHourMinute[1]);
+			
 
 			startTimeField = new TextField();
 			startTimeField.setDisable(true);
-
+			updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(), startMinuteSpinner.getValue());
 			Label endDateLabel = new Label("End Date:");
-			endDatePicker = new DatePicker(LocalDate.now());
+			int endParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
+			endDatePicker = new DatePicker(parseDate(WantToEditLog.getEndDate()));
+			
+
 			endHourSpinner = new Spinner<>(0, 23, 0);
+			endHourSpinner.increment(endParsedHourMinute[0]);
+
 			endMinuteSpinner = new Spinner<>(0, 59, 0);
+			endHourSpinner.increment(endParsedHourMinute[1]);
+			updateTimeField(endTimeField, endDatePicker.getValue(), endHourSpinner.getValue(),endMinuteSpinner.getValue());
 
 			endTimeField = new TextField();
 			endTimeField.setDisable(true);
+			updateTimeField(endTimeField, endDatePicker.getValue(), endHourSpinner.getValue(),endMinuteSpinner.getValue());
+
 			//update the time field which displays the formatted time given the values of the date picker and spinners
 			startDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
 				updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(),
@@ -290,7 +306,7 @@ public class LogsViewController implements Initializable {
 
 			okBtn.setOnAction(e -> {
 				// Only close and save input if none of the fields are empty
-				if (LifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
+				if (lifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
 						|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 					errorMessage.setText("At least one entry is empty.");
@@ -306,8 +322,8 @@ public class LogsViewController implements Initializable {
 						LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
 								LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 						String duration = TimeFormatter.formatDuration(startTime, endTime);
-						String query = "UPDATE logs SET lifecyclestep = ?, backlogItem = ?, startdate = ?, enddate = ?, duration = ? WHERE id=?";
-						App.dbManager.executeUpdate(query, LifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration, WantToEditLog.getId());
+						String query = "UPDATE logs SET lifeCycleStep = ?, backlogItem = ?, startdate = ?, enddate = ?, duration = ? WHERE id=?";
+						App.dbManager.executeUpdate(query, lifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration, WantToEditLog.getId());
 						updateTable();
 
 					} catch (SQLException ex) {
@@ -321,7 +337,7 @@ public class LogsViewController implements Initializable {
 			grid.setVgap(10);
 			grid.setPadding(new Insets(20));
 			grid.add(new Label("Life Cycle Step:"), 0, 0);
-			grid.add(LifeCycleStep, 1, 0);
+			grid.add(lifeCycleStep, 1, 0);
 			grid.add(new Label("Effort Category:"), 0, 1);
 			grid.add(backlogItem, 1, 1);
 
@@ -339,7 +355,7 @@ public class LogsViewController implements Initializable {
 			Stage error = new Stage();
 			Button closeButton = new Button("close");
 			closeButton.setOnAction(e -> error.close());
-			Label errorMessage = new Label(ex.getMessage());
+			Label errorMessage = new Label("Select a log to edit.");
 			VBox errorHolder = new VBox(10, errorMessage, closeButton);
 			errorHolder.setAlignment(Pos.CENTER);
 			error.setTitle("Error Message");
@@ -356,12 +372,12 @@ public class LogsViewController implements Initializable {
 			resultSet = App.dbManager.executeQuery("SELECT * FROM logs");
 			while(resultSet.next()) {
 				int id = resultSet.getInt("id");
-				String lifecycleStep = resultSet.getString("lifecyclestep");
+				String lifeCycleStep = resultSet.getString("lifeCycleStep");
 				String backlogItem = resultSet.getString("backlogItem");
 				String startDate = resultSet.getString("startdate");
 				String endDate = resultSet.getString("enddate");
 				String duration = resultSet.getString("duration");
-				data.add(new Log(id, lifecycleStep, backlogItem, startDate, endDate, duration));
+				data.add(new Log(id, lifeCycleStep, backlogItem, startDate, endDate, duration));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -369,8 +385,8 @@ public class LogsViewController implements Initializable {
 	
 	
 		// define the columns for the table
-		TableColumn<Log, String> lifecycleStepColumn = new TableColumn<>("Lifecycle Step");
-		lifecycleStepColumn.setCellValueFactory(new PropertyValueFactory<>("lifecycleStep"));
+		TableColumn<Log, String> lifeCycleStepColumn = new TableColumn<>("Lifecycle Step");
+		lifeCycleStepColumn.setCellValueFactory(new PropertyValueFactory<>("lifeCycleStep"));
 
 		TableColumn<Log, String> backlogItemColumn = new TableColumn<>("Backlog Item");
 		backlogItemColumn.setCellValueFactory(new PropertyValueFactory<>("backlogItem"));
@@ -385,7 +401,7 @@ public class LogsViewController implements Initializable {
 		durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
 		//Set columns and items
-		EffortLogs.getColumns().setAll(lifecycleStepColumn, backlogItemColumn, startDateColumn, endDateColumn, durationColumn);
+		EffortLogs.getColumns().setAll(lifeCycleStepColumn, backlogItemColumn, startDateColumn, endDateColumn, durationColumn);
 		EffortLogs.setItems(data);
 
 	}
@@ -393,7 +409,7 @@ public class LogsViewController implements Initializable {
 	
 	private static void exportToExcel() throws SQLException, IOException {
 	
-		String query = "SELECT lifecyclestep, startdate, enddate, duration FROM logs";
+		String query = "SELECT lifeCycleStep, backlogItem, startdate, enddate, duration FROM logs";
 		ResultSet resultSet = App.dbManager.executeQuery(query);
 	
 		// Create workbook and sheet
@@ -435,18 +451,34 @@ public class LogsViewController implements Initializable {
 		
 	}
 
-@FXML
-private void handleExportToExcel(ActionEvent event) {
-    try {
-        exportToExcel();
-    } catch (SQLException e) {
-        System.err.println("Error while executing SQL query:");
-        e.printStackTrace();
-    } catch (IOException e) {
-        System.err.println("Error while creating or writing the Excel file:");
-        e.printStackTrace();
-    }
-}
+	@FXML
+	private void handleExportToExcel(ActionEvent event) {
+		try {
+			exportToExcel();
+		} catch (SQLException e) {
+			System.err.println("Error while executing SQL query:");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Error while creating or writing the Excel file:");
+			e.printStackTrace();
+		}
+	}
+
+	private static int[] parseHourMinute(String time) {
+		int timeValues[] = {0, 0};
+		String[] parts = time.split(" ");
+		String[] timeParts = parts[1].split(":");
+		timeValues[0] = Integer.parseInt(timeParts[0]); // hour value
+		timeValues[1] = Integer.parseInt(timeParts[1]); // minute value
+		return timeValues;
+	}
+	
+	private static LocalDate parseDate(String time) {
+		String[] dateTime = time.split(" ");
+		String dateString = dateTime[0];
+		LocalDate date = LocalDate.parse(dateString);
+		return date;
+	}
 	
 
 }

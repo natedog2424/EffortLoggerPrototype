@@ -1,6 +1,8 @@
 //Assigned to: Evan
 
-public class BacklogItem {
+import java.io.Serializable;
+
+public class BacklogItem implements Serializable{
 
 	public String BacklogItemName;
 
