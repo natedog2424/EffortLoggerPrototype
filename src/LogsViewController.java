@@ -234,22 +234,34 @@ public class LogsViewController implements Initializable {
 
 			errorMessage.setStyle("-fx-text-fill: red;");
 
+			int startParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
+			System.out.println(WantToEditLog.getStartDate().charAt(11));
 			Label startDateLabel = new Label("Start Date:");
 			startDatePicker = new DatePicker(LocalDate.now());
 
 			Label hourLabel = new Label("Hour:");
 			startHourSpinner = new Spinner<>(0, 23, 0);
+			startHourSpinner.increment(startParsedHourMinute[0]);
+			
 
 			Label minuteLabel = new Label("Minute:");
 			startMinuteSpinner = new Spinner<>(0, 59, 0);
+			startMinuteSpinner.increment(startParsedHourMinute[1]);
+			updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(), startMinuteSpinner.getValue());
 
 			startTimeField = new TextField();
 			startTimeField.setDisable(true);
 
 			Label endDateLabel = new Label("End Date:");
+			int endParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
 			endDatePicker = new DatePicker(LocalDate.now());
+
 			endHourSpinner = new Spinner<>(0, 23, 0);
+			endHourSpinner.increment(endParsedHourMinute[0]);
+
 			endMinuteSpinner = new Spinner<>(0, 59, 0);
+			endHourSpinner.increment(endParsedHourMinute[1]);
+			updateTimeField(endTimeField, endDatePicker.getValue(), endHourSpinner.getValue(),endMinuteSpinner.getValue());
 
 			endTimeField = new TextField();
 			endTimeField.setDisable(true);
@@ -339,7 +351,7 @@ public class LogsViewController implements Initializable {
 			Stage error = new Stage();
 			Button closeButton = new Button("close");
 			closeButton.setOnAction(e -> error.close());
-			Label errorMessage = new Label(ex.getMessage());
+			Label errorMessage = new Label("Select a log to edit.");
 			VBox errorHolder = new VBox(10, errorMessage, closeButton);
 			errorHolder.setAlignment(Pos.CENTER);
 			error.setTitle("Error Message");
@@ -435,18 +447,27 @@ public class LogsViewController implements Initializable {
 		
 	}
 
-@FXML
-private void handleExportToExcel(ActionEvent event) {
-    try {
-        exportToExcel();
-    } catch (SQLException e) {
-        System.err.println("Error while executing SQL query:");
-        e.printStackTrace();
-    } catch (IOException e) {
-        System.err.println("Error while creating or writing the Excel file:");
-        e.printStackTrace();
-    }
-}
+	@FXML
+	private void handleExportToExcel(ActionEvent event) {
+		try {
+			exportToExcel();
+		} catch (SQLException e) {
+			System.err.println("Error while executing SQL query:");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Error while creating or writing the Excel file:");
+			e.printStackTrace();
+		}
+	}
+
+	private static int[] parseHourMinute(String time) {
+		int timeValues[] = {0, 0};
+		String[] parts = time.split(" ");
+		String[] timeParts = parts[1].split(":");
+		timeValues[0] = Integer.parseInt(timeParts[0]); // hour value
+		timeValues[1] = Integer.parseInt(timeParts[1]); // minute value
+		return timeValues;
+	}
 	
 
 }
