@@ -14,7 +14,8 @@
                   <HBox spacing="10.0">
                      <children>
                         <TextField promptText="New Project" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" text="Import" />
+                        <Button onAction="#onImportButtonPressed" mnemonicParsing="false" text="Import" />
+                        <Button onAction="#onExportButtonPressed" mnemonicParsing="false" text="Export" />
                      </children>
                   </HBox>
                   <TextArea prefHeight="80.0" promptText="Brief project description...">
