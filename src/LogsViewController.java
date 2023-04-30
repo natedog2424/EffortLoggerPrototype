@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.management.Query;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -203,12 +203,12 @@ public class LogsViewController implements Initializable {
 		grid.setPadding(new Insets(20));
 		grid.add(new Label("Life Cycle Step:"), 0, 0);
 		grid.add(lifeCycleStep, 1, 0);
-		grid.add(new Label("Effort Category:"), 0, 1);
+		grid.add(new Label("Backlog Item:"), 0, 1);
 		grid.add(backlogItem, 1, 1);
 
 		HBox buttons = new HBox(10, cancelBtn, okBtn);
-		HBox startSpinnerBox = new HBox(hourLabel, startHourSpinner, minuteLabel, startMinuteSpinner);
-		HBox endSpinnerBox = new HBox(hourLabel, endHourSpinner, minuteLabel, endMinuteSpinner);
+		HBox startSpinnerBox = new HBox(new Label("Hour: "), startHourSpinner, new Label("Minute: "), startMinuteSpinner);
+		HBox endSpinnerBox = new HBox(new Label("Hour: "), endHourSpinner, new Label("Minute: "), endMinuteSpinner);
 		buttons.setAlignment(Pos.CENTER);
 		errorMessage.setAlignment(Pos.CENTER);
 		VBox root = new VBox(10, grid, startDateLabel, startDatePicker, startSpinnerBox, startTimeField, endDateLabel,
@@ -231,13 +231,14 @@ public class LogsViewController implements Initializable {
 			TextField backlogItem = new TextField();
 
 			lifeCycleStep.setText(WantToEditLog.getLifeCycleStep());
+			backlogItem.setText(WantToEditLog.getBacklogItem());
 
 			errorMessage.setStyle("-fx-text-fill: red;");
 
-			int startParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
-			System.out.println(WantToEditLog.getStartDate().charAt(11));
-			Label startDateLabel = new Label("Start Date:");
-			startDatePicker = new DatePicker(parseDate(WantToEditLog.getStartDate()));
+			int startParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());			Label startDateLabel = new Label("Start Date:");
+			startDatePicker = new DatePicker();
+			startDatePicker.setValue(parseDate(WantToEditLog.getStartDate()));
+
 			
 
 			Label hourLabel = new Label("Hour:");
@@ -255,7 +256,8 @@ public class LogsViewController implements Initializable {
 			updateTimeField(startTimeField, startDatePicker.getValue(), startHourSpinner.getValue(), startMinuteSpinner.getValue());
 			Label endDateLabel = new Label("End Date:");
 			int endParsedHourMinute[] = parseHourMinute(WantToEditLog.getStartDate());
-			endDatePicker = new DatePicker(parseDate(WantToEditLog.getEndDate()));
+			endDatePicker = new DatePicker();
+			endDatePicker.setValue(parseDate(WantToEditLog.getEndDate()));
 			
 
 			endHourSpinner = new Spinner<>(0, 23, 0);
@@ -263,7 +265,6 @@ public class LogsViewController implements Initializable {
 
 			endMinuteSpinner = new Spinner<>(0, 59, 0);
 			endHourSpinner.increment(endParsedHourMinute[1]);
-			updateTimeField(endTimeField, endDatePicker.getValue(), endHourSpinner.getValue(),endMinuteSpinner.getValue());
 
 			endTimeField = new TextField();
 			endTimeField.setDisable(true);
@@ -338,12 +339,12 @@ public class LogsViewController implements Initializable {
 			grid.setPadding(new Insets(20));
 			grid.add(new Label("Life Cycle Step:"), 0, 0);
 			grid.add(lifeCycleStep, 1, 0);
-			grid.add(new Label("Effort Category:"), 0, 1);
+			grid.add(new Label("Backlog Item:"), 0, 1);
 			grid.add(backlogItem, 1, 1);
 
 			HBox buttons = new HBox(10, cancelBtn, okBtn);
-			HBox startSpinnerBox = new HBox(hourLabel, startHourSpinner, minuteLabel, startMinuteSpinner);
-			HBox endSpinnerBox = new HBox(hourLabel, endHourSpinner, minuteLabel, endMinuteSpinner);
+			HBox startSpinnerBox = new HBox(new Label("Hour: "), startHourSpinner, new Label("Minute: "), startMinuteSpinner);
+			HBox endSpinnerBox = new HBox(new Label("Hour: "), endHourSpinner, new Label("Minute: "), endMinuteSpinner);
 			buttons.setAlignment(Pos.CENTER);
 			errorMessage.setAlignment(Pos.CENTER);
 			VBox root = new VBox(10, grid, startDateLabel, startDatePicker, startSpinnerBox, startTimeField, endDateLabel,
@@ -474,10 +475,17 @@ public class LogsViewController implements Initializable {
 	}
 
 	private static LocalDate parseDate(String time) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String[] dateTime = time.split(" ");
 		String dateString = dateTime[0];
-		LocalDate date = LocalDate.parse(dateString);
-		return date;
+	
+		try {
+			LocalDate date = LocalDate.parse(dateString, formatter);
+			return date;
+		} catch (DateTimeParseException e) {
+			System.err.println("Invalid date format: " + dateString);
+			return null;
+		}
 	}
 	
 
