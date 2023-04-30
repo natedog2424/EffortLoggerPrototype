@@ -18,6 +18,7 @@
                       <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
                   </MenuButton>
+                  <Button text="Add Project" onAction="#addProjectButtonPressed"/>
               </items>
             </ToolBar>
             <fx:define>

@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
@@ -85,6 +86,9 @@ public class MainViewController implements Initializable {
 	private MenuButton ProjectMenu;
 
 	private EffortConsoleViewController EffortConsole;
+	private LogsViewController logsVC;
+	private DefectsViewController DefectsVC;
+	private ProjectViewController ProjectVC;
 
 	@FXML
 	private VBox TabHolder;
@@ -98,10 +102,6 @@ public class MainViewController implements Initializable {
 	private BooleanProperty logsPaneSelected;
 
 	private MediaPlayer mediaPlayer;
-
-	private String capitalizeString(String str) {
-		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-	}
 
 	private void updateTime(){
 		//update time
@@ -117,14 +117,13 @@ public class MainViewController implements Initializable {
 		}
 		
 		//get date in format: day of week, month day
-		String date = capitalizeString(now.getDayOfWeek().toString()) + ", " + capitalizeString(now.getMonth().toString()) + " " + now.getDayOfMonth();
+		String date = Util.capitalizeString(now.getDayOfWeek().toString()) + ", " + Util.capitalizeString(now.getMonth().toString()) + " " + now.getDayOfMonth();
 
 		//set time and date labels
 		TimeLabel.setText(date + " " + time);
 	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	
+	void initialize(){
 		// URI audioFileURI = new
 		// File("resources/EffortLogger_soundEffect.mp3").toURI();
 		// Media audioMedia = new Media(audioFileURI.toString());
@@ -144,7 +143,7 @@ public class MainViewController implements Initializable {
 		NameLabel.setText(App.user.fullName);
 
 		// load all tabs
-		if (App.project.role == null) {
+		if (App.project == null || App.project.role == null) {
 			roleButton.setText("No Role");
 		} else {
 			roleButton.setText(App.project.role);
@@ -154,15 +153,20 @@ public class MainViewController implements Initializable {
 			try {
 				TabPanes[i] = TabLoader.load();
 				// update log table when logspane is selected
-				if (i == 0) {
-					EffortConsole = TabLoader.getController();
-
-				}
-
-				if (i == 2) {
-
-					LogsViewController controller = TabLoader.getController();
-					logsPaneSelected = controller.tabSelectedProperty();
+				switch (i) {
+					case 0:
+						EffortConsole = TabLoader.getController();
+						break;
+					case 1:
+						DefectsVC = TabLoader.getController();
+						break;
+					case 2:
+						logsVC = TabLoader.getController();
+						logsPaneSelected = logsVC.tabSelectedProperty();
+						break;
+					case 3:	
+						ProjectVC = TabLoader.getController();
+						break;
 				}
 
 			} catch (IOException e) {
@@ -170,9 +174,11 @@ public class MainViewController implements Initializable {
 			}
 		}
 
+		if(App.project == null){
+
+			ProjectMenu.setText("No Project");
 		// load tutorial tab
 		FXMLLoader TabLoader = new FXMLLoader(getClass().getResource("TutorialPane.fxml"));
-
 		// load tutorial tab
 		try {
 			ScrollPane TutorialPane = TabLoader.load();
@@ -180,6 +186,26 @@ public class MainViewController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	} else {
+		ProjectMenu.setText(App.project.Name);
+		switchTab(0);
+		group.selectToggle(group.getToggles().get(0));
+	}
+
+	//load projects into project menu
+	ProjectMenu.getItems().clear();
+	for (String name : App.savedProjects) {
+		MenuItem item = new MenuItem(name);
+		
+		//set action on click
+		item.setOnAction(e -> {
+			MenuItem button = (MenuItem)e.getSource();
+			setProject(Project.fromDatabase(button.getText()));
+		});
+
+		ProjectMenu.getItems().add(item);
+	}
+		
 
 		// initialize listener on tab group change
 		group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
@@ -190,6 +216,25 @@ public class MainViewController implements Initializable {
 			}
 		});
 
+	}
+
+	public void setProject(Project project) {
+		App.project = project;
+		
+		//run intit on each vc
+		this.initialize();
+		//EffortConsole.initialize();
+		//DefectsVC.initialize();
+		//logsVC.initialize();
+		ProjectVC.initialize();
+		
+		switchTab(0);
+		group.selectToggle(group.getToggles().get(0));
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		initialize();
 	}
 
 	@FXML
@@ -248,6 +293,11 @@ public class MainViewController implements Initializable {
 
 		RoleEdit.show();
 
+	}
+
+	@FXML
+	private void addProjectButtonPressed(){
+		App.newProject();
 	}
 
 	private void openEffortConsoleTab() {

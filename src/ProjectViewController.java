@@ -33,12 +33,17 @@ public class ProjectViewController implements Initializable{
 	@FXML
 	private ListView<String> CompletedBacklogView;
 
-	//initialize function
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	private Label ProjectNameLabel;
+
+	public void initialize(){
 		ProductBacklogView.getItems().clear();
 		SprintBacklogView.getItems().clear();
 		CompletedBacklogView.getItems().clear();
+
+		if(proj == null){
+			return;
+		}
 		
 		//fill in the list views
 		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
@@ -50,6 +55,14 @@ public class ProjectViewController implements Initializable{
 		for (int i = 0; i < proj.CompletedBacklog.size(); i++) {
 			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
 		}
+
+		ProjectNameLabel.setText(Util.capitalizeString(proj.Name));
+	}
+
+	//initialize function
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		initialize();
 	}
 
 	private void showErrorWindow(String msg){
@@ -167,6 +180,12 @@ public class ProjectViewController implements Initializable{
 					if (NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()) {
 						throw new Exception("At least one field is empty");
 					}
+					if(Integer.parseInt(NewEffort)<= 0){
+						throw new Exception("Please enter a positive number for estimated effort");
+					}
+					if(Float.parseFloat(NewTime) <= 0){
+						throw new Exception("Please enter a positive number for estimated time");
+					}
 					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
 						if (index == i) {
 							continue;
@@ -274,6 +293,12 @@ public class ProjectViewController implements Initializable{
 					String NewTime = TimeField.getText().trim();
 					if (NewName.isEmpty() || NewEffort.isEmpty() || NewTime.isEmpty()) {
 						throw new Exception("At least one field is empty");
+					}
+					if(Integer.parseInt(NewEffort)<= 0){
+						throw new Exception("Please enter a positive number for estimated effort");
+					}
+					if(Float.parseFloat(NewTime) <= 0){
+						throw new Exception("Please enter a positive number for estimated time");
 					}
 					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
 						if (proj.ProductBacklog.get(i).BacklogItemName.equals(NewName)) {

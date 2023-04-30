@@ -1,4 +1,3 @@
-/*
 @font-face {
   src: url('./krabbypatty.ttf');
 }
@@ -8,8 +7,20 @@
   secondaryShade: #FFFFFF0F;
   primaryColor: #7C51C0;
   -fx-font-family: 'Krabby Patty';
+}
 
-  -fx-fill: #FFFFFF;  
+Text, Label {
+  -fx-fill: white;
+  -fx-font-family: 'Krabby Patty';
+  -fx-font-size: 15px;
+}
+
+.label-large {
+  -fx-font-size: 24px;
+}
+
+.label-medium {
+  -fx-font-size: 18px;
 }
 
 .tool-bar {
@@ -31,36 +42,11 @@
 .column-drag-header {
   -fx-background-color: #29272D;
 }
-*/
 
 .radio-button {
   -fx-background-color: boxFill;
   -fx-padding: 0.5em;
 }
-
-.label-large {
-  -fx-font-size: 24px;
-}
-
-/*
-.button,
-.toggle-button,
-.radio-button > .radio,
-.check-box > .box,
-.menu-button,
-.choice-box,
-.color-picker.split-button > .color-picker-label,
-.combo-box-base,
-.combo-box-base:editable > .arrow-button {
-    -fx-background-color: secondaryShade;
-    -fx-font-size: 18px;
-}
-*/
-
-* {
-  primaryColor: #8cd3eb;
-}
-
 
 .radio-button {
   -fx-font-size: 18px;
@@ -75,8 +61,6 @@
   -fx-background-insets: 0;
   -fx-background-radius: 0px;
   -fx-padding: -0.5em;
-
-
 }
 
 .radio-button.hideDot>.radio>.dot {

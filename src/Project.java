@@ -17,6 +17,7 @@ public class Project implements Serializable{
 
 	// base constructor
 	public Project() {
+		ProjectLogs = new ArrayList<Log>();
 		ProductBacklog = new ArrayList<BacklogItem>();
 		SprintBacklog = new ArrayList<BacklogItem>();
 		CompletedBacklog = new ArrayList<BacklogItem>();
@@ -66,7 +67,7 @@ public class Project implements Serializable{
 
 			// update or insert project info
 			App.dbManager.executeUpdate(
-					"INSERT INTO info (name, description) VALUES (?)",
+					"INSERT INTO info (name) VALUES (?)",
 					Name);
 
 		} catch (SQLException e) {

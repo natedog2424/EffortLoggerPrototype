@@ -3,22 +3,20 @@
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StreamTokenizer;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javax.management.Query;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -41,10 +39,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class LogsViewController implements Initializable {
 
@@ -388,18 +382,23 @@ public class LogsViewController implements Initializable {
 		// define the columns for the table
 		TableColumn<Log, String> lifeCycleStepColumn = new TableColumn<>("Lifecycle Step");
 		lifeCycleStepColumn.setCellValueFactory(new PropertyValueFactory<>("lifeCycleStep"));
+		lifeCycleStepColumn.setPrefWidth(100);
 
 		TableColumn<Log, String> backlogItemColumn = new TableColumn<>("Backlog Item");
 		backlogItemColumn.setCellValueFactory(new PropertyValueFactory<>("backlogItem"));
+		backlogItemColumn.setPrefWidth(100);
 
 		TableColumn<Log, String> startDateColumn = new TableColumn<>("Date Started");
 		startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+		startDateColumn.setPrefWidth(100);
 
 		TableColumn<Log, String> endDateColumn = new TableColumn<>("Date Ended");
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+		endDateColumn.setPrefWidth(100);
 
 		TableColumn<Log, String> durationColumn = new TableColumn<>("Time Spent");
 		durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		durationColumn.setPrefWidth(100);
 
 		//Set columns and items
 		EffortLogs.getColumns().setAll(lifeCycleStepColumn, backlogItemColumn, startDateColumn, endDateColumn, durationColumn);
