@@ -38,8 +38,8 @@ public class Project {
 			//create tables
 			
 			App.dbManager.executeUpdate(
-				"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT)"
-				//"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT, role TEXT)"
+				//"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT)"
+				"CREATE TABLE IF NOT EXISTS info (name TEXT, description TEXT, role TEXT)"
 			);
 
 			App.dbManager.executeUpdate(
@@ -78,7 +78,7 @@ public class Project {
 
 	public String Description;
 
-	//public String role;
+	public String role;
 
 	public String DatabaseName;
 
@@ -221,14 +221,14 @@ public class Project {
 		}
 	}
 
-	/*public void changeRole(String newRole){
+	public void changeRole(String newRole){
 		try{App.dbManager.executeUpdate(
 			"UPDATE info SET role = " + newRole
 		);}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 	//add method for defect
 	public void add(Defect item, ArrayList<Defect> list){
