@@ -20,10 +20,10 @@
                         <Insets bottom="10.0" />
                      </padding>
                   </Label>
-                  <Label maxWidth="1.7976931348623157E308" text="Label" />
-                  <ComboBox fx:id="LifeCycleStep" maxWidth="1.7976931348623157E308" />
-                  <Label layoutX="10.0" layoutY="49.0" maxWidth="1.7976931348623157E308" text="Label" />
-                  <ComboBox fx:id="EffortCategory" maxWidth="1.7976931348623157E308" />
+                  <Label maxWidth="1.7976931348623157E308" text="Life Cycle Step" />
+                  <ComboBox fx:id="LifeCycleStepBox" maxWidth="1.7976931348623157E308" />
+                  <Label layoutX="10.0" layoutY="49.0" maxWidth="1.7976931348623157E308" text="Backlog Item" />
+                  <ComboBox fx:id="BacklogItemBox" maxWidth="1.7976931348623157E308" />
                   <Button fx:id="StartStopButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Start Clock" onAction="#clockStateEvent">
                      <VBox.margin>
                         <Insets top="10.0" />

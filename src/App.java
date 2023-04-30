@@ -1,5 +1,6 @@
 // 
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -38,22 +39,25 @@ public class App extends Application {
         // Handle taking login info and such here in the future. For now, just load the project pane and fill in a default user object.
         user = new User("John Doe", "password");
 
-        project = new Project();
-        project.DatabaseName = "test";
+        //check if test.db exists
+        File testDB = new File("src/test.db");
+        if(testDB.exists()){
+            project = Project.fromDatabase("test");
+        } else project = new Project("test");
 
         dbManager.connect(project);
-
         URI audioFileURI = new File("resources/EffortLogger_ost2.mp3").toURI();
         Media audioMedia = new Media(audioFileURI.toString());
 
         // Initialize the mediaPlayer instance variable and set it to autoplay
         mediaPlayer = new MediaPlayer(audioMedia);
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the cycleCount to INDEFINITE
+       // mediaPlayer.setAutoPlay(true);
+        //mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the cycleCount to INDEFINITE
 
         
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);
+        //scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();

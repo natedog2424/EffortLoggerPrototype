@@ -16,7 +16,14 @@
             "request": "launch",
             "mainClass": "App",
             "projectName": "EffortLoggerPrototype_f3e8c611",
-            "vmArgs": "--module-path '${workspaceFolder}/lib/javafx-sdk-20/lib' --add-modules javafx.controls,javafx.fxml,javafx.media"
+
+            "windows": {
+                "vmArgs": "--module-path '${workspaceFolder}/lib/javafx-sdk-20-win/lib' --add-modules javafx.controls,javafx.fxml,javafx.media"
+            },
+            "osx": {
+                "vmArgs": "--module-path '${workspaceFolder}/lib/javafx-sdk-20/lib' --add-modules javafx.controls,javafx.fxml,javafx.media"
+            },
+            
         }
     ]
 }

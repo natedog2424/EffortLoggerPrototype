@@ -44,6 +44,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
@@ -74,11 +75,17 @@ public class MainViewController implements Initializable {
 	private MenuButton ProjectSelector;
 	private Pane DefectsTabPane;
 
+	private EffortConsoleViewController EffortConsole;
+
+
 	@FXML
 	private VBox TabHolder;
 
 	@FXML
 	private ToggleGroup group;
+
+	@FXML
+	public Button roleButton;
 
 	private BooleanProperty logsPaneSelected;
 
@@ -86,9 +93,9 @@ public class MainViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		URI audioFileURI = new File("resources/EffortLogger_soundEffect.mp3").toURI();
-		Media audioMedia = new Media(audioFileURI.toString());
-		mediaPlayer = new MediaPlayer(audioMedia);
+		//URI audioFileURI = new File("resources/EffortLogger_soundEffect.mp3").toURI();
+		//Media audioMedia = new Media(audioFileURI.toString());
+		//mediaPlayer = new MediaPlayer(audioMedia);
 		
 		//load all tabs
 		for (int i = 0; i < TabPanes.length; i++) {
@@ -96,16 +103,36 @@ public class MainViewController implements Initializable {
 			try {
 				TabPanes[i] = TabLoader.load();
 				// update log table when logspane is selected
+				if(i == 0){
+					EffortConsole = TabLoader.getController();
+					
+				}
+				
 				if (i == 2) {
+					System.out.println("D");
 					LogsViewController controller = TabLoader.getController();
 					logsPaneSelected = controller.tabSelectedProperty();
 				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+
+		//load tutorial tab
+		FXMLLoader TabLoader = new FXMLLoader(getClass().getResource("TutorialPane.fxml"));
+
+		//load tutorial tab
+		try {
+			ScrollPane TutorialPane = TabLoader.load();
+			TabHolder.getChildren().add(TutorialPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		//initialize listener on tab group change
 		group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+
 			if (group.getSelectedToggle() != null) {
 				//load new tab from selected index
 				switchTab(group.getToggles().indexOf(group.getSelectedToggle()));
@@ -119,6 +146,61 @@ public class MainViewController implements Initializable {
 	@FXML
 	protected void smexy(){
 		System.out.println("smexy");
+	}
+
+	@FXML
+	protected void roleButtonPressed(){
+		Stage RoleEdit = new Stage();
+		RoleEdit.setTitle("Edit Role");
+		GridPane RolePane = new GridPane();
+		TextField RoleField;
+		
+		Label Role = new Label("Role");
+		if(roleButton.getText().equals("No Role")){
+			RoleField = new TextField();
+		}
+		else{
+			RoleField = new TextField(roleButton.getText());
+		}
+		Button DoneEditing = new Button("Done");
+		DoneEditing.setOnAction(e->{
+						try{
+			
+						String NewRole = RoleField.getText().trim();
+						if(NewRole.isEmpty()){
+							throw new Exception("Please enter a role");
+						}
+						roleButton.setText(NewRole);
+						RoleEdit.close();
+						}
+						catch(Exception exception){
+							Stage error = new Stage();
+							Button closeButton = new Button("Close");
+							closeButton.setOnAction(errorMes -> error.close());
+							Label errorMessage = new Label(exception.getMessage());
+							VBox errorHolder = new VBox(10,errorMessage,closeButton);
+							errorHolder.setAlignment(Pos.CENTER);
+							error.setTitle("Error Message");
+							error.setScene(new Scene(errorHolder, 400,100));
+							error.show();
+						}
+				}
+				);
+		Button CancelEditing = new Button("Cancel");
+		CancelEditing.setOnAction(e -> RoleEdit.close());
+		HBox Buttons = new HBox(10, DoneEditing, CancelEditing);
+		Buttons.setAlignment(Pos.CENTER);
+		RolePane.setAlignment(Pos.CENTER);
+		RolePane.setHgap(30);
+		RolePane.setVgap(10);
+		RolePane.setPadding(new Insets(20));
+		RolePane.add(Role, 0 ,0);
+		RolePane.add(RoleField, 1 ,0);
+		VBox RoleEditDisplayCombined = new VBox(10,RolePane,Buttons);
+		RoleEdit.setScene(new Scene(RoleEditDisplayCombined, 300, 150));
+				
+        RoleEdit.show();	
+		
 	}
 
 	private void openEffortConsoleTab() {
@@ -142,6 +224,11 @@ public class MainViewController implements Initializable {
 			//clear ab holder
 			TabHolder.getChildren().clear();
 			TabHolder.getChildren().add(TabPanes[index]);
+			if(index == 0){
+				EffortConsole.FillBacklogComboBox(App.project.SprintBacklog);	
+			}
+			
+
 
 			//update table when logs pane is selected
 			if (index == 2) {

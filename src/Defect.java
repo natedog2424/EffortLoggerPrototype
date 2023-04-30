@@ -5,20 +5,21 @@ public class Defect {
 
 	public String DefectDescription;
 
-	public boolean SelectedDefect;
 
-	public String Combined;
 
-	public Defect(String Type, String Description){
+	public int EffortLevel;
+
+
+	public Defect(String Type, String Description, String EffortLevel){
 		this.DefectDescription = Description;
 		this.DefectType = Type;
-		this.SelectedDefect = false;
-		this.Combined = DefectType + "\t\t\t\t" + DefectDescription;
-	
-
+		this.EffortLevel = Integer.parseInt(EffortLevel);
 	}
 
+	public Defect(){}
 
-
+	public String defectToString(){
+		return DefectType + "\t\t\t\t" + DefectDescription + "\t\t\t\tEstimated Effort Level: "+ EffortLevel;
+	}
 
 }
