@@ -17,6 +17,7 @@ public class Project implements Serializable{
 
 	// base constructor
 	public Project() {
+		ProjectLogs = new ArrayList<Log>();
 		ProductBacklog = new ArrayList<BacklogItem>();
 		SprintBacklog = new ArrayList<BacklogItem>();
 		CompletedBacklog = new ArrayList<BacklogItem>();
