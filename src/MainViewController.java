@@ -75,6 +75,9 @@ public class MainViewController implements Initializable {
 	private MenuButton ProjectSelector;
 	private Pane DefectsTabPane;
 
+	private EffortConsoleViewController EffortConsole;
+
+
 	@FXML
 	private VBox TabHolder;
 
@@ -100,11 +103,18 @@ public class MainViewController implements Initializable {
 			try {
 				TabPanes[i] = TabLoader.load();
 				// update log table when logspane is selected
+				if(i == 0){
+					EffortConsole = TabLoader.getController();
+					
+				}
+				
 				if (i == 2) {
+					System.out.println("D");
 					LogsViewController controller = TabLoader.getController();
 					logsPaneSelected = controller.tabSelectedProperty();
 					//mediaPlayer.play();
 				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -123,6 +133,7 @@ public class MainViewController implements Initializable {
 
 		//initialize listener on tab group change
 		group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+
 			if (group.getSelectedToggle() != null) {
 				//load new tab from selected index
 				switchTab(group.getToggles().indexOf(group.getSelectedToggle()));
@@ -214,6 +225,11 @@ public class MainViewController implements Initializable {
 			//clear ab holder
 			TabHolder.getChildren().clear();
 			TabHolder.getChildren().add(TabPanes[index]);
+			if(index == 0){
+				EffortConsole.FillBacklogComboBox(App.project.SprintBacklog);	
+			}
+			
+
 
 			//update table when logs pane is selected
 			if (index == 2) {

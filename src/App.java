@@ -46,7 +46,6 @@ public class App extends Application {
         } else project = new Project("test");
 
         dbManager.connect(project);
-
         URI audioFileURI = new File("resources/EffortLogger_ost2.mp3").toURI();
         Media audioMedia = new Media(audioFileURI.toString());
 

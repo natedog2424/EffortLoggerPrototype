@@ -22,7 +22,7 @@ public class EffortConsoleViewController implements Initializable {
 	private ComboBox<String> LifeCycleStepBox;
 
 	@FXML
-	private ComboBox<String> BacklogItemBox;
+	public ComboBox<String> BacklogItemBox;
 
 	private static LocalDateTime startTime;
 	private static LocalDateTime endTime;
@@ -69,6 +69,11 @@ public class EffortConsoleViewController implements Initializable {
 		}*/
 	}
 
-	public void FillBacklogComboBox(){}
+	public void FillBacklogComboBox(ArrayList<BacklogItem> SprintBacklogList){
+		BacklogItemBox.getItems().clear();
+		for(int i = 0; i < SprintBacklogList.size(); i++){
+			BacklogItemBox.getItems().add(SprintBacklogList.get(i).BacklogItemName);
+		}
+	}
 
 }

@@ -92,6 +92,8 @@ public class LogsViewController implements Initializable {
 			}
 			if (newValue) {
 				updateTable();
+
+				
 			}
 		});
 	}
