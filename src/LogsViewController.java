@@ -472,7 +472,7 @@ public class LogsViewController implements Initializable {
 		timeValues[1] = Integer.parseInt(timeParts[1]); // minute value
 		return timeValues;
 	}
-
+	
 	private static LocalDate parseDate(String time) {
 		String[] dateTime = time.split(" ");
 		String dateString = dateTime[0];
