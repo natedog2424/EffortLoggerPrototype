@@ -53,7 +53,7 @@ public class App extends Application {
         }
     
         Scene scene = new Scene(loader.load(), 960, 540);
-        scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();
