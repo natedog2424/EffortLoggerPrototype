@@ -13,7 +13,7 @@
                <children>
                   <HBox spacing="10.0">
                      <children>
-                        <TextField promptText="New Project" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="ProjectNameLabel" text="Project Name" HBox.hgrow="ALWAYS" />
                         <Button onAction="#onImportButtonPressed" mnemonicParsing="false" text="Import" />
                         <Button onAction="#onExportButtonPressed" mnemonicParsing="false" text="Export" />
                      </children>

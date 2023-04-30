@@ -33,12 +33,17 @@ public class ProjectViewController implements Initializable{
 	@FXML
 	private ListView<String> CompletedBacklogView;
 
-	//initialize function
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	private Label ProjectNameLabel;
+
+	public void initialize(){
 		ProductBacklogView.getItems().clear();
 		SprintBacklogView.getItems().clear();
 		CompletedBacklogView.getItems().clear();
+
+		if(proj == null){
+			return;
+		}
 		
 		//fill in the list views
 		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
@@ -50,6 +55,14 @@ public class ProjectViewController implements Initializable{
 		for (int i = 0; i < proj.CompletedBacklog.size(); i++) {
 			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
 		}
+
+		ProjectNameLabel.setText(proj.Name);
+	}
+
+	//initialize function
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		initialize();
 	}
 
 	private void showErrorWindow(String msg){
