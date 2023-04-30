@@ -75,6 +75,9 @@ public class MainViewController implements Initializable {
 	private MenuButton ProjectSelector;
 	private Pane DefectsTabPane;
 
+	@FXML
+	private MenuButton ProjectMenu;
+
 	private EffortConsoleViewController EffortConsole;
 
 
@@ -98,6 +101,12 @@ public class MainViewController implements Initializable {
 		//mediaPlayer = new MediaPlayer(audioMedia);
 		
 		//load all tabs
+		if(App.project.role == null){
+			roleButton.setText("No Role");
+		}
+		else{
+			roleButton.setText(App.project.role);
+		}
 		for (int i = 0; i < TabPanes.length; i++) {
 			FXMLLoader TabLoader = new FXMLLoader(getClass().getResource(TabFXMLFiles[i]));
 			try {
@@ -109,7 +118,7 @@ public class MainViewController implements Initializable {
 				}
 				
 				if (i == 2) {
-					System.out.println("D");
+					
 					LogsViewController controller = TabLoader.getController();
 					logsPaneSelected = controller.tabSelectedProperty();
 				}
@@ -171,6 +180,7 @@ public class MainViewController implements Initializable {
 							throw new Exception("Please enter a role");
 						}
 						roleButton.setText(NewRole);
+						App.project.changeRole(NewRole);
 						RoleEdit.close();
 						}
 						catch(Exception exception){

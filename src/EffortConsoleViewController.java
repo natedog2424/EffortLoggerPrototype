@@ -71,10 +71,12 @@ public class EffortConsoleViewController implements Initializable {
 	}
 
 	public void FillBacklogComboBox(ArrayList<BacklogItem> SprintBacklogList){
+		String selected = BacklogItemBox.getValue();
 		BacklogItemBox.getItems().clear();
 		for(int i = 0; i < SprintBacklogList.size(); i++){
 			BacklogItemBox.getItems().add(SprintBacklogList.get(i).BacklogItemName);
 		}
+		BacklogItemBox.setValue(selected);
 	}
 
 }
