@@ -29,7 +29,7 @@ public class Log {
 		return id.get();
 	}
 
-	public String getLifecycleStep() {
+	public String getLifeCycleStep() {
 		return lifecycleStep.get();
 	}
 
