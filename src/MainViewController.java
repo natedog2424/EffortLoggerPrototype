@@ -103,10 +103,6 @@ public class MainViewController implements Initializable {
 
 	private MediaPlayer mediaPlayer;
 
-	private String capitalizeString(String str) {
-		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-	}
-
 	private void updateTime(){
 		//update time
 		LocalDateTime now = LocalDateTime.now();
@@ -121,7 +117,7 @@ public class MainViewController implements Initializable {
 		}
 		
 		//get date in format: day of week, month day
-		String date = capitalizeString(now.getDayOfWeek().toString()) + ", " + capitalizeString(now.getMonth().toString()) + " " + now.getDayOfMonth();
+		String date = Util.capitalizeString(now.getDayOfWeek().toString()) + ", " + Util.capitalizeString(now.getMonth().toString()) + " " + now.getDayOfMonth();
 
 		//set time and date labels
 		TimeLabel.setText(date + " " + time);

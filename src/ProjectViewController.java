@@ -56,7 +56,7 @@ public class ProjectViewController implements Initializable{
 			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
 		}
 
-		ProjectNameLabel.setText(proj.Name);
+		ProjectNameLabel.setText(Util.capitalizeString(proj.Name));
 	}
 
 	//initialize function
