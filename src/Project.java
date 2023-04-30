@@ -1,7 +1,10 @@
-
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 //Assigned to: Evan
 
-public class Project {
+public class Project implements Serializable{
 
 	// base constructor
 	public Project() {

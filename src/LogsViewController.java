@@ -473,7 +473,7 @@ public class LogsViewController implements Initializable {
 		timeValues[1] = Integer.parseInt(timeParts[1]); // minute value
 		return timeValues;
 	}
-
+	
 	private static LocalDate parseDate(String time) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String[] dateTime = time.split(" ");

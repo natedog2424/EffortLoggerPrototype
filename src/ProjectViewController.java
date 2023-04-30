@@ -1,11 +1,14 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 //Assigned to: Evan
@@ -32,7 +36,10 @@ public class ProjectViewController implements Initializable{
 	//initialize function
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		ProductBacklogView.getItems().clear();
+		SprintBacklogView.getItems().clear();
+		CompletedBacklogView.getItems().clear();
+		
 		//fill in the list views
 		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
 			ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
@@ -333,6 +340,38 @@ public class ProjectViewController implements Initializable{
 			error.setTitle("Error Message");
 			error.setScene(new Scene(errorHolder, 400, 100));
 			error.show();
+		}
+	}
+
+	@FXML
+	protected void onExportButtonPressed(){
+        byte[] serializedProject = ProjectSerializer.serialize(proj);
+        try (FileOutputStream fos = new FileOutputStream("project.ser")) {
+            fos.write(serializedProject);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	@FXML
+	protected void onImportButtonPressed() {
+		// Create a file chooser dialog to select the file to import
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Select Project File");
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("Serialized Project Files", "*.ser"),
+			new FileChooser.ExtensionFilter("All Files", "*.*")
+		);
+		File selectedFile = fileChooser.showOpenDialog(null);
+
+		if (selectedFile != null) {
+			try (FileInputStream fis = new FileInputStream(selectedFile)) {
+				byte[] serializedProject = fis.readAllBytes();
+				Project importedProject = ProjectSerializer.deserialize(serializedProject);
+				proj = importedProject;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

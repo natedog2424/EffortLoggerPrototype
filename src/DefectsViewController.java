@@ -44,6 +44,8 @@ public class DefectsViewController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		defectDisplay.getItems().clear();
+		resolvedDefectDisplay.getItems().clear();
 		//fill in the listview with the defects
 		for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
 			defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
@@ -71,6 +73,9 @@ public class DefectsViewController implements Initializable{
 				String NewEffort = EffortField.getText().trim();
 				if(NewType.isEmpty() || NewDescription.isEmpty() || NewEffort.isEmpty()){
 					throw new Exception("At least one field is empty");
+				}
+				if(Integer.parseInt(NewEffort)<= 0){
+					throw new Exception("Please enter a positive number for estimated effort");
 				}
 				Defect NewDefect = new Defect(NewType ,NewDescription, NewEffort);
 				proj.add(NewDefect,proj.UnresolvedDefects);
@@ -158,6 +163,9 @@ public class DefectsViewController implements Initializable{
 						String NewEffort = EffortField.getText().trim();
 						if(NewType.isEmpty() || NewDescription.isEmpty() || NewEffort.isEmpty()){
 							throw new Exception("At least one field is empty");
+						}
+						if(Integer.parseInt(NewEffort)<= 0){
+							throw new Exception("Please enter a positive number for estimated effort");
 						}
 						
 						Defect NewDefect = new Defect(NewType , NewDescription, NewEffort);
@@ -261,6 +269,7 @@ public class DefectsViewController implements Initializable{
 			resolvedDefectDisplay.getItems().add(proj.ResolvedDefects.get(i).defectToString());
 		}
 	}
+
 
 	
 	
