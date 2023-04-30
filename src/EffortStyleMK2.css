@@ -1,3 +1,4 @@
+/*
 @font-face {
   src: url('./krabbypatty.ttf');
 }
@@ -30,12 +31,14 @@
 .column-drag-header {
   -fx-background-color: #29272D;
 }
+*/
 
 .radio-button {
   -fx-background-color: boxFill;
   -fx-padding: 0.5em;
 }
 
+/*
 .button,
 .toggle-button,
 .radio-button > .radio,
@@ -48,6 +51,12 @@
     -fx-background-color: secondaryShade;
     -fx-font-size: 18px;
 }
+*/
+
+* {
+  primaryColor: #8cd3eb;
+}
+
 
 .radio-button {
   -fx-font-size: 18px;

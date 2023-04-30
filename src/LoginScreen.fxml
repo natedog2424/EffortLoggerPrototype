@@ -15,7 +15,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label fx:id="welcomeLabel" maxWidth="1.7976931348623157E308" text="Welcome, User" textAlignment="CENTER">
+            <Label fx:id="welcomeLabel" maxWidth="Infinity" text="Welcome, User" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="30.0" />
                </font>

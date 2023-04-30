@@ -1,23 +1,14 @@
 // 
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.sql.SQLException;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 
 public class App extends Application {
 
@@ -31,35 +22,55 @@ public class App extends Application {
     public static void main(String[] args) { 
         launch(args);
     }
-    
-    public void start(Stage stage) throws IOException, SQLException {
-        //Initialize database manager
-        dbManager = new DatabaseManager();
 
-        // Handle taking login info and such here in the future. For now, just load the project pane and fill in a default user object.
-        user = new User("John Doe", "password");
-
-        //check if test.db exists
-        File testDB = new File("src/test.db");
-        if(testDB.exists()){
-            project = Project.fromDatabase("test");
-        } else project = new Project("test");
-
-        dbManager.connect(project);
-        URI audioFileURI = new File("resources/EffortLogger_ost2.mp3").toURI();
-        Media audioMedia = new Media(audioFileURI.toString());
-
-        // Initialize the mediaPlayer instance variable and set it to autoplay
-        mediaPlayer = new MediaPlayer(audioMedia);
-       // mediaPlayer.setAutoPlay(true);
-        //mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the cycleCount to INDEFINITE
-
-        
+    // This method loads the main layout from the FXML file
+    // It also sets the title of the window and shows the window
+    // It is called from both the LoginViewController and the RegisterViewController
+    public static void loadMainLayout(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);
-        //scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
+        scene.getStylesheets().add(App.class.getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
         stage.setScene(scene);
         stage.show();
     }
+    
+    
+    public void start(Stage stage) throws IOException, SQLException {
+        // Initialize database manager
+        dbManager = new DatabaseManager();
+    
+        // Create a File object for the user.ser file
+        // This is used to check if the user has already registered
+        File userFile = new File("user.ser");
+        FXMLLoader loader;
+        if (userFile.exists()) {
+            // If the file exists, load the LoginViewController
+            loader = new FXMLLoader(getClass().getResource("LoginScreen.fxml"));
+        } else {
+            // If the file doesn't exist, load the RegisterViewController
+            loader = new FXMLLoader(getClass().getResource("RegisterScreen.fxml"));
+        }
+    
+        Scene scene = new Scene(loader.load(), 960, 540);
+        //scene.getStylesheets().add(getClass().getResource("EffortStyleMK2.css").toExternalForm());
+        stage.setTitle("Effort Logger 2.0");
+        stage.setScene(scene);
+        stage.show();
+    
+        project = new Project();
+        project.DatabaseName = "test";
+    
+        dbManager.connect(project);
+        
+        /* 
+        URI audioFileURI = new File("resources/EffortLogger_ost2.mp3").toURI();
+        Media audioMedia = new Media(audioFileURI.toString());
+    
+        // Initialize the mediaPlayer instance variable and set it to autoplay
+        mediaPlayer = new MediaPlayer(audioMedia);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the cycleCount to INDEFINITE
+        */
+    }    
 }
