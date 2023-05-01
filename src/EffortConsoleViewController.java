@@ -85,9 +85,9 @@ public class EffortConsoleViewController implements Initializable {
 				Button keepButton = new Button("Keep");
 				Button revertButton = new Button("Revert");
 				Label message1 = new Label("You have changed your lifecycle step and backlog item while the clock was running");
-				Label message2 = new Label("LifeCycle From: "+ lifeCycleStep + " To: " + newLifeCycleStep);
-				Label message3 = new Label("Backlog Item From: "+ backlogItem + " To: " + newBacklogItem);
-				Label message4 = new Label("Would you like to keep or revert the changes");
+				Label message2 = new Label("LifeCycle From: "+ lifeCycleStep + "\t\tTo: " + newLifeCycleStep);
+				Label message3 = new Label("Backlog Item From: "+ backlogItem + "\t\tTo: " + newBacklogItem);
+				Label message4 = new Label("\nWould you like to keep or revert the changes");
 
 				revertButton.setOnAction(e -> {
 					changeLCS = false;
@@ -115,8 +115,8 @@ public class EffortConsoleViewController implements Initializable {
 				Button keepButton = new Button("Keep");
 				Button revertButton = new Button("Revert");
 				Label message1 = new Label("You have changed your lifecyclestep while the clock was running");
-				Label message2 = new Label("from: "+ lifeCycleStep + " to: " + newLifeCycleStep);
-				Label message3 = new Label("Would you like to keep or revert the changes");
+				Label message2 = new Label("From: "+ lifeCycleStep + "\t\tTo: " + newLifeCycleStep);
+				Label message3 = new Label("\n\nWould you like to keep or revert the changes");
 
 				revertButton.setOnAction(e -> {
 					changeLCS = false;
@@ -142,8 +142,8 @@ public class EffortConsoleViewController implements Initializable {
 				Button keepButton = new Button("Keep");
 				Button revertButton = new Button("Revert");
 				Label message1 = new Label("You have changed your backlog item while the clock was running");
-				Label message2 = new Label("from: "+ backlogItem + " to: " + newBacklogItem);
-				Label message3 = new Label("Would you like to keep or revert the changes");
+				Label message2 = new Label("From: "+ backlogItem + "\t\tTo: " + newBacklogItem);
+				Label message3 = new Label("\n\nWould you like to keep or revert the changes");
 
 				revertButton.setOnAction(e -> {
 					changeBLI = false;
