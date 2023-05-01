@@ -1,4 +1,4 @@
-//Assigned to: Evan
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,6 +41,11 @@ public class DefectsViewController implements Initializable{
 
 	public Button Combined;
 
+	/**
+	 * This method is generic to show error windows
+	 * 
+	 * @param msg
+	 */
 	private void showErrorWindow(String msg){
 		Stage errorWindow = new Stage();
 		errorWindow.setTitle("Error");
@@ -55,6 +60,19 @@ public class DefectsViewController implements Initializable{
 		errorWindow.showAndWait();
 	}
 
+
+	/**
+	 * Initializes the controller class.
+	 * @param arg0
+	 * @param arg1
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 * This method is called when the view is first loaded
+	 */
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		initialize();
+	}
+	
 	public void initialize(){
 		if(proj == null){
 			return;
@@ -64,15 +82,15 @@ public class DefectsViewController implements Initializable{
 		RDefects = FXCollections.observableArrayList();
 		initializeTableColumns();
 		refreshDefects(UDefects, RDefects);
-
-
 	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		initialize();
-	}
-	
+	/**
+	 * This method is called when the user clicks the add button for a defect
+	 * It will open a new window with text fields for the user to enter the defect's information
+	 * It will then add the defect to the list of defects
+	 * If the user enters invalid information, an error message will be displayed
+	 * If the user enters valid information, the defect will be added to the list of defects
+	 * If the user clicks the cancel button, the window will close
+	 */
 	@FXML
 	protected void AddUnresolvedDefectEvent() {
 		try{Stage Add = new Stage();
@@ -156,7 +174,11 @@ public class DefectsViewController implements Initializable{
 		
 
 	}
-
+	
+	/**
+	 * This method is called when the user clicks the edit button for a defect
+	 * It will open a new window with the defect's information and allow the user to edit it
+	 */
 	@FXML
 	protected void EditUnresolvedDefectEvent() {
 		try{

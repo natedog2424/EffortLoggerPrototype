@@ -1,3 +1,4 @@
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 import org.junit.Test;
 import static org.junit.Assert.*;
 

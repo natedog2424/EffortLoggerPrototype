@@ -1,4 +1,4 @@
-//Assigned to Evan
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 public class Defect {
 
 	public String DefectType;

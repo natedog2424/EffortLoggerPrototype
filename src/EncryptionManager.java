@@ -1,3 +1,4 @@
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -53,6 +54,13 @@ public class EncryptionManager {
 
 }
 
+        /**
+         * Encrypts the given data with the given password
+         * 
+         * @param data
+         * @return byte[]
+         * @throws InvalidKeyException
+         */
 	public static byte[] encrypt(byte[] data) throws InvalidKeyException {
 		try {
 			return transform(data, Cipher.ENCRYPT_MODE, App.user.password);
@@ -64,6 +72,12 @@ public class EncryptionManager {
 		}
 	}
 
+        /**
+         * Decrypts the given data with the given password
+         * @param data
+         * @return byte[]
+         * @throws InvalidKeyException
+         */
 	public static byte[] decrypt(byte[] data) throws InvalidKeyException{
 		try {
 			return transform(data, Cipher.DECRYPT_MODE, App.user.password);

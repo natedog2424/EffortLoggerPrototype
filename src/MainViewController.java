@@ -1,5 +1,5 @@
 
-//Assigned to: Evan
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;

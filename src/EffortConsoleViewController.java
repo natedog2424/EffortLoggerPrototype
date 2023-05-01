@@ -1,4 +1,4 @@
-//Assigned to: Noah
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -43,6 +43,12 @@ public class EffortConsoleViewController implements Initializable {
 	private String lifeCycleStep = "";
 	private String backlogItem = "";
 
+	/**
+	 * This method is called when the start/stop button is pressed. It will start
+	 * the clock if it is not already running and stop the clock if it is running.
+	 * It will also update the database with the new information.
+	 * @throws SQLException
+	 */
 	@FXML
 	private void clockStateEvent() throws SQLException {
 
@@ -185,6 +191,13 @@ public class EffortConsoleViewController implements Initializable {
 		
 	}
 
+	/**
+	 * This method is called when the initialize method is called. It will fill the
+	 * LifeCycleStepBox with the possible life cycle steps.
+	 * @param arg0
+	 * @param arg1
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		BacklogItemBox.setPromptText("(Optional)");

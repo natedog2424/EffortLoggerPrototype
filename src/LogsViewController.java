@@ -1,4 +1,4 @@
-//Noah McClelland``
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -106,11 +106,19 @@ public class LogsViewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Updates text field to display formatted date and time
+	 * @param timeField
+	 * @param date
+	 * @param hour
+	 * @param minute
+	 */
 	private void updateTimeField(TextField timeField, LocalDate date, int hour, int minute) {
 		LocalDateTime dateTime = LocalDateTime.of(date, LocalTime.of(hour, minute));
 		String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		timeField.setText(formattedDateTime);
 	}
+
 
 	@FXML
 	public void addLog() {

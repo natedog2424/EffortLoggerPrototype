@@ -1,5 +1,4 @@
-
-//Assigned to: Noah
+// Authored by: Nathan Anderson, Noah McLelland, Adit Prabhu, Evan Severtson, and Annalise LaCourse
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,6 +15,15 @@ public class Log {
 	public SimpleStringProperty endDate;
 	public SimpleStringProperty duration;
 
+	/**
+	 * Constructor for Log
+	 * @param id
+	 * @param lifecycleStep
+	 * @param backlogItem
+	 * @param startDate
+	 * @param endDate
+	 * @param duration
+	 */
 	public Log(int id, String lifecycleStep, String backlogItem, String startDate, String endDate, String duration) {
 		this.id = new SimpleIntegerProperty(id);
 		this.lifecycleStep = new SimpleStringProperty(lifecycleStep);
@@ -28,6 +36,7 @@ public class Log {
 
 	}
 
+	//Getters and Setters
 	public int getId() {
 		return id.get();
 	}
