@@ -440,6 +440,7 @@ public class LogsViewController implements Initializable {
 		Row row;
 		Cell cell;
 	
+
 		//make column headers first row of the sheet
 		row = workbook.getSheetAt(sheetIndex).createRow(0);
 		int numColumns = resultSet.getMetaData().getColumnCount();
@@ -447,17 +448,44 @@ public class LogsViewController implements Initializable {
 			cell = row.createCell(i - 1); 
 			cell.setCellValue(resultSet.getMetaData().getColumnName(i)); // Set the cell value as the column name
 		}
+		cell = row.createCell(numColumns+1);
+		cell.setCellValue("Role");
+		cell = row.createCell(numColumns+2);
+		cell.setCellValue("Effort Value");
+		
 	
 		//write data to sheet
 		int rowIndex = 1;
 		while(resultSet.next()) {
 			row = workbook.getSheetAt(sheetIndex).createRow(rowIndex++);
 			for (int i = 1; i <= numColumns; i++) {
+				
 				cell = row.createCell(i - 1);
 				cell.setCellValue(resultSet.getString(i));
+				
+
 			}
+			if(rowIndex == 2){
+				cell = row.createCell(numColumns+1);
+				cell.setCellValue(App.project.role);
+				cell= row.createCell(numColumns+2);
+				int effortvalue = 0;
+				for(int i = 0; i < App.project.CompletedBacklog.size(); i++){
+					effortvalue += App.project.CompletedBacklog.get(i).EffortValueEstimation;
+				}
+				for(int i = 0; i < App.project.ResolvedDefects.size(); i++){
+					effortvalue += App.project.ResolvedDefects.get(i).EffortLevel;
+				}
+				cell.setCellValue(effortvalue);
+			}
+
 		}
-		//
+
+
+		
+
+	
+
 		
 		File outputFile = new File("resources/logs.xlsx");
 		if(!outputFile.exists()) {
