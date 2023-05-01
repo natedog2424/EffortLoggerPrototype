@@ -1,6 +1,8 @@
 
 //Assigned to: Evan
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;	
@@ -339,9 +342,17 @@ public class MainViewController implements Initializable {
             if (newValue) {
                 // Switch to dark mode
                 App.currentStyle = "EffortStylePatty.css";
+				URI audioFileURI = new File("resources/EffortLogger_ost2.mp3").toURI();
+				Media audioMedia = new Media(audioFileURI.toString());
+			
+				// Initialize the mediaPlayer instance variable and set it to autoplay
+				mediaPlayer = new MediaPlayer(audioMedia);
+				mediaPlayer.setAutoPlay(true);
+				mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Set the cycleCount to INDEFINITE
             } else {
                 // Switch to light mode
                 App.currentStyle = "EffortStyleMK2.css";
+				mediaPlayer.stop();
             }
 			App.updateMainLayoutStyle();
         });
