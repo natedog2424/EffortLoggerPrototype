@@ -160,7 +160,7 @@ public class ProjectViewController implements Initializable{
 			Label EffortValue = new Label("Effort Value Estimation");
 			TextField EffortField = new TextField("" + WantToEditItem.EffortValueEstimation);
 
-			Label Time = new Label("Estimated Time");
+			Label Time = new Label("Estimated Time (Hours)");
 			TextField TimeField = new TextField("" + WantToEditItem.EstimatedTime);
 
 			Button DoneEditing = new Button("Done");
@@ -272,7 +272,7 @@ public class ProjectViewController implements Initializable{
 			Label EffortValue = new Label("Effort Value Estimation");
 			TextField EffortField = new TextField();
 
-			Label Time = new Label("Estimated Time");
+			Label Time = new Label("Estimated Time (Hours)");
 			TextField TimeField = new TextField();
 
 			Button DoneEditing = new Button("Done");
@@ -411,7 +411,7 @@ public class ProjectViewController implements Initializable{
 		Pdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EVString()));
 		Pdesc.setPrefWidth(200);
 	
-		TableColumn<BacklogItem, String> PEL = new TableColumn<>("Estimated Time");
+		TableColumn<BacklogItem, String> PEL = new TableColumn<>("Estimated Time (Hours)");
 		PEL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().ETString()));
 		PEL.setPrefWidth(200);
 
@@ -423,7 +423,7 @@ public class ProjectViewController implements Initializable{
 		Sdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EVString()));
 		Sdesc.setPrefWidth(100);
 	
-		TableColumn<BacklogItem, String> SEL = new TableColumn<>("Estimated Time");
+		TableColumn<BacklogItem, String> SEL = new TableColumn<>("Estimated Time (Hours)");
 		SEL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().ETString()));
 		SEL.setPrefWidth(200);
 
@@ -435,7 +435,7 @@ public class ProjectViewController implements Initializable{
 		Cdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EVString()));
 		Cdesc.setPrefWidth(200);
 	
-		TableColumn<BacklogItem, String> CEL = new TableColumn<>("Estimated Time");
+		TableColumn<BacklogItem, String> CEL = new TableColumn<>("Estimated Time (Hours)");
 		CEL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().ETString()));
 		CEL.setPrefWidth(200);
 	
