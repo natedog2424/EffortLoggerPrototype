@@ -1,8 +1,5 @@
-/*
-@font-face {
-  src: url('./krabbypatty.ttf');
-}
 
+/*
 * {
   -fx-base: #29272D;
   secondaryShade: #FFFFFF0F;
@@ -40,6 +37,7 @@
 
 .label-large {
   -fx-font-size: 24px;
+  -fx-font-weight: bold;
 }
 
 /*
@@ -59,6 +57,7 @@
 
 * {
   primaryColor: #8cd3eb;
+  -fx-font-family: 'Open Sans';
 }
 
 
