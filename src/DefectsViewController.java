@@ -283,9 +283,9 @@ public class DefectsViewController implements Initializable{
 	}
 
 
-	public void refreshDefects(ObservableList<Defect> Udefects, ObservableList<Defect> Rdefects) {
-		UDefects = FXCollections.observableArrayList();
-		RDefects = FXCollections.observableArrayList();
+	public void refreshDefects(ObservableList<Defect> UDefects, ObservableList<Defect> RDefects) {
+		UDefects.clear();
+		RDefects.clear();
 	
 		UDefects.setAll(proj.UnresolvedDefects);
 		RDefects.setAll(proj.ResolvedDefects);
@@ -306,9 +306,21 @@ public class DefectsViewController implements Initializable{
 		TableColumn<Defect, String> EL = new TableColumn<>("Estimated Effort");
 		EL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EffortLevelString()));
 		EL.setPrefWidth(100);
+
+		TableColumn<Defect, String> RName = new TableColumn<>("Type");
+		RName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectType));
+		RName.setPrefWidth(100);
+	
+		TableColumn<Defect, String> Rdesc = new TableColumn<>("Description");
+		Rdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectDescription));
+		Rdesc.setPrefWidth(100);
+	
+		TableColumn<Defect, String> REL = new TableColumn<>("Estimated Effort");
+		REL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EffortLevelString()));
+		REL.setPrefWidth(100);
 	
 		defectDisplay.getColumns().setAll(Name, desc, EL);
-		resolvedDefectDisplay.getColumns().setAll(Name, desc, EL);
+		resolvedDefectDisplay.getColumns().setAll(RName, Rdesc, REL);
 	}
 
 
