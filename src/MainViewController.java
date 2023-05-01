@@ -186,10 +186,20 @@ public class MainViewController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		//disable all tabs
+		for (int i = 0; i < TabPanes.length; i++) {
+			TabPanes[i].setDisable(true);
+		}
 	} else {
 		ProjectMenu.setText(App.project.Name);
 		switchTab(0);
 		group.selectToggle(group.getToggles().get(0));
+
+		//enable all tabs
+		for (int i = 0; i < TabPanes.length; i++) {
+			TabPanes[i].setDisable(false);
+		}
 	}
 
 	//load projects into project menu
@@ -226,7 +236,7 @@ public class MainViewController implements Initializable {
 		//EffortConsole.initialize();
 		//DefectsVC.initialize();
 		//logsVC.initialize();
-		ProjectVC.initialize();
+		//ProjectVC.initialize();
 		
 		switchTab(0);
 		group.selectToggle(group.getToggles().get(0));

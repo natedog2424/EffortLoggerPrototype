@@ -42,8 +42,10 @@ public class DefectsViewController implements Initializable{
 		errorWindow.showAndWait();
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(){
+		if(proj == null){
+			return;
+		}
 		defectDisplay.getItems().clear();
 		resolvedDefectDisplay.getItems().clear();
 		//fill in the listview with the defects
@@ -53,6 +55,11 @@ public class DefectsViewController implements Initializable{
 		for(int i = 0; i < proj.ResolvedDefects.size(); i++){
 			resolvedDefectDisplay.getItems().add(proj.ResolvedDefects.get(i).defectToString());
 		}
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		initialize();
 	}
 	
 	@FXML

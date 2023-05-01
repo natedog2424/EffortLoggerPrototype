@@ -43,6 +43,7 @@ public class RegisterViewController implements Initializable {
         }
 
         try {
+            App.user = newUser;
             // Load the main layout
             App.loadMainLayout((Stage) FullNameField.getScene().getWindow());
         } catch (IOException e) {
