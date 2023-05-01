@@ -130,7 +130,7 @@ public class EffortConsoleViewController implements Initializable {
 				error.setScene(new Scene(errorHolder, 500, 300));
 				error.showAndWait();
 			}
-			else if (!backlogItem.equals(BacklogItemBox.getValue())){
+			else if ((backlogItem != null) && !backlogItem.equals(BacklogItemBox.getValue())){
 				Stage error = new Stage();
 				error.initModality(Modality.APPLICATION_MODAL); // Make the dialog modal
 				Button keepButton = new Button("Keep");
