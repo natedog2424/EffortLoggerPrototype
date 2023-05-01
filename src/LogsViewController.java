@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,6 +32,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -63,9 +65,13 @@ public class LogsViewController implements Initializable {
 
 	private Spinner<Integer> endMinuteSpinner;
 
-	private TextField lifeCycleStep;
+	private ComboBox<String> lifeCycleStepBox = new ComboBox<String>();
 
-	private TextField backlogItem;
+	private ComboBox<String> backlogItemBox = new ComboBox<String>();
+
+	private String lifeCycleStep = "";
+	
+	private String backlogItem = "";
 
 	private TextField startTimeField;
 
@@ -79,6 +85,11 @@ public class LogsViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		String[] LifeCycleSteps = {"Problem understanding","Conceptual Design Plan","Requirements", "Conceptual Design", "Conceptual Design View", "Detailed Design Plan","Detailed Design/Prototype","Detailed Design Review", "Implementation Plan", "Test Case Generation", "Solution Specification","Solution Review","Solution Implementation", "Unit/System Test", "Reflection", "Repository Update", "Reflection", "Repository Update", "Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+
+		lifeCycleStepBox.getItems().addAll(LifeCycleSteps);
+
 		tabSelected.addListener((observable, oldValue, newValue) -> {
 			try {
 				String query = "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, lifeCycleStep STRING, backlogItem STRING, startdate STRING, enddate STRING, duration STRING)";
@@ -108,8 +119,11 @@ public class LogsViewController implements Initializable {
 		Button okBtn = new Button("OK");
 		Button cancelBtn = new Button("Cancel");
 		Label errorMessage = new Label();
-		TextField lifeCycleStep = new TextField();
-		TextField backlogItem = new TextField();
+		backlogItemBox.setPrefWidth(200);
+		
+		for(BacklogItem i : App.project.SprintBacklog){
+			backlogItemBox.getItems().add(i.BacklogItemName);
+		}
 
 		errorMessage.setStyle("-fx-text-fill: red;");
 
@@ -171,9 +185,9 @@ public class LogsViewController implements Initializable {
 					LocalTime.of(startHourSpinner.getValue(), startMinuteSpinner.getValue()));
 			LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
 					LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
+			lifeCycleStep = lifeCycleStepBox.getValue();
 			// Only close and save input if none of the fields are empty
-			if (lifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
-					|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
+			if (lifeCycleStep == null || startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 				errorMessage.setText("At least one entry is empty.");
 			}
@@ -186,7 +200,7 @@ public class LogsViewController implements Initializable {
 					// retrieve input data and insert formatted strings into database
 					String duration = TimeFormatter.formatDuration(startTime, endTime);
 					String query = "INSERT INTO logs (lifeCycleStep, backlogItem, startdate, enddate, duration) VALUES (?,?,?,?,?)";
-					App.dbManager.executeUpdate(query, lifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration);
+					App.dbManager.executeUpdate(query, lifeCycleStep, backlogItem, startDate, endDate, duration);
 					updateTable();
 				} catch (SQLException ex) {
 					ex.printStackTrace();
@@ -199,9 +213,9 @@ public class LogsViewController implements Initializable {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20));
 		grid.add(new Label("Life Cycle Step:"), 0, 0);
-		grid.add(lifeCycleStep, 1, 0);
+		grid.add(lifeCycleStepBox, 1, 0);
 		grid.add(new Label("Backlog Item:"), 0, 1);
-		grid.add(backlogItem, 1, 1);
+		grid.add(backlogItemBox, 1, 1);
 
 		HBox buttons = new HBox(10, cancelBtn, okBtn);
 		HBox startSpinnerBox = new HBox(new Label("Hour: "), startHourSpinner, new Label("Minute: "), startMinuteSpinner);
@@ -224,11 +238,13 @@ public class LogsViewController implements Initializable {
 			Button okBtn = new Button("OK");
 			Button cancelBtn = new Button("Cancel");
 			Label errorMessage = new Label();
-			TextField lifeCycleStep = new TextField();
-			TextField backlogItem = new TextField();
 
-			lifeCycleStep.setText(WantToEditLog.getLifeCycleStep());
-			backlogItem.setText(WantToEditLog.getBacklogItem());
+			for(BacklogItem i : App.project.SprintBacklog){
+				backlogItemBox.getItems().add(i.BacklogItemName);
+			}
+
+			lifeCycleStepBox.setValue(WantToEditLog.getLifeCycleStep());
+			backlogItemBox.setValue(WantToEditLog.getBacklogItem());
 
 			errorMessage.setStyle("-fx-text-fill: red;");
 
@@ -236,17 +252,11 @@ public class LogsViewController implements Initializable {
 			startDatePicker = new DatePicker();
 			startDatePicker.setValue(parseDate(WantToEditLog.getStartDate()));
 
-			
-
-			Label hourLabel = new Label("Hour:");
 			startHourSpinner = new Spinner<>(0, 23, 0);
 			startHourSpinner.increment(startParsedHourMinute[0]);
 			
-
-			Label minuteLabel = new Label("Minute:");
 			startMinuteSpinner = new Spinner<>(0, 59, 0);
 			startMinuteSpinner.increment(startParsedHourMinute[1]);
-			
 
 			startTimeField = new TextField();
 			startTimeField.setDisable(true);
@@ -309,9 +319,10 @@ public class LogsViewController implements Initializable {
 						LocalTime.of(startHourSpinner.getValue(), startMinuteSpinner.getValue()));
 				LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
 						LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
+				lifeCycleStep = lifeCycleStepBox.getValue();
+				backlogItem = backlogItemBox.getValue();
 				// Only close and save input if none of the fields are empty
-				if (lifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
-						|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
+				if (lifeCycleStep == null || startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 					errorMessage.setText("At least one entry is empty.");
 				}
@@ -324,7 +335,7 @@ public class LogsViewController implements Initializable {
 						//retrieve input data, format it, and update database
 						String duration = TimeFormatter.formatDuration(startTime, endTime);
 						String query = "UPDATE logs SET lifeCycleStep = ?, backlogItem = ?, startdate = ?, enddate = ?, duration = ? WHERE id=?";
-						App.dbManager.executeUpdate(query, lifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration, WantToEditLog.getId());
+						App.dbManager.executeUpdate(query, lifeCycleStep, backlogItem, startDate, endDate, duration, WantToEditLog.getId());
 						updateTable();
 
 					} catch (SQLException ex) {
@@ -338,9 +349,9 @@ public class LogsViewController implements Initializable {
 			grid.setVgap(10);
 			grid.setPadding(new Insets(20));
 			grid.add(new Label("Life Cycle Step:"), 0, 0);
-			grid.add(lifeCycleStep, 1, 0);
+			grid.add(lifeCycleStepBox, 1, 0);
 			grid.add(new Label("Backlog Item:"), 0, 1);
-			grid.add(backlogItem, 1, 1);
+			grid.add(backlogItemBox, 1, 1);
 
 			HBox buttons = new HBox(10, cancelBtn, okBtn);
 			HBox startSpinnerBox = new HBox(new Label("Hour: "), startHourSpinner, new Label("Minute: "), startMinuteSpinner);
@@ -388,7 +399,7 @@ public class LogsViewController implements Initializable {
 		// define the columns for the table
 		TableColumn<Log, String> lifeCycleStepColumn = new TableColumn<>("Lifecycle Step");
 		lifeCycleStepColumn.setCellValueFactory(new PropertyValueFactory<>("lifeCycleStep"));
-		lifeCycleStepColumn.setPrefWidth(100);
+		lifeCycleStepColumn.setPrefWidth(150);
 
 		TableColumn<Log, String> backlogItemColumn = new TableColumn<>("Backlog Item");
 		backlogItemColumn.setCellValueFactory(new PropertyValueFactory<>("backlogItem"));
@@ -396,11 +407,11 @@ public class LogsViewController implements Initializable {
 
 		TableColumn<Log, String> startDateColumn = new TableColumn<>("Date Started");
 		startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-		startDateColumn.setPrefWidth(100);
+		startDateColumn.setPrefWidth(115);
 
 		TableColumn<Log, String> endDateColumn = new TableColumn<>("Date Ended");
 		endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-		endDateColumn.setPrefWidth(100);
+		endDateColumn.setPrefWidth(115);
 
 		TableColumn<Log, String> durationColumn = new TableColumn<>("Time Spent");
 		durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
@@ -492,6 +503,4 @@ public class LogsViewController implements Initializable {
 			return null;
 		}
 	}
-	
-
 }
