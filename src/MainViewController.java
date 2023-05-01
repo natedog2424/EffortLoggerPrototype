@@ -1,37 +1,14 @@
 
 //Assigned to: Evan
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,20 +16,21 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TabPane;
-import java.time.LocalDateTime;	
+import javafx.util.Duration;	
 
 public class MainViewController implements Initializable {
 
@@ -342,5 +320,38 @@ public class MainViewController implements Initializable {
 			logsPaneSelected.set(false);
 		}
 	}
+
+	// open settings window
+	@FXML
+    protected void onSettingsButtonPressed() {
+        Stage settings = new Stage();
+        settings.setTitle("Settings");
+        GridPane settingsPane = new GridPane();
+        settingsPane.setAlignment(Pos.CENTER);
+        settingsPane.setHgap(30);
+        settingsPane.setVgap(10);
+        settingsPane.setPadding(new Insets(20));
+
+        // Create dark mode switch
+        CheckBox darkModeSwitch = new CheckBox("Dark Mode");
+        darkModeSwitch.setSelected(App.currentStyle.equals("EffortStylePatty.css"));
+        darkModeSwitch.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                // Switch to dark mode
+                App.currentStyle = "EffortStylePatty.css";
+            } else {
+                // Switch to light mode
+                App.currentStyle = "EffortStyleMK2.css";
+            }
+			App.updateMainLayoutStyle();
+        });
+
+        settingsPane.add(darkModeSwitch, 0, 0); // Add the dark mode switch to the settings pane
+
+        // Set up the stage
+        Scene settingsScene = new Scene(settingsPane, 300, 200);
+        settings.setScene(settingsScene);
+        settings.show();
+    }
 
 }

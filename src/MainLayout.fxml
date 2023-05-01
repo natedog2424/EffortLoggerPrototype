@@ -51,7 +51,7 @@
             <VBox fx:id="TabHolder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" text="Settings" />
+                <Button onAction="#onSettingsButtonPressed" mnemonicParsing="false" text="Settings" />
                   <Label nodeOrientation="LEFT_TO_RIGHT" text="Effort Logger 2.0 (2023)">
                      <padding>
                         <Insets right="5.0" />

@@ -23,6 +23,8 @@ public class App extends Application {
     public static Project project;
     public static DatabaseManager dbManager;
     public static MainViewController mainVC;
+    public static String currentStyle = "EffortStyleMK2.css";
+    public static Scene mainScene;
 
     public static ArrayList<String> savedProjects = new ArrayList<String>();
     //Update this DBPath to whatever we want the path to be
@@ -39,12 +41,22 @@ public class App extends Application {
     // It is called from both the LoginViewController and the RegisterViewController
     public static void loadMainLayout(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("MainLayout.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 960, 540);
+        mainScene = new Scene(fxmlLoader.load(), 960, 540);
         mainVC = fxmlLoader.getController();
-        scene.getStylesheets().add(App.class.getResource("EffortStyleMK2.css").toExternalForm());
+        mainScene.getStylesheets().add(App.class.getResource("EffortStyleMK2.css").toExternalForm());
         stage.setTitle("Effort Logger 2.0");
-        stage.setScene(scene);
+        stage.setScene(mainScene);
         stage.show();
+    }
+
+    // This method is called from the SettingsViewController
+    // It updates the main layout's stylesheet
+    public static void updateMainLayoutStyle() {
+        String currentStyleUrl = App.class.getResource(App.currentStyle).toExternalForm();
+
+        // Remove the current stylesheet only if it's different from the new one
+        mainScene.getStylesheets().clear();
+        mainScene.getStylesheets().add(currentStyleUrl);
     }
     
     public void start(Stage stage) throws IOException, SQLException {
