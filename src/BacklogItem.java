@@ -18,6 +18,12 @@ public class BacklogItem implements Serializable{
 	public BacklogItem(){
 		
 	}
+	public String EVString(){
+		return ""+EffortValueEstimation;
+	}
+	public String ETString(){
+		return ""+EstimatedTime;
+	}
 
 	public String backlogToString(){
 		return BacklogItemName + "\t\t\t\t\t\tEstimated Effort Value: " + EffortValueEstimation + "\t\t\t\t\t\tEstimated Time: " + EstimatedTime + " hours";
