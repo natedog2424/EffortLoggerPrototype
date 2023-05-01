@@ -120,6 +120,7 @@ public class LogsViewController implements Initializable {
 		Button cancelBtn = new Button("Cancel");
 		Label errorMessage = new Label();
 		backlogItemBox.setPrefWidth(200);
+		lifeCycleStepBox.setPrefWidth(200);
 		
 		for(BacklogItem i : App.project.SprintBacklog){
 			backlogItemBox.getItems().add(i.BacklogItemName);
@@ -238,6 +239,8 @@ public class LogsViewController implements Initializable {
 			Button okBtn = new Button("OK");
 			Button cancelBtn = new Button("Cancel");
 			Label errorMessage = new Label();
+			backlogItemBox.setPrefWidth(200);
+			lifeCycleStepBox.setPrefWidth(200);
 
 			for(BacklogItem i : App.project.SprintBacklog){
 				backlogItemBox.getItems().add(i.BacklogItemName);
