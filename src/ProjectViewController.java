@@ -61,7 +61,7 @@ public class ProjectViewController implements Initializable{
 		//fill in the list views
 		refreshDefects(PB,  SB,  CB);
 
-		ProjectNameLabel.setText(Util.capitalizeString(proj.Name));
+		ProjectNameLabel.setText(StringUtilities.capitalizeString(proj.Name));
 	}
 
 	//initialize function

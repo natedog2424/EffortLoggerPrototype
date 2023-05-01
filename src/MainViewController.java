@@ -98,7 +98,7 @@ public class MainViewController implements Initializable {
 		}
 		
 		//get date in format: day of week, month day
-		String date = Util.capitalizeString(now.getDayOfWeek().toString()) + ", " + Util.capitalizeString(now.getMonth().toString()) + " " + now.getDayOfMonth();
+		String date = StringUtilities.capitalizeString(now.getDayOfWeek().toString()) + ", " + StringUtilities.capitalizeString(now.getMonth().toString()) + " " + now.getDayOfMonth();
 
 		//set time and date labels
 		TimeLabel.setText(date + " " + time);
