@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -115,10 +116,7 @@ public class LogsViewController implements Initializable {
 		Label startDateLabel = new Label("Start Date:");
 		startDatePicker = new DatePicker(LocalDate.now());
 
-		Label hourLabel = new Label("Hour:");
 		startHourSpinner = new Spinner<>(0, 23, 0);
-
-		Label minuteLabel = new Label("Minute:");
 		startMinuteSpinner = new Spinner<>(0, 59, 0);
 
 		startTimeField = new TextField();
@@ -167,22 +165,25 @@ public class LogsViewController implements Initializable {
 		});
 
 		okBtn.setOnAction(e -> {
+			String startDate = startTimeField.getText().trim();
+			String endDate = endTimeField.getText().trim();
+			LocalDateTime startTime = LocalDateTime.of(startDatePicker.getValue(),
+					LocalTime.of(startHourSpinner.getValue(), startMinuteSpinner.getValue()));
+			LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
+					LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 			// Only close and save input if none of the fields are empty
 			if (lifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
 					|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 				errorMessage.setText("At least one entry is empty.");
 			}
+			else if (Duration.between(startTime, endTime).isNegative()) {
+				errorMessage.setText("Start time should be before end time");
+			}
 
 			else {
 				try {
 					// retrieve input data and insert formatted strings into database
-					String startDate = startTimeField.getText().trim();
-					String endDate = endTimeField.getText().trim();
-					LocalDateTime startTime = LocalDateTime.of(startDatePicker.getValue(),
-							LocalTime.of(startHourSpinner.getValue(), startMinuteSpinner.getValue()));
-					LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
-							LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 					String duration = TimeFormatter.formatDuration(startTime, endTime);
 					String query = "INSERT INTO logs (lifeCycleStep, backlogItem, startdate, enddate, duration) VALUES (?,?,?,?,?)";
 					App.dbManager.executeUpdate(query, lifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration);
@@ -302,22 +303,25 @@ public class LogsViewController implements Initializable {
 			});
 
 			okBtn.setOnAction(e -> {
+				String startDate = startTimeField.getText().trim();
+				String endDate = endTimeField.getText().trim();
+				LocalDateTime startTime = LocalDateTime.of(startDatePicker.getValue(),
+						LocalTime.of(startHourSpinner.getValue(), startMinuteSpinner.getValue()));
+				LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
+						LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 				// Only close and save input if none of the fields are empty
 				if (lifeCycleStep.getText().trim().isEmpty() || backlogItem.getText().trim().isEmpty()
 						|| startTimeField.getText().trim().isEmpty() || endTimeField.getText().trim().isEmpty()) {
 
 					errorMessage.setText("At least one entry is empty.");
 				}
+				else if (Duration.between(startTime, endTime).isNegative()) {
+					errorMessage.setText("Start time should be before end time");
+				}
 
 				else {
 					try {
 						//retrieve input data, format it, and update database
-						String startDate = startTimeField.getText().trim();
-						String endDate = endTimeField.getText().trim();
-						LocalDateTime startTime = LocalDateTime.of(startDatePicker.getValue(),
-								LocalTime.of(startHourSpinner.getValue(), startMinuteSpinner.getValue()));
-						LocalDateTime endTime = LocalDateTime.of(endDatePicker.getValue(), 
-								LocalTime.of(endHourSpinner.getValue(), endMinuteSpinner.getValue()));
 						String duration = TimeFormatter.formatDuration(startTime, endTime);
 						String query = "UPDATE logs SET lifeCycleStep = ?, backlogItem = ?, startdate = ?, enddate = ?, duration = ? WHERE id=?";
 						App.dbManager.executeUpdate(query, lifeCycleStep.getText(), backlogItem.getText(), startDate, endDate, duration, WantToEditLog.getId());
