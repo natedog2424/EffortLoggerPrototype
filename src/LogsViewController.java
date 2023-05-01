@@ -457,6 +457,7 @@ public class LogsViewController implements Initializable {
 				cell.setCellValue(resultSet.getString(i));
 			}
 		}
+		//
 		
 		File outputFile = new File("resources/logs.xlsx");
 		if(!outputFile.exists()) {
