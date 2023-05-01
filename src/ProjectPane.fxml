@@ -30,7 +30,7 @@
                               <Label text="Product Backlog" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" fx:id="ProductBacklogView"/>
+                        <TableView prefHeight="200.0" prefWidth="200.0" fx:id="ProductBacklogView"/>
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Button mnemonicParsing="false" text="Add" onAction="#AddProduct"/>
@@ -47,7 +47,7 @@
                               <Label text="Sprint Backlog" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" fx:id="SprintBacklogView"/>
+                        <TableView prefHeight="200.0" prefWidth="200.0" fx:id="SprintBacklogView"/>
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Button mnemonicParsing="false" text="Complete" onAction="#SprintToComplete"/>
@@ -63,7 +63,7 @@
                               <Label text="Completed Backlog" />
                            </items>
                         </ToolBar>
-                        <ListView prefHeight="200.0" prefWidth="200.0" fx:id="CompletedBacklogView"/>
+                        <TableView prefHeight="200.0" prefWidth="200.0" fx:id="CompletedBacklogView"/>
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Button mnemonicParsing="false" text="Send to product backlog" onAction="#CompletedToProduct"/>

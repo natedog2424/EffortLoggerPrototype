@@ -297,27 +297,27 @@ public class DefectsViewController implements Initializable{
 	public void initializeTableColumns() {
 		TableColumn<Defect, String> Name = new TableColumn<>("Type");
 		Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectType));
-		Name.setPrefWidth(100);
+		Name.setPrefWidth(200);
 	
 		TableColumn<Defect, String> desc = new TableColumn<>("Description");
 		desc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectDescription));
-		desc.setPrefWidth(100);
+		desc.setPrefWidth(200);
 	
 		TableColumn<Defect, String> EL = new TableColumn<>("Estimated Effort");
 		EL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EffortLevelString()));
-		EL.setPrefWidth(100);
+		EL.setPrefWidth(200);
 
 		TableColumn<Defect, String> RName = new TableColumn<>("Type");
 		RName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectType));
-		RName.setPrefWidth(100);
+		RName.setPrefWidth(200);
 	
 		TableColumn<Defect, String> Rdesc = new TableColumn<>("Description");
 		Rdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectDescription));
-		Rdesc.setPrefWidth(100);
+		Rdesc.setPrefWidth(200);
 	
 		TableColumn<Defect, String> REL = new TableColumn<>("Estimated Effort");
 		REL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EffortLevelString()));
-		REL.setPrefWidth(100);
+		REL.setPrefWidth(200);
 	
 		defectDisplay.getColumns().setAll(Name, desc, EL);
 		resolvedDefectDisplay.getColumns().setAll(RName, Rdesc, REL);

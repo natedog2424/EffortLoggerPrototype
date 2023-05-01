@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -13,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -27,11 +32,16 @@ public class ProjectViewController implements Initializable{
 	Project proj = App.project;
 
 	@FXML
-	private ListView<String> ProductBacklogView;
+	private TableView<BacklogItem> ProductBacklogView;
 	@FXML
-	private ListView<String> SprintBacklogView;
+	private TableView<BacklogItem> SprintBacklogView;
 	@FXML
-	private ListView<String> CompletedBacklogView;
+	private TableView<BacklogItem> CompletedBacklogView;
+
+	private ObservableList<BacklogItem> PB;
+	private ObservableList<BacklogItem> SB;
+	private ObservableList<BacklogItem> CB;
+	
 
 	@FXML
 	private Label ProjectNameLabel;
@@ -40,21 +50,16 @@ public class ProjectViewController implements Initializable{
 		ProductBacklogView.getItems().clear();
 		SprintBacklogView.getItems().clear();
 		CompletedBacklogView.getItems().clear();
+		PB = FXCollections.observableArrayList();
+		SB = FXCollections.observableArrayList();
+		CB = FXCollections.observableArrayList();
 
 		if(proj == null){
 			return;
 		}
-		
+		initializeTableColumns();
 		//fill in the list views
-		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
-			ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
-		}
-		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
-			SprintBacklogView.getItems().add(proj.SprintBacklog.get(i).backlogToString());
-		}
-		for (int i = 0; i < proj.CompletedBacklog.size(); i++) {
-			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
-		}
+		refreshDefects(PB,  SB,  CB);
 
 		ProjectNameLabel.setText(Util.capitalizeString(proj.Name));
 	}
@@ -89,12 +94,8 @@ public class ProjectViewController implements Initializable{
 		}
 
 		proj.add(proj.ProductBacklog.get(index), proj.SprintBacklog);
-		SprintBacklogView.getItems().add(proj.ProductBacklog.get(index).backlogToString());
 		proj.remove(proj.ProductBacklog.get(index), proj.ProductBacklog);
-		ProductBacklogView.getItems().clear();
-		for (int i = 0; i < proj.ProductBacklog.size(); i++) {
-			ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
-		}
+		refreshDefects(PB,  SB,  CB);
 	}
 
 	@FXML
@@ -106,12 +107,9 @@ public class ProjectViewController implements Initializable{
 			return;
 		}
 		proj.add(proj.SprintBacklog.get(index), proj.CompletedBacklog);
-		CompletedBacklogView.getItems().add(proj.SprintBacklog.get(index).backlogToString());
 		proj.remove(proj.SprintBacklog.get(index), proj.SprintBacklog);
 		SprintBacklogView.getItems().clear();
-		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
-			SprintBacklogView.getItems().add(proj.SprintBacklog.get(i).backlogToString());
-		}
+		refreshDefects(PB,  SB,  CB);
 	}
 
 	@FXML
@@ -123,12 +121,9 @@ public class ProjectViewController implements Initializable{
 			return;
 		}
 		proj.add(proj.SprintBacklog.get(index), proj.ProductBacklog);
-		ProductBacklogView.getItems().add(proj.SprintBacklog.get(index).backlogToString());
 		proj.remove(proj.SprintBacklog.get(index), proj.SprintBacklog);
 		SprintBacklogView.getItems().clear();
-		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
-			SprintBacklogView.getItems().add(proj.SprintBacklog.get(i).backlogToString());
-		}
+		refreshDefects(PB,  SB,  CB);
 	}
 
 	@FXML
@@ -140,12 +135,9 @@ public class ProjectViewController implements Initializable{
 			return;
 		}
 		proj.add(proj.CompletedBacklog.get(index), proj.ProductBacklog);
-		ProductBacklogView.getItems().add(proj.CompletedBacklog.get(index).backlogToString());
 		proj.remove(proj.CompletedBacklog.get(index), proj.CompletedBacklog);
-		CompletedBacklogView.getItems().clear();
-		for (int i = 0; i < proj.SprintBacklog.size(); i++) {
-			CompletedBacklogView.getItems().add(proj.CompletedBacklog.get(i).backlogToString());
-		}
+		
+		refreshDefects(PB,  SB,  CB);
 	}
 
 	@FXML
@@ -196,10 +188,7 @@ public class ProjectViewController implements Initializable{
 					BacklogItem NewItem = new BacklogItem(NewName, NewEffort, NewTime);
 					proj.ProductBacklog.set(index, NewItem);
 					ProductBacklogView.getItems().clear();
-					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
-						ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
-					}
-
+					refreshDefects(PB,  SB,  CB);
 					Edit.close();
 				} catch (NumberFormatException exception) {
 					Stage error = new Stage();
@@ -308,9 +297,7 @@ public class ProjectViewController implements Initializable{
 					BacklogItem NewItem = new BacklogItem(NewName, NewEffort, NewTime);
 					proj.add(NewItem, proj.ProductBacklog);
 					ProductBacklogView.getItems().clear();
-					for (int i = 0; i < proj.ProductBacklog.size(); i++) {
-						ProductBacklogView.getItems().add(proj.ProductBacklog.get(i).backlogToString());
-					}
+					refreshDefects(PB,  SB,  CB);
 
 					Add.close();
 				} catch (NumberFormatException exception) {
@@ -399,5 +386,62 @@ public class ProjectViewController implements Initializable{
 			}
 		}
 	}
+
+	public void refreshDefects(ObservableList<BacklogItem> PB, ObservableList<BacklogItem> SB, ObservableList<BacklogItem> CB) {
+		PB.clear();
+		SB.clear();
+		CB.clear();
+	
+		PB.setAll(proj.ProductBacklog);
+		SB.setAll(proj.SprintBacklog);
+		CB.setAll(proj.CompletedBacklog);
+		
+		SprintBacklogView.setItems(SB);
+		ProductBacklogView.setItems(PB);
+		CompletedBacklogView.setItems(CB);
+	}
+
+	public void initializeTableColumns() {
+		TableColumn<BacklogItem, String> PName = new TableColumn<>("Type");
+		PName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().BacklogItemName));
+		PName.setPrefWidth(200);
+	
+		TableColumn<BacklogItem, String> Pdesc = new TableColumn<>("Effort Value");
+		Pdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EVString()));
+		Pdesc.setPrefWidth(200);
+	
+		TableColumn<BacklogItem, String> PEL = new TableColumn<>("Estimated Time");
+		PEL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().ETString()));
+		PEL.setPrefWidth(200);
+
+		TableColumn<BacklogItem, String> SName = new TableColumn<>("Type");
+		SName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().BacklogItemName));
+		SName.setPrefWidth(200);
+	
+		TableColumn<BacklogItem, String> Sdesc = new TableColumn<>("Effort Value");
+		Sdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EVString()));
+		Sdesc.setPrefWidth(100);
+	
+		TableColumn<BacklogItem, String> SEL = new TableColumn<>("Estimated Time");
+		SEL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().ETString()));
+		SEL.setPrefWidth(200);
+
+		TableColumn<BacklogItem, String> CName = new TableColumn<>("Type");
+		CName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().BacklogItemName));
+		CName.setPrefWidth(200);
+	
+		TableColumn<BacklogItem, String> Cdesc = new TableColumn<>("Effort Value");
+		Cdesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EVString()));
+		Cdesc.setPrefWidth(200);
+	
+		TableColumn<BacklogItem, String> CEL = new TableColumn<>("Estimated Time");
+		CEL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().ETString()));
+		CEL.setPrefWidth(200);
+	
+		ProductBacklogView.getColumns().setAll(PName, Pdesc, PEL);
+		SprintBacklogView.getColumns().setAll(SName, Sdesc, SEL);
+		CompletedBacklogView.getColumns().setAll(CName, Cdesc, CEL);
+	}
+
 
 }
