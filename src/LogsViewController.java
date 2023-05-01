@@ -481,13 +481,7 @@ public class LogsViewController implements Initializable {
 
 		}
 
-
-		
-
-	
-
-		
-		File outputFile = new File("resources/logs.xlsx");
+		File outputFile = new File("resources/"+ App.project.Name + ".xlsx");
 		if(!outputFile.exists()) {
 			outputFile.createNewFile();
 		}
