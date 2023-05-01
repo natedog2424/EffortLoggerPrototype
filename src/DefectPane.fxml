@@ -24,7 +24,7 @@
                               <Label text="Unresolved Defects" />
                            </items>
                         </ToolBar>
-                        <ListView fx:id = "defectDisplay" prefHeight="200.0" prefWidth="200.0" />
+                        <TableView fx:id = "defectDisplay" prefHeight="200.0" prefWidth="200.0" />
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Button mnemonicParsing="false" text="Add" onAction="#AddUnresolvedDefectEvent"/>
@@ -41,7 +41,7 @@
                               <Label text="Resolved Defects" />
                            </items>
                         </ToolBar>
-                        <ListView fx:id = "resolvedDefectDisplay" prefHeight="200.0" prefWidth="200.0" />
+                        <TableView fx:id = "resolvedDefectDisplay" prefHeight="200.0" prefWidth="200.0" />
                         <ToolBar layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                            <items>
                               <Button layoutX="69.0" layoutY="10.0" mnemonicParsing="false" text="Unresolve" onAction="#UnresolveEvent" />

@@ -16,6 +16,10 @@ public class Defect {
 		this.EffortLevel = Integer.parseInt(EffortLevel);
 	}
 
+	public String EffortLevelString(){
+		return "" + EffortLevel; 
+	}
+
 	public Defect(){}
 
 	public String defectToString(){

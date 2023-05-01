@@ -1,9 +1,15 @@
 //Assigned to: Evan
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.github.javaparser.ast.observer.Observable;
+
 import java.util.ArrayList;
 
-
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -12,17 +18,24 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class DefectsViewController implements Initializable{
 	@FXML
-	private ListView<String> defectDisplay;
+	private TableView<Defect> defectDisplay;
 	@FXML
-	private ListView<String> resolvedDefectDisplay;
+	private TableView<Defect> resolvedDefectDisplay;
+
+	private ObservableList<Defect> UDefects;
+	private ObservableList<Defect> RDefects;
+	
 
 	Project proj = App.project;
 
@@ -46,15 +59,13 @@ public class DefectsViewController implements Initializable{
 		if(proj == null){
 			return;
 		}
-		defectDisplay.getItems().clear();
-		resolvedDefectDisplay.getItems().clear();
-		//fill in the listview with the defects
-		for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
-			defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
-		}
-		for(int i = 0; i < proj.ResolvedDefects.size(); i++){
-			resolvedDefectDisplay.getItems().add(proj.ResolvedDefects.get(i).defectToString());
-		}
+
+		UDefects = FXCollections.observableArrayList();
+		RDefects = FXCollections.observableArrayList();
+		initializeTableColumns();
+		refreshDefects(UDefects, RDefects);
+
+
 	}
 
 	@Override
@@ -86,7 +97,7 @@ public class DefectsViewController implements Initializable{
 				}
 				Defect NewDefect = new Defect(NewType ,NewDescription, NewEffort);
 				proj.add(NewDefect,proj.UnresolvedDefects);
-				defectDisplay.getItems().add(NewDefect.defectToString());
+				refreshDefects(UDefects, RDefects);
 				Add.close();
 				}
 				catch(NumberFormatException exception){
@@ -178,9 +189,7 @@ public class DefectsViewController implements Initializable{
 						Defect NewDefect = new Defect(NewType , NewDescription, NewEffort);
 						proj.UnresolvedDefects.set(index, NewDefect);
 						defectDisplay.getItems().clear();
-						for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
-							defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
-						}
+						refreshDefects(UDefects, RDefects);
 						
 						Edit.close();
 						}
@@ -253,12 +262,10 @@ public class DefectsViewController implements Initializable{
 			return;
 		}
 		proj.add(proj.UnresolvedDefects.get(index),proj.ResolvedDefects);
-		resolvedDefectDisplay.getItems().add(proj.UnresolvedDefects.get(index).defectToString());
+	
 		proj.remove(proj.UnresolvedDefects.get(index),proj.UnresolvedDefects);
 		defectDisplay.getItems().clear();
-		for(int i = 0; i < proj.UnresolvedDefects.size(); i++){
-			defectDisplay.getItems().add(proj.UnresolvedDefects.get(i).defectToString());
-		}
+		refreshDefects(UDefects, RDefects);
 	}
 		
 	@FXML
@@ -269,12 +276,39 @@ public class DefectsViewController implements Initializable{
 			return;
 		}
 		proj.add(proj.ResolvedDefects.get(index),proj.UnresolvedDefects);
-		defectDisplay.getItems().add(proj.ResolvedDefects.get(index).defectToString());
+	
 		proj.remove(proj.ResolvedDefects.get(index),proj.ResolvedDefects);
 		resolvedDefectDisplay.getItems().clear();
-		for(int i = 0; i < proj.ResolvedDefects.size(); i++){
-			resolvedDefectDisplay.getItems().add(proj.ResolvedDefects.get(i).defectToString());
-		}
+		refreshDefects(UDefects, RDefects);
+	}
+
+
+	public void refreshDefects(ObservableList<Defect> Udefects, ObservableList<Defect> Rdefects) {
+		UDefects = FXCollections.observableArrayList();
+		RDefects = FXCollections.observableArrayList();
+	
+		UDefects.setAll(proj.UnresolvedDefects);
+		RDefects.setAll(proj.ResolvedDefects);
+		
+		defectDisplay.setItems(UDefects);
+		resolvedDefectDisplay.setItems(RDefects);
+	}
+
+	public void initializeTableColumns() {
+		TableColumn<Defect, String> Name = new TableColumn<>("Type");
+		Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectType));
+		Name.setPrefWidth(100);
+	
+		TableColumn<Defect, String> desc = new TableColumn<>("Description");
+		desc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().DefectDescription));
+		desc.setPrefWidth(100);
+	
+		TableColumn<Defect, String> EL = new TableColumn<>("Estimated Effort");
+		EL.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().EffortLevelString()));
+		EL.setPrefWidth(100);
+	
+		defectDisplay.getColumns().setAll(Name, desc, EL);
+		resolvedDefectDisplay.getColumns().setAll(Name, desc, EL);
 	}
 
 
