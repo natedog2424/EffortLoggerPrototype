@@ -1,3 +1,11 @@
+## Effort Logger
+
+The Effort Logger application provides a complete software package for logging effort in software projects to assist in time managment and effort estimation.
+
+The project was created by a group of 5 students for Professor Robert Lynn Carter's CSE360 Intro to Software Engineering course.
+
+The Application is written in Java and utilizes the JavaFX library for the GUI. Data storage is handled via a local SQLite database.
+
 ## Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
